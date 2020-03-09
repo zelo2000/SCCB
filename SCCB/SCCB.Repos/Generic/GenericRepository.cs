@@ -4,9 +4,9 @@ using SCCB.DAL;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SCCB.Repos
+namespace SCCB.Repos.Generic
 {
-    public abstract class GenericRepository<TEntity, TKey> where TEntity : class, IIdentifiable<TKey>
+    public abstract class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class, IIdentifiable<TKey>
     {
         protected readonly SCCBDbContext Context;
 
