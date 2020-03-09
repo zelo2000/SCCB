@@ -1,5 +1,6 @@
 ﻿using SCCB.DAL;
 using SCCB.DAL.Entities;
+using SCCB.Repos.Generic;
 using System;
 
 namespace SCCB.Repos.Users
