@@ -28,6 +28,12 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(
@@ -37,11 +43,33 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel signUpModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var claimsPrinciple = await _authenticationService.CreateUser(
+                    signUpModel.Email, signUpModel.Password, "Student");
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrinciple,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
+                    }
+                );
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View(signUpModel);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> LogIn(LogInModel logInModel)
         {
             if (ModelState.IsValid)
             {
-                var claimsPrinciple = await _authenticationService.LogIn(
+                var claimsPrinciple = await _authenticationService.CreateUser(
                     logInModel.Email, logInModel.Password);
 
                 await HttpContext.SignInAsync(

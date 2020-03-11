@@ -1,0 +1,24 @@
+﻿@model SCCB.Web.Models.SignUpModel
+
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<h1>SignUp</h1>
+
+<form asp-action="SignUp" method="post">
+    <div asp-validation-summary="All"></div>
+    <p>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" />
+    </p>
+    <p>
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" type="password" />
+    </p>
+    <p>
+        <label asp-for="PasswordRepeat">Repeat password:</label>
+        <input asp-for="PasswordRepeat" type="password" />
+    </p>
+    <button type="submit">SIGN UP</button>
+</form>
