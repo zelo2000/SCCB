@@ -5,3 +5,13 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 </div>
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Authentication" asp-action="LogOut">LOG OUT</a>
+    }
+    else
+    {
+        <a asp-controller="Authentication" asp-action="LogIn">LOG IN</a>
+    }
+</div>
