@@ -1,9 +1,8 @@
-﻿using SCCB.Repos.UnitOfWork;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using SCCB.Repos.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.AuthenticationService
@@ -12,7 +11,7 @@ namespace SCCB.Services.AuthenticationService
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public AuthenticationService (IUnitOfWork unitOfWork)
+        public AuthenticationService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
         }

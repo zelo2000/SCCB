@@ -3,7 +3,6 @@ using SCCB.DAL;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Generic;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SCCB.Repos.Users
