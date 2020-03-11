@@ -1,0 +1,20 @@
+﻿@model SCCB.Web.Models.LogInModel
+
+@{
+    ViewData["Title"] = "LogIn";
+}
+
+<h1>LogIn</h1>
+
+<form asp-action="LogIn" method="post">
+    <div asp-validation-summary="All"></div>
+    <p>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" />
+    </p>
+    <p>
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" type="password" />
+    </p>
+    <button type="submit">LOG IN</button>
+</form>

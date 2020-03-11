@@ -14,11 +14,11 @@ namespace SCCB.DAL.Entities
 
         public string Role { get; set; }
 
-        public ICollection<Student> Students { get; set; }
+        public Student Student { get; set; }
 
-        public ICollection<Lector> Lectors { get; set; }
+        public Lector Lector { get; set; }
 
-        public ICollection<Admin> Admins { get; set; }
+        public Admin Admin { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
 

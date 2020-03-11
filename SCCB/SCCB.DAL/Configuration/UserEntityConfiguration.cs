@@ -19,15 +19,15 @@ namespace SCCB.DAL.Configuration
             builder.Property(x => x.Role)
                 .IsRequired();
 
-            builder.HasMany(x => x.Students)
+            builder.HasOne(x => x.Student)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(x => x.Lectors)
+            builder.HasOne(x => x.Lector)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasMany(x => x.Admins)
+            builder.HasOne(x => x.Admin)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -1,14 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SCCB.Core.Settings;
 using SCCB.DAL;
@@ -17,7 +16,6 @@ using SCCB.Services;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace SCCB.Web
 {
@@ -42,26 +40,8 @@ namespace SCCB.Web
             var authSettingsSection = Configuration.GetSection("AuthSetting");
             services.Configure<AuthSetting>(authSettingsSection);
 
-            var authSettings = authSettingsSection.Get<AuthSetting>();
-            var key = Encoding.ASCII.GetBytes(authSettings.SecretKey);
-
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SCCBDbContext>(options => options.UseSqlServer(connectionString,
