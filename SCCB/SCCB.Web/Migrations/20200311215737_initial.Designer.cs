@@ -10,7 +10,7 @@ using SCCB.DAL;
 namespace SCCB.Web.Migrations
 {
     [DbContext(typeof(SCCBDbContext))]
-    [Migration("20200311134041_initial")]
+    [Migration("20200311215737_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,8 @@ namespace SCCB.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Admins");
                 });
@@ -150,7 +151,8 @@ namespace SCCB.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Lectors");
                 });
@@ -221,7 +223,8 @@ namespace SCCB.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Students");
                 });
@@ -273,8 +276,8 @@ namespace SCCB.Web.Migrations
             modelBuilder.Entity("SCCB.DAL.Entities.Admin", b =>
                 {
                     b.HasOne("SCCB.DAL.Entities.User", "User")
-                        .WithMany("Admins")
-                        .HasForeignKey("UserId")
+                        .WithOne("Admin")
+                        .HasForeignKey("SCCB.DAL.Entities.Admin", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -302,8 +305,8 @@ namespace SCCB.Web.Migrations
             modelBuilder.Entity("SCCB.DAL.Entities.Lector", b =>
                 {
                     b.HasOne("SCCB.DAL.Entities.User", "User")
-                        .WithMany("Lectors")
-                        .HasForeignKey("UserId")
+                        .WithOne("Lector")
+                        .HasForeignKey("SCCB.DAL.Entities.Lector", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -332,8 +335,8 @@ namespace SCCB.Web.Migrations
             modelBuilder.Entity("SCCB.DAL.Entities.Student", b =>
                 {
                     b.HasOne("SCCB.DAL.Entities.User", "User")
-                        .WithMany("Students")
-                        .HasForeignKey("UserId")
+                        .WithOne("Student")
+                        .HasForeignKey("SCCB.DAL.Entities.Student", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

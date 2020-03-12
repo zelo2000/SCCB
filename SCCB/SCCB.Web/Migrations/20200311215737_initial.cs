@@ -208,7 +208,8 @@ namespace SCCB.Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_UserId",
                 table: "Admins",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ClassroomId",
@@ -228,7 +229,8 @@ namespace SCCB.Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Lectors_UserId",
                 table: "Lectors",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lessons_ClassroomId",
@@ -248,7 +250,8 @@ namespace SCCB.Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Students_UserId",
                 table: "Students",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersToGroups_GroupId",

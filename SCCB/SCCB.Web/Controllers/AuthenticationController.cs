@@ -47,19 +47,17 @@ namespace SCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var claimsPrinciple = await _authenticationService.CreateUser(
-                    signUpModel.Email, signUpModel.Password, "Student");
+                try
+                {
+                    await _authenticationService.CreateUser(signUpModel.Email, signUpModel.Password, "Student");
+                    return RedirectToAction("LogIn", "Authentication");
+                }
+                catch(ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View(signUpModel);
+                }
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    claimsPrinciple,
-                    new AuthenticationProperties
-                    {
-                        ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
-                    }
-                );
-
-                return RedirectToAction("Index", "Home");
             }
             return View(signUpModel);
         }

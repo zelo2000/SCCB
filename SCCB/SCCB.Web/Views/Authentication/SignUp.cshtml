@@ -1,5 +1,9 @@
 ﻿@model SCCB.Web.Models.SignUpModel
 
+@section Styles {
+    <link href="@Url.Content("~/css/signup.css")" rel="stylesheet" type="text/css" />
+}
+
 @{
     ViewData["Title"] = "SignUp";
 }
@@ -8,17 +12,22 @@
 
 <form asp-action="SignUp" method="post">
     <div asp-validation-summary="All"></div>
-    <p>
+    <div>
         <label asp-for="Email">Email:</label>
         <input asp-for="Email" />
-    </p>
-    <p>
+        @{if (ViewBag.Error != null)
+            {
+                <span class="field-validation-error">@ViewBag.Error</span>
+            }
+        }
+    </div>
+    <div>
         <label asp-for="Password">Password:</label>
         <input asp-for="Password" type="password" />
-    </p>
-    <p>
+    </div>
+    <div>
         <label asp-for="PasswordRepeat">Repeat password:</label>
         <input asp-for="PasswordRepeat" type="password" />
-    </p>
+    </div>
     <button type="submit">SIGN UP</button>
 </form>
