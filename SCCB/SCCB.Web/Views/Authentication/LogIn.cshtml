@@ -1,20 +1,29 @@
 ﻿@model SCCB.Web.Models.LogInModel
 
-@{
-    ViewData["Title"] = "LogIn";
+@section Styles {
+    <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" />
 }
 
-<h1>LogIn</h1>
+@{
+    ViewData["Title"] = "Login";
+}
 
-<form asp-action="LogIn" method="post">
-    <div asp-validation-summary="All"></div>
-    <p>
-        <label asp-for="Email">Email:</label>
-        <input asp-for="Email" />
-    </p>
-    <p>
-        <label asp-for="Password">Password:</label>
-        <input asp-for="Password" type="password" />
-    </p>
-    <button type="submit">LOG IN</button>
-</form>
+<div class="login-form mt-5 mb-5 pt-5">
+    <h2>Залогіньтесь, щоб продовжити</h2>
+
+    <form asp-action="LogIn" method="post" class="mt-5 mb-5">
+        <div asp-validation-summary="All"></div>
+        <div class="form_stuff">
+            <div class="d-flex flex-column">
+                <label asp-for="Email" class="ml-2">Емейл</label>
+                <input asp-for="Email" class="pl-3" />
+            </div>
+            <div class="d-flex flex-column mt-3">
+                <label asp-for="Password" class="ml-2">Пароль</label>
+                <input asp-for="Password" type="password" class="pl-3" />
+            </div>
+            <p class="mt-4 mb-5"><a>Забули пароль ?</a></p>
+            <button type="submit"><span>Логін</span></button>
+        </div>
+    </form>
+</div>
