@@ -28,12 +28,40 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel signUpModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var claimsPrinciple = await _authenticationService.CreateUser(
+                    signUpModel.Email, signUpModel.Password, "Student");
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrinciple,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
+                    }
+                );
+
+                return RedirectToAction("Index", "Home");
+            }
+            return View(signUpModel);
         }
 
         [HttpPost]
