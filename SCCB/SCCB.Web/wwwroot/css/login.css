@@ -77,7 +77,20 @@ a:hover {
     border-radius: 0.1875rem;
 }
 
-button {
+.form_stuff input[type=checkbox] {
+    width: 1rem;
+    height: 1rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.show_pass {
+    text-align: end;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+form button {
     position: relative;
     display: inline-block;
     width: 15.625rem;
@@ -96,12 +109,12 @@ button {
     overflow: hidden;
 }
 
-button span {
+form button span {
     position: relative;
     z-index: 2;
 }
 
-button::before {
+form button::before {
     position: absolute;
     content: '';
     width: 100%;
@@ -115,10 +128,10 @@ button::before {
     transition: .5s;
 }
 
-button:hover::before {
+form button:hover::before {
     left: 0;
 }
 
-button:hover {
+form button:hover {
     color: white !important;
 }
