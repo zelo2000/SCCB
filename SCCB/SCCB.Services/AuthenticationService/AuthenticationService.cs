@@ -22,7 +22,7 @@ namespace SCCB.Services.AuthenticationService
             passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
         }
 
-        public async Task<ClaimsPrincipal> CreateUser(string email, string password, string role)
+        public async Task CreateUser(string email, string password, string role)
         {
             var user = await _unitOfWork.Users.FindByEmail(email);
 
@@ -37,21 +37,11 @@ namespace SCCB.Services.AuthenticationService
 
                 _unitOfWork.Users.Add(user);
                 await _unitOfWork.CommitAsync();
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role)
-                };
-
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                return new ClaimsPrincipal(claimsIdentity);
-
             }
-
-            throw new ArgumentException("User already exists");
+            else
+            {
+                throw new ArgumentException("User already exists");
+            }
         }
 
         public async Task<ClaimsPrincipal> LogIn(string email, string password)
