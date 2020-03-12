@@ -8,6 +8,6 @@ namespace SCCB.Services.AuthenticationService
     {
         Task<ClaimsPrincipal> LogIn(string email, string password);
 
-        Task<Guid> CreateUser(string email, string password);
+        Task<ClaimsPrincipal> CreateUser(string email, string password, string role);
     }
 }
