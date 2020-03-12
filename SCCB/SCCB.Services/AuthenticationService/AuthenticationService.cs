@@ -5,16 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using SCCB.Core.Settings;
+using SCCB.Core.Helpers;
 
 namespace SCCB.Services.AuthenticationService
 {
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly PasswordProcessor passwordProcessor;
 
-        public AuthenticationService(IUnitOfWork unitOfWork)
+        public AuthenticationService(IUnitOfWork unitOfWork, IOptions<HashGenerationSetting> hashGenerationSetting)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
+            passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
         }
 
         public async Task<ClaimsPrincipal> CreateUser(string email, string password, string role)
@@ -26,7 +31,7 @@ namespace SCCB.Services.AuthenticationService
                 user = new User()
                 {
                     Email = email,
-                    PasswordHash = password,
+                    PasswordHash = passwordProcessor.GetPasswordHash(password),
                     Role = role
                 };
 
@@ -53,7 +58,7 @@ namespace SCCB.Services.AuthenticationService
         {
             var user = await _unitOfWork.Users.FindByEmail(email);
 
-            if (user != null && user.PasswordHash == password)
+            if (user != null && user.PasswordHash == passwordProcessor.GetPasswordHash(password))
             {
                 var claims = new List<Claim>
                 {

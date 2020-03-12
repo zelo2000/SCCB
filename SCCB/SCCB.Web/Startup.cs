@@ -40,6 +40,9 @@ namespace SCCB.Web
             var authSettingsSection = Configuration.GetSection("AuthSetting");
             services.Configure<AuthSetting>(authSettingsSection);
 
+            var hashGenerationSetting = Configuration.GetSection("HashGenerationSetting");
+            services.Configure<HashGenerationSetting>(hashGenerationSetting);
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
