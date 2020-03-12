@@ -6,7 +6,7 @@ namespace SCCB.Services.AuthenticationService
 {
     public interface IAuthenticationService
     {
-        Task<ClaimsPrincipal> CreateUser(string email, string password);
+        Task<ClaimsPrincipal> LogIn(string email, string password);
 
         Task<ClaimsPrincipal> CreateUser(string email, string password, string role);
     }

@@ -69,7 +69,7 @@ namespace SCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var claimsPrinciple = await _authenticationService.CreateUser(
+                var claimsPrinciple = await _authenticationService.LogIn(
                     logInModel.Email, logInModel.Password);
 
                 await HttpContext.SignInAsync(

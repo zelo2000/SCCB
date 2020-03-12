@@ -49,7 +49,7 @@ namespace SCCB.Services.AuthenticationService
             throw new ArgumentException("User already exists");
         }
 
-        public async Task<ClaimsPrincipal> CreateUser(string email, string password)
+        public async Task<ClaimsPrincipal> LogIn(string email, string password)
         {
             var user = await _unitOfWork.Users.FindByEmail(email);
 
