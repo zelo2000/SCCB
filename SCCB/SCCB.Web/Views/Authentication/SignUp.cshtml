@@ -1,6 +1,7 @@
 ﻿@model SCCB.Web.Models.SignUpModel
 
 @section Styles {
+    <link href="@Url.Content("~/css/login.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/signup.css")" rel="stylesheet" type="text/css" />
 }
 
@@ -8,33 +9,33 @@
     ViewData["Title"] = "SignUp";
 }
 
-<div class="signup-form mt-5 mb-5 pt-5">
-<h2>Створіть акаунт</h2>
+<div class="signup-form mt-5 pt-5">
+    <h2>Створіть акаунт</h2>
     <form asp-action="SignUp" method="post" class="mt-5 mb-5">
         <div asp-validation-summary="All"></div>
         <div class="form_stuff">
             <div class="d-flex flex-column">
-                <label asp-for="Email" class="ml-2>Емейл</label>
+                <label asp-for="Email" class="ml-2">Емейл</label>
                 <input asp-for="Email" class="pl-3" />
             </div>
             @{if (ViewBag.Error != null)
-              {
-                <span class="field-validation-error">@ViewBag.Error</span>
-              }
+                {
+                    <span class="field-validation-error">@ViewBag.Error</span>
+                }
             }
-            
+
             <div class="d-flex flex-column mt-3">
-                <label asp-for="Password"class="ml-2">Пароль</label>
+                <label asp-for="Password" class="ml-2">Пароль</label>
                 <div>
-                    <input asp-for="Password" type="password" class="pl-3"/>
+                    <input asp-for="Password" type="password" class="pl-3" />
                     <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
                 </div>
             </div>
-            <div>
+            <div class="d-flex flex-column mb-4">
                 <label asp-for="PasswordRepeat" class="ml-2">Повторіть пароль</label>
                 <div>
-                    <input asp-for="PasswordRepeat" type="password" class="pl-3"/>
-                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                    <input asp-for="PasswordRepeat" type="password" class="pl-3" />
+                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPassRep" /></p>
                 </div>
             </div>
             <button type="submit"><span>Зареєструватися</span></button>
@@ -54,6 +55,16 @@
                     $("#Password").attr("type", "text");
                 } else {
                     $("#Password").attr("type", "password");
+                }
+            });
+
+            $("#showPassRep").change(function () {
+                var checked = $(this).is(":checked");
+
+                if (checked) {
+                    $("#PasswordRepeat").attr("type", "text");
+                } else {
+                    $("#PasswordRepeat").attr("type", "password");
                 }
             });
 

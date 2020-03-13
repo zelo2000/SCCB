@@ -2,7 +2,16 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 nav a {
-    font-size: 1rem;
+    font-size: 1.05rem;
+}
+@media (max-width: 768px) {
+    nav a:hover {
+        border-bottom: 0rem solid white;
+        color: rgba(0, 201, 209, 0.9) !important;
+        -webkit-transition: .2s ease-in-out;
+        -o-transition: .2s ease-in-out;
+        transition: .2s ease-in-out;
+    }
 }
 
 a.navbar-brand {
@@ -31,6 +40,9 @@ html {
 @media (min-width: 768px) {
     html {
         font-size: 1rem;
+    }
+    nav a {
+        font-size: 0.97rem;
     }
 }
 
@@ -65,10 +77,10 @@ html {
 }
 
 .animated-navbar-toggler-icon {
-    width: 25px;
-    height: 15px;
+    width: 1.5625rem;
+    height: 0.9375rem;
     position: relative;
-    margin: 0px;
+    margin: 0rem;
     -webkit-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -81,7 +93,7 @@ html {
 .animated-navbar-toggler-icon span {
     display: block;
     position: absolute;
-    height: 2px;
+    height: 0.125rem;
     width: 100%;
     opacity: 1;
     left: 0;
@@ -95,19 +107,19 @@ html {
 }
 
 .animated-navbar-toggler-icon span:nth-child(1) {
-    top: 0px;
+    top: 0rem;
 }
 
 .animated-navbar-toggler-icon span:nth-child(2), .animated-navbar-toggler-icon span:nth-child(3) {
-    top: 7px;
+    top: 0.4375rem;
 }
 
 .animated-navbar-toggler-icon span:nth-child(4) {
-    top: 15px;
+    top: 0.9375rem;
 }
 
 .animated-navbar-toggler-icon.open span:nth-child(1) {
-    top: 10px;
+    top: 0.625rem;
     width: 0%;
     left: 50%;
 }
@@ -125,7 +137,7 @@ html {
 }
 
 .animated-navbar-toggler-icon.open span:nth-child(4) {
-    top: 10px;
+    top: 0.625rem;
     width: 0%;
     left: 50%;
 }
