@@ -8,26 +8,55 @@
     ViewData["Title"] = "SignUp";
 }
 
-<h1>SignUp</h1>
-
-<form asp-action="SignUp" method="post">
-    <div asp-validation-summary="All"></div>
-    <div>
-        <label asp-for="Email">Email:</label>
-        <input asp-for="Email" />
-        @{if (ViewBag.Error != null)
-            {
+<div class="signup-form mt-5 mb-5 pt-5">
+<h2>Створіть акаунт</h2>
+    <form asp-action="SignUp" method="post" class="mt-5 mb-5">
+        <div asp-validation-summary="All"></div>
+        <div class="form_stuff">
+            <div class="d-flex flex-column">
+                <label asp-for="Email" class="ml-2>Емейл</label>
+                <input asp-for="Email" class="pl-3" />
+            </div>
+            @{if (ViewBag.Error != null)
+              {
                 <span class="field-validation-error">@ViewBag.Error</span>
+              }
             }
-        }
-    </div>
-    <div>
-        <label asp-for="Password">Password:</label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <div>
-        <label asp-for="PasswordRepeat">Repeat password:</label>
-        <input asp-for="PasswordRepeat" type="password" />
-    </div>
-    <button type="submit">SIGN UP</button>
-</form>
+            
+            <div class="d-flex flex-column mt-3">
+                <label asp-for="Password"class="ml-2">Пароль</label>
+                <div>
+                    <input asp-for="Password" type="password" class="pl-3"/>
+                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                </div>
+            </div>
+            <div>
+                <label asp-for="PasswordRepeat" class="ml-2">Повторіть пароль</label>
+                <div>
+                    <input asp-for="PasswordRepeat" type="password" class="pl-3"/>
+                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                </div>
+            </div>
+            <button type="submit"><span>Зареєструватися</span></button>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function () {
+
+            $("#showPass").change(function () {
+                var checked = $(this).is(":checked");
+
+                if (checked) {
+                    $("#Password").attr("type", "text");
+                } else {
+                    $("#Password").attr("type", "password");
+                }
+            });
+
+        });
+    </script>
+}

@@ -1,5 +1,138 @@
-﻿.field-validation-error {
+﻿:root {
+    --second_font: 'Roboto Slab', serif;
+}
+
+.field-validation-error {
     color: #C1372A !important;
     display: block;
     font-weight: normal !important;
+}
+
+body {
+    background: linear-gradient(to bottom, rgba(27, 29, 34, 0.8), rgba(27, 29, 34, 0.8)), url("../img/LNU (blurred).png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+h2 {
+    font-family: var(--second_font);
+    font-weight: bold;
+}
+
+p {
+    font-size: 0.875rem;
+}
+
+form {
+    height: auto;
+    min-height: 22.5rem;
+}
+
+.validation-summary-errors li {
+    font-size: 0.75rem;
+    list-style-type: none;
+}
+
+.validation-summary-errors li:before {
+    content: "\2022";
+    color: red;
+    font-size: 1rem;
+    font-weight: bold;
+    padding-right: 0.625rem;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    border-bottom: 0.0625rem solid white;
+}
+
+.signup-form {
+    max-width: 50rem;
+    margin: 0 auto;
+    background: rgba(27, 29, 34, 0.7);
+    box-shadow: 0rem 0.25rem 6.25rem rgba(0, 201, 209, 0.07);
+    border-radius: 0.625rem;
+    border-top: 0.625rem solid rgba(0, 201, 209, 0.95);
+    text-align: center;
+}
+
+.form_stuff label {
+    text-align: start;
+    font-size: 0.9375rem;
+}
+
+.form_stuff, .form_stuff input {
+    width: 31.25rem;
+    height: 2.5rem;
+    margin: 0 auto;
+}
+
+.form_stuff input {
+    border: none;
+    outline: none;
+    border-radius: 0.1875rem;
+}
+
+.form_stuff input[type=checkbox] {
+    width: 1rem;
+    height: 1rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.show_pass {
+    text-align: end;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+}
+
+form button {
+    position: relative;
+    display: inline-block;
+    width: 15.625rem;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    border-radius: 0.3125rem;
+    background: rgba(0, 201, 209, 0.75);
+    color: white;
+    font-family: var(--second_font);
+    font-weight: bold;
+    font-size: 1.125rem;
+    -webkit-transition: .5s ease-in-out;
+    -o-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+    overflow: hidden;
+}
+
+form button span {
+    position: relative;
+    z-index: 2;
+}
+
+form button::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 7%;
+    background: white;
+    bottom: 0;
+    left: -100%;
+    opacity: .9;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+}
+
+form button:hover::before {
+    left: 0;
+}
+
+form button:hover {
+    color: white !important;
 }
