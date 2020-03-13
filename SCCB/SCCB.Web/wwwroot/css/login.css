@@ -42,14 +42,6 @@ form {
     padding-right: 0.625rem;
 }
 
-a {
-    cursor: pointer;
-}
-
-a:hover {
-    border-bottom: 0.0625rem solid white;
-}
-
 .login-form {
     max-width: 50rem;
     margin: 0 auto;
