@@ -11,11 +11,11 @@
 <div class="signup-form mt-5 mb-5 pt-5">
 <h2>Створіть акаунт</h2>
     <form asp-action="SignUp" method="post" class="mt-5 mb-5">
-        <div asp-validation-summary="All"></div>
         <div class="form_stuff">
             <div class="d-flex flex-column">
-                <label asp-for="Email" class="ml-2>Емейл</label>
+                <label asp-for="Email" class="ml-2">Емейл</label>
                 <input asp-for="Email" class="pl-3" />
+                <span asp-validation-for="Email" class="field-validation-error"></span>
             </div>
             @{if (ViewBag.Error != null)
               {
@@ -26,14 +26,16 @@
             <div class="d-flex flex-column mt-3">
                 <label asp-for="Password"class="ml-2">Пароль</label>
                 <div>
-                    <input asp-for="Password" type="password" class="pl-3"/>
+                    <input asp-for="Password" type="password" class="pl-3" />
+                    <span asp-validation-for="Password" class="field-validation-error"></span>
                     <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
                 </div>
             </div>
             <div>
                 <label asp-for="PasswordRepeat" class="ml-2">Повторіть пароль</label>
                 <div>
-                    <input asp-for="PasswordRepeat" type="password" class="pl-3"/>
+                    <input asp-for="PasswordRepeat" type="password" class="pl-3" />
+                    <span asp-validation-for="PasswordRepeat" class="field-validation-error"></span>
                     <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
                 </div>
             </div>
