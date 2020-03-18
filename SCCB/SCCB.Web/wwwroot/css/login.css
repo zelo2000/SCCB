@@ -2,6 +2,16 @@
     --second_font: 'Roboto Slab', serif;
 }
 
+.nav-header {
+    font-weight: bold;
+}
+
+.field-validation-error {
+    color: #C1372A !important;
+    display: block;
+    font-weight: normal !important;
+}
+
 body {
     background: linear-gradient(to bottom, rgba(27, 29, 34, 0.8), rgba(27, 29, 34, 0.8)), url("../img/LNU (blurred).png");
     background-position: center;
@@ -21,38 +31,13 @@ p {
 
 form {
     height: auto;
-    min-height: 22.5rem;
-}
-
-.validation-summary-errors ul {
-    width: 15.625rem;
-    margin: 0 auto;
-}
-
-.validation-summary-errors li {
-    font-size: 0.75rem;
-    list-style-type: none;
-}
-
-.validation-summary-errors li:before {
-    content: "\2022";
-    color: red;
-    font-size: 1rem;
-    font-weight: bold;
-    padding-right: 0.625rem;
-}
-
-a {
-    cursor: pointer;
-}
-
-a:hover {
-    border-bottom: 0.0625rem solid white;
+    min-height: 24rem;
 }
 
 .login-form {
     max-width: 50rem;
     margin: 0 auto;
+    margin-bottom: 6.25rem;
     background: rgba(27, 29, 34, 0.7);
     box-shadow: 0rem 0.25rem 6.25rem rgba(0, 201, 209, 0.07);
     border-radius: 0.625rem;
@@ -65,16 +50,22 @@ a:hover {
     font-size: 0.9375rem;
 }
 
-.form_stuff, .form_stuff input {
-    width: 31.25rem;
-    height: 2.5rem;
+.form_stuff {
+    width: 70%;
     margin: 0 auto;
+}
+@media (max-width: 768px) {
+    .form_stuff {
+        width: 85%;
+    }
 }
 
 .form_stuff input {
     border: none;
     outline: none;
     border-radius: 0.1875rem;
+    width: 100%;
+    height: 2.5rem;
 }
 
 .form_stuff input[type=checkbox] {

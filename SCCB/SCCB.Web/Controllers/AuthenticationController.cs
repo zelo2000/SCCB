@@ -57,7 +57,6 @@ namespace SCCB.Web.Controllers
                     ViewBag.Error = e.Message;
                     return View(signUpModel);
                 }
-
             }
             return View(signUpModel);
         }
@@ -67,19 +66,27 @@ namespace SCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var claimsPrinciple = await _authenticationService.LogIn(
-                    logInModel.Email, logInModel.Password);
+                try
+                {
+                    var claimsPrinciple = await _authenticationService.LogIn(
+                        logInModel.Email, logInModel.Password);
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    claimsPrinciple,
-                    new AuthenticationProperties
-                    {
-                        ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
-                    }
-                );
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        claimsPrinciple,
+                        new AuthenticationProperties
+                        {
+                            ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
+                        }
+                    );
 
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View(logInModel);
+                }
             }
             return View(logInModel);
         }

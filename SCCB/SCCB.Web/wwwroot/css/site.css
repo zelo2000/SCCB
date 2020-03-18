@@ -1,26 +1,56 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+body {
+    background: linear-gradient(to bottom, rgba(27, 29, 34, 0.8), rgba(27, 29, 34, 0.8)), url("../img/LNU (blurred).png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+a {
+    cursor: pointer;
+}
+
+    a:hover {
+        border-bottom: 0.0625rem solid white;
+    }
+
+.active {
+    color: rgba(0, 201, 209, 0.95) !important;
+}
+
 nav a {
-    font-size: 1rem;
+    font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+    nav a:hover {
+        border-bottom: 0rem solid white;
+        color: rgba(0, 201, 209, 0.9) !important;
+        -webkit-transition: .2s ease-in-out;
+        -o-transition: .2s ease-in-out;
+        transition: .2s ease-in-out;
+    }
 }
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
@@ -28,22 +58,27 @@ a.navbar-brand {
 html {
     font-size: 0.9rem;
 }
+
 @media (min-width: 768px) {
     html {
         font-size: 1rem;
     }
+
+    nav a {
+        font-size: 0.97rem;
+    }
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100vh;
+    position: relative;
+    min-height: 100vh;
 }
 
 .footer {
@@ -60,15 +95,15 @@ html {
     border: none;
 }
 
-.navbar-toggler:focus {
-    outline: none;
-}
+    .navbar-toggler:focus {
+        outline: none;
+    }
 
 .animated-navbar-toggler-icon {
-    width: 25px;
-    height: 15px;
+    width: 1.5625rem;
+    height: 0.9375rem;
     position: relative;
-    margin: 0px;
+    margin: 0rem;
     -webkit-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
@@ -78,54 +113,54 @@ html {
     cursor: pointer;
 }
 
-.animated-navbar-toggler-icon span {
-    display: block;
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    opacity: 1;
-    left: 0;
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
-    -webkit-transition: .25s ease-in-out;
-    -o-transition: .25s ease-in-out;
-    transition: .25s ease-in-out;
-    background: #f1f1f1;
-}
+    .animated-navbar-toggler-icon span {
+        display: block;
+        position: absolute;
+        height: 0.125rem;
+        width: 100%;
+        opacity: 1;
+        left: 0;
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+        -webkit-transition: .25s ease-in-out;
+        -o-transition: .25s ease-in-out;
+        transition: .25s ease-in-out;
+        background: #f1f1f1;
+    }
 
-.animated-navbar-toggler-icon span:nth-child(1) {
-    top: 0px;
-}
+        .animated-navbar-toggler-icon span:nth-child(1) {
+            top: 0rem;
+        }
 
-.animated-navbar-toggler-icon span:nth-child(2), .animated-navbar-toggler-icon span:nth-child(3) {
-    top: 7px;
-}
+        .animated-navbar-toggler-icon span:nth-child(2), .animated-navbar-toggler-icon span:nth-child(3) {
+            top: 0.4375rem;
+        }
 
-.animated-navbar-toggler-icon span:nth-child(4) {
-    top: 15px;
-}
+        .animated-navbar-toggler-icon span:nth-child(4) {
+            top: 0.9375rem;
+        }
 
-.animated-navbar-toggler-icon.open span:nth-child(1) {
-    top: 10px;
-    width: 0%;
-    left: 50%;
-}
+    .animated-navbar-toggler-icon.open span:nth-child(1) {
+        top: 0.625rem;
+        width: 0%;
+        left: 50%;
+    }
 
-.animated-navbar-toggler-icon.open span:nth-child(2) {
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
+    .animated-navbar-toggler-icon.open span:nth-child(2) {
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
 
-.animated-navbar-toggler-icon.open span:nth-child(3) {
-    -webkit-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
+    .animated-navbar-toggler-icon.open span:nth-child(3) {
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+    }
 
-.animated-navbar-toggler-icon.open span:nth-child(4) {
-    top: 10px;
-    width: 0%;
-    left: 50%;
-}
+    .animated-navbar-toggler-icon.open span:nth-child(4) {
+        top: 0.625rem;
+        width: 0%;
+        left: 50%;
+    }

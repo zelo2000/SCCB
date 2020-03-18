@@ -1,5 +1,19 @@
-﻿.field-validation-error {
-    color: #C1372A !important;
-    display: block;
-    font-weight: normal !important;
+﻿.nav-header {
+    font-weight: bold;
+}
+
+form {
+    height: auto;
+    min-height: 28.75rem;
+}
+
+.signup-form {
+    max-width: 50rem;
+    margin: 0 auto;
+    margin-bottom: 6.25rem;
+    background: rgba(27, 29, 34, 0.7);
+    box-shadow: 0rem 0.25rem 6.25rem rgba(0, 201, 209, 0.07);
+    border-radius: 0.625rem;
+    border-top: 0.625rem solid rgba(0, 201, 209, 0.95);
+    text-align: center;
 }
