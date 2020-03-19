@@ -7,6 +7,10 @@ using SCCB.Repos.UnitOfWork;
 using SCCB.Core.Settings;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Collections.Generic;
+using System;
 
 namespace SCCB.Services.Tests
 {
@@ -57,9 +61,29 @@ namespace SCCB.Services.Tests
 
         //TODO: Write some tests
         [Test]
-        public async Task Test1()
+        public async Task LogIn_AlreadyRegistered_UserId()
         {
-            Assert.Pass();
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Email, _registeredUser.Email),
+                    new Claim(ClaimTypes.Role, _registeredUser.Role)
+                };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var user =  new ClaimsPrincipal(claimsIdentity);
+
+            var userId = await _service.LogIn(_registeredUser.Email, _registeredUser.PasswordHash);
+            Assert.That(user, Is.EqualTo(userId));
         }
+
+        [Test]
+        public async Task LogIn_NotRegistered_ThrowException()
+        {
+            Assert.That(() => Int32.Parse("otherTestUser"), Throws.Exception.TypeOf<ArgumentException>());
+        }
+
+       
     }
 }
