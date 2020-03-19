@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Web", "SCCB.Web\SCCB.Web.csproj", "{7F200448-79FE-4DED-8782-7E30A92D787A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Web", "SCCB.Web\SCCB.Web.csproj", "{7F200448-79FE-4DED-8782-7E30A92D787A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.DAL", "SCCB.DAL\SCCB.DAL.csproj", "{CEEFC47D-0364-480A-90DF-91024E6EF042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.DAL", "SCCB.DAL\SCCB.DAL.csproj", "{CEEFC47D-0364-480A-90DF-91024E6EF042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Repos", "SCCB.Repos\SCCB.Repos.csproj", "{FE7308DE-C347-4647-96F9-762BC2E81E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Repos", "SCCB.Repos\SCCB.Repos.csproj", "{FE7308DE-C347-4647-96F9-762BC2E81E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Core", "SCCB.Core\SCCB.Core.csproj", "{00A03248-E6F4-4AFE-B6A2-C6A81B4BCE7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Core", "SCCB.Core\SCCB.Core.csproj", "{00A03248-E6F4-4AFE-B6A2-C6A81B4BCE7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Services", "SCCB.Services\SCCB.Services.csproj", "{87BC30CA-4552-41DC-94B4-987FA349C96E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Services", "SCCB.Services\SCCB.Services.csproj", "{87BC30CA-4552-41DC-94B4-987FA349C96E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E50D0EC-1A69-487B-B404-8F83A57A7B50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Services.Tests", "SCCB.Services.Tests\SCCB.Services.Tests.csproj", "{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{87BC30CA-4552-41DC-94B4-987FA349C96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87BC30CA-4552-41DC-94B4-987FA349C96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87BC30CA-4552-41DC-94B4-987FA349C96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2} = {0E50D0EC-1A69-487B-B404-8F83A57A7B50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6027076D-5AAC-4902-9F5B-9A113F124E47}
