@@ -2,10 +2,6 @@
     --second_font: 'Roboto Slab', serif;
 }
 
-.nav-header {
-    font-weight: bold;
-}
-
 .field-validation-error {
     color: #C1372A !important;
     display: block;
@@ -125,4 +121,10 @@ form button:hover::before {
 
 form button:hover {
     color: white !important;
+}
+
+@media (max-width: 576px) {
+    nav .main-link {
+        font-weight: bold;
+    }
 }

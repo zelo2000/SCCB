@@ -12,7 +12,7 @@
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
         <div class="container-fluid ml-4 mr-4">
-            <a class="nav-link text-white nav-header" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <a class="nav-link main-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
@@ -68,7 +68,7 @@
                     <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
                 </div>
             </div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column mb-4">
                 <label asp-for="PasswordRepeat" class="ml-2">Повторіть пароль</label>
                 <div>
                     <input asp-for="PasswordRepeat" type="password" class="pl-3" />
