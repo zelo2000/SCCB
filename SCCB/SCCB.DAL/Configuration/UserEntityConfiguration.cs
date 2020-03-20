@@ -24,6 +24,9 @@ namespace SCCB.DAL.Configuration
             builder.Property(x => x.PasswordHash)
                 .IsRequired();
 
+            builder.Property(x => x.Role)
+                .IsRequired();
+
             builder.HasOne(x => x.Student)
                 .WithOne(x => x.User)
                 .OnDelete(DeleteBehavior.Cascade);
