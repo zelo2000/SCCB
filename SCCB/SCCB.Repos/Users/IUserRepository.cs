@@ -7,6 +7,11 @@ namespace SCCB.Repos.Users
 {
     public interface IUserRepository : IGenericRepository<User, Guid>
     {
-        Task<User> FindByEmail(string email);
+        /// <summary>
+        /// Find user by email
+        /// </summary>
+        /// <param name="email">Email address</param>
+        /// <returns>User</returns>
+        Task<User> FindByEmailAsync(string email);
     }
 }

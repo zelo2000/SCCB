@@ -1,4 +1,4 @@
-﻿using SCCB.Core.Helpers;
+﻿using SCCB.Core.Infrastructure;
 using System;
 
 namespace SCCB.DAL.Entities
@@ -10,8 +10,5 @@ namespace SCCB.DAL.Entities
         public Guid UserId { get; set; }
         public User User { get; set; }
 
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
     }
 }

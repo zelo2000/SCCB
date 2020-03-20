@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using SCCB.Core.Settings;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System;
 
 namespace SCCB.Core.Helpers
 {
@@ -20,7 +17,6 @@ namespace SCCB.Core.Helpers
         /// Get password hash.
         /// </summary>
         /// <param name="password">Password</param>
-        /// <param name="salt">Salt</param>
         /// <returns>Password hash</returns>
         public string GetPasswordHash(string password)
         {

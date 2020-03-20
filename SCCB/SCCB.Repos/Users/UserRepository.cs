@@ -16,7 +16,8 @@ namespace SCCB.Repos.Users
             _dbContext = dbContext;
         }
 
-        public async Task<User> FindByEmail(string email)
+        /// <inheritdoc />
+        public async Task<User> FindByEmailAsync(string email)
         {
             return await _dbContext.Users
                 .FirstOrDefaultAsync(user => user.Email.Equals(email));

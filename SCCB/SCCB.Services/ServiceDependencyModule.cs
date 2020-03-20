@@ -7,8 +7,7 @@ namespace SCCB.Services
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<AuthenticationService.AuthenticationService>()
-                .As<IAuthenticationService>();
+            builder.RegisterType<AuthenticationService.AuthenticationService>().As<IAuthenticationService>();
         }
     }
 }
