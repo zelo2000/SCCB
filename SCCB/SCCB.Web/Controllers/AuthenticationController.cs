@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using SCCB.Core.DTO;
 using SCCB.Core.Settings;
 using SCCB.Web.Models;
 using System;
@@ -11,12 +13,15 @@ namespace SCCB.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly Services.AuthenticationService.IAuthenticationService _authenticationService;
         private readonly AuthSetting _authSetting;
 
-        public AuthenticationController(Services.AuthenticationService.IAuthenticationService authenticationService,
+        public AuthenticationController(IMapper mapper,
+            Services.AuthenticationService.IAuthenticationService authenticationService,
             IOptions<AuthSetting> authSetting)
         {
+            _mapper = mapper;
             _authenticationService = authenticationService;
             _authSetting = authSetting.Value;
         }
@@ -49,7 +54,8 @@ namespace SCCB.Web.Controllers
             {
                 try
                 {
-                    await _authenticationService.CreateUser(signUpModel.Email, signUpModel.Password, "Student");
+                    var userDto = _mapper.Map<User>(signUpModel);
+                    await _authenticationService.CreateUser(userDto);
                     return RedirectToAction("LogIn", "Authentication");
                 }
                 catch(ArgumentException e)

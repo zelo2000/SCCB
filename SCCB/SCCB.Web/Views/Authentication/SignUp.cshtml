@@ -41,6 +41,16 @@
     <form asp-action="SignUp" method="post" class="mt-5 mb-5">
         <div class="form_stuff">
             <div class="d-flex flex-column mb-3">
+                <label asp-for="FirstName" class="ml-2">Ім'я</label>
+                <input asp-for="FirstName" class="pl-3" />
+                <span asp-validation-for="FirstName" class="field-validation-error"></span>
+            </div>
+            <div class="d-flex flex-column mb-3">
+                <label asp-for="LastName" class="ml-2">Прізвище</label>
+                <input asp-for="LastName" class="pl-3" />
+                <span asp-validation-for="LastName" class="field-validation-error"></span>
+            </div>
+            <div class="d-flex flex-column mb-3">
                 <label asp-for="Email" class="ml-2">Емейл</label>
                 <input asp-for="Email" class="pl-3" />
                 <span asp-validation-for="Email" class="field-validation-error">

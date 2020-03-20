@@ -6,6 +6,9 @@ namespace SCCB.Services
     {
         public ServiceMapProfile()
         {
+            CreateMap<Core.DTO.User, DAL.Entities.User>();
+
+            CreateMap<DAL.Entities.User, Core.DTO.User>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SCCB.Core.DTO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -8,6 +8,6 @@ namespace SCCB.Services.AuthenticationService
     {
         Task<ClaimsPrincipal> LogIn(string email, string password);
 
-        Task CreateUser(string email, string password, string role);
+        Task CreateUser(User userDto);
     }
 }
