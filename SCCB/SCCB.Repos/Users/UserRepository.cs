@@ -16,6 +16,7 @@ namespace SCCB.Repos.Users
             _dbContext = dbContext;
         }
 
+        /// <inheritdoc />
         public async Task<User> FindByEmailAsync(string email)
         {
             return await _dbContext.Users

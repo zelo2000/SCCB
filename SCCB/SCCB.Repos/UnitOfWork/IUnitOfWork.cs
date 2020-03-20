@@ -9,8 +9,14 @@ namespace SCCB.Repos.UnitOfWork
         public IUserRepository Users { get; }
         #endregion
 
+        /// <summary>
+        /// Commit changes asynchronously
+        /// </summary>
         Task CommitAsync();
 
+        /// <summary>
+        /// Rollback last transaction
+        /// </summary>
         void Rollback();
     }
 }

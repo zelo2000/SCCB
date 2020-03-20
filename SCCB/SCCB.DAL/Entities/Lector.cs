@@ -1,4 +1,4 @@
-﻿using SCCB.Core.Helpers;
+﻿using SCCB.Core.Infrastructure;
 using System;
 using System.Collections.Generic;
 

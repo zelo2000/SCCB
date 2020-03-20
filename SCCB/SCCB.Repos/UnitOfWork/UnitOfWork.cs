@@ -20,11 +20,13 @@ namespace SCCB.Repos.UnitOfWork
         public IUserRepository Users { get; }
         #endregion
 
+        /// <inheritdoc />
         public async Task CommitAsync()
         {
             await _dbContext.SaveChangesAsync();
         }
 
+        /// <inheritdoc />
         public async void Rollback()
         {
             foreach (var entry in _dbContext.ChangeTracker.Entries())

@@ -1,16 +1,17 @@
-using NUnit.Framework;
-using Moq;
-using SCCB.Services.AuthenticationService;
-using SCCB.DAL.Entities;
-using SCCB.Repos.Users;
-using SCCB.Repos.UnitOfWork;
-using SCCB.Core.Settings;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using System.Security.Claims;
-using SCCB.Core.Helpers;
-using System.Linq;
 using AutoMapper;
+using Microsoft.Extensions.Options;
+using Moq;
+using NUnit.Framework;
+using SCCB.Core.Constants;
+using SCCB.Core.Helpers;
+using SCCB.Core.Settings;
+using SCCB.DAL.Entities;
+using SCCB.Repos.UnitOfWork;
+using SCCB.Repos.Users;
+using SCCB.Services.AuthenticationService;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -45,11 +46,12 @@ namespace SCCB.Services.Tests
 
             _registeredUser = new User()
             {
+                Id = new Guid(),
                 FirstName = "Firstname",
                 LastName = "Lastname",
                 Email = "registered@gmail.com",
                 PasswordHash = passwordProcessor.GetPasswordHash(_registeredUserPassword),
-                Role = "Student"
+                Role = Roles.Student
             };
 
             _newUser = new User()
@@ -58,14 +60,14 @@ namespace SCCB.Services.Tests
                 LastName = "Lastname",
                 Email = "new@gmail.com",
                 PasswordHash = passwordProcessor.GetPasswordHash(_newUserPassword),
-                Role = "Student"
+                Role = Roles.Student
             };
 
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
-            _repositoryMock.Setup(repo => repo.Add(It.IsAny<User>())).Returns<User>(x => x);
+            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(new Guid()));
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Users).Returns(_repositoryMock.Object);
@@ -85,16 +87,16 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.LogIn(_registeredUser.Email, _registeredUserPassword);
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.Email).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.Email));
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.Role).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.Role));
 
-            Assert.That(result.Claims.Where(c => c.Type == "FirstName").Select(c => c.Value).SingleOrDefault(),
+            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.FirstName).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.FirstName));
-            
-            Assert.That(result.Claims.Where(c => c.Type == "LastName").Select(c => c.Value).SingleOrDefault(),
+
+            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.LastName).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.LastName));
 
             _repositoryMock.Verify(repo => repo.FindByEmailAsync(_registeredUser.Email));
@@ -130,7 +132,7 @@ namespace SCCB.Services.Tests
 
             await _service.CreateUser(userDto);
 
-            _repositoryMock.Verify(repo => repo.Add(It.Is<User>(user => 
+            _repositoryMock.Verify(repo => repo.AddAsync(It.Is<User>(user =>
                 user.FirstName == userDto.FirstName &&
                 user.LastName == userDto.LastName &&
                 user.Email == userDto.Email &&

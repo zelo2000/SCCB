@@ -58,7 +58,7 @@ namespace SCCB.Web.Controllers
                     await _authenticationService.CreateUser(userDto);
                     return RedirectToAction("LogIn", "Authentication");
                 }
-                catch(ArgumentException e)
+                catch (ArgumentException e)
                 {
                     ViewBag.Error = e.Message;
                     return View(signUpModel);
@@ -74,8 +74,7 @@ namespace SCCB.Web.Controllers
             {
                 try
                 {
-                    var claimsPrinciple = await _authenticationService.LogIn(
-                        logInModel.Email, logInModel.Password);
+                    var claimsPrinciple = await _authenticationService.LogIn(logInModel.Email, logInModel.Password);
 
                     await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
