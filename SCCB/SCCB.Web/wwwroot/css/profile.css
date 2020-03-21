@@ -63,6 +63,24 @@ a.hover-erase:hover {
 	border-radius: 0.1875rem;
 }
 
+.modal-body {
+	padding-right:13%;
+	padding-left:13%;
+}
+
+.modal-body input[type=checkbox] {
+	width: 1rem;
+	height: 1rem;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.show_pass {
+	text-align: end;
+	margin-top: 0.5rem;
+	font-size: 0.8125rem;
+}
+
 @media (max-width: 576px) {
 	.profile-button {
 		width: 45%;
