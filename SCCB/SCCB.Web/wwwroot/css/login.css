@@ -3,6 +3,7 @@
 }
 
 .field-validation-error {
+    font-size: 0.875rem;
     color: #C1372A !important;
     display: block;
     font-weight: normal !important;
@@ -27,7 +28,7 @@ p {
 
 form {
     height: auto;
-    min-height: 24rem;
+    min-height: 20rem;
 }
 
 .login-form {
@@ -121,10 +122,4 @@ form button:hover::before {
 
 form button:hover {
     color: white !important;
-}
-
-@media (max-width: 576px) {
-    nav .main-link {
-        font-weight: bold;
-    }
 }

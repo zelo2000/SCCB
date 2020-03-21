@@ -20,6 +20,14 @@ a:hover
     border-bottom: .0625rem solid white;
 }
 
+.img-link img{
+    border: 1.5px solid white;
+    border-radius: 50%;
+}
+.img-link:hover {
+    border-bottom: 0;
+}
+
 .active
 {
     color: rgba(0, 201, 209, .95) !important;
@@ -207,4 +215,10 @@ html
     left: 50%;
 
     width: 0;
+}
+
+@media (max-width: 576px) {
+    nav .main-link {
+        font-weight: bold;
+    }
 }
