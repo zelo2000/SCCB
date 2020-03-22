@@ -21,8 +21,9 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Profile">
-                                <img src="~/img/avatar.png" alt="Profile" width="50"/>
+                                <img src="~/img/avatar.png" alt="Profile" width="50" />
                             </a>
+                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Profile">Профіль</a>
                         }
                         else
                         {
@@ -34,8 +35,8 @@
                         {
                             <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
                         }
-                        else 
-                        { 
+                        else
+                        {
                             <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="SignUp">Реєстрація</a>
                         }
                     </li>

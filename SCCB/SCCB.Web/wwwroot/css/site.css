@@ -21,7 +21,7 @@ a:hover
 }
 
 .img-link img{
-    border: 1.5px solid white;
+    border: 0.09375rem solid white;
     border-radius: 50%;
 }
 .img-link:hover {
@@ -217,8 +217,18 @@ html
     width: 0;
 }
 
+.link-mobile {
+    display: none;
+}
+
 @media (max-width: 576px) {
     nav .main-link {
         font-weight: bold;
+    }
+    .img-link {
+        display: none;
+    }
+    .link-mobile {
+        display: initial;
     }
 }
