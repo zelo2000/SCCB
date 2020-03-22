@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace SCCB.Core.DTO
 {
-    public class User
+    public class UserProfile
     {
         public Guid Id { get; set; }
 
@@ -11,9 +13,5 @@ namespace SCCB.Core.DTO
         public string LastName { get; set; }
 
         public string Email { get; set; }
-
-        public string Password { get; set; }
-
-        public string Role { get; set; }
     }
 }

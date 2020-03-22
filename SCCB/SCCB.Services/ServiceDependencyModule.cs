@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using SCCB.Services.AuthenticationService;
+using SCCB.Services.UserService;
 
 namespace SCCB.Services
 {
@@ -8,6 +9,7 @@ namespace SCCB.Services
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthenticationService.AuthenticationService>().As<IAuthenticationService>();
+            builder.RegisterType<UserService.UserService>().As<IUserService>();
         }
     }
 }

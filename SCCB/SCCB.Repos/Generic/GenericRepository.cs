@@ -33,6 +33,12 @@ namespace SCCB.Repos.Generic
         }
 
         /// <inheritdoc />
+        public void Update(TEntity item)
+        {
+            Context.Set<TEntity>().Update(item);
+        }
+
+        /// <inheritdoc />
         public virtual void Remove(TEntity item)
         {
             Context.Set<TEntity>()

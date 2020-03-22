@@ -33,8 +33,8 @@ namespace SCCB.Services.AuthenticationService
 
             if (user == null)
             {
-                userDto.PasswordHash = passwordProcessor.GetPasswordHash(userDto.PasswordHash);
                 user = _mapper.Map<DAL.Entities.User>(userDto);
+                user.PasswordHash = passwordProcessor.GetPasswordHash(userDto.Password);
                 user.Role = Roles.NotApprovedUser;
                 await _unitOfWork.Users.AddAsync(user);
                 await _unitOfWork.CommitAsync();
@@ -54,6 +54,7 @@ namespace SCCB.Services.AuthenticationService
             {
                 var claims = new List<Claim>
                 {
+                    new Claim(ClaimKeys.Id, user.Id.ToString()),
                     new Claim(ClaimKeys.FirstName, user.FirstName),
                     new Claim(ClaimKeys.LastName, user.LastName),
                     new Claim(ClaimKeys.Email, user.Email),

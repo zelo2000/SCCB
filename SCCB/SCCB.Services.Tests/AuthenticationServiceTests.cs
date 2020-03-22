@@ -18,19 +18,15 @@ namespace SCCB.Services.Tests
     public class AuthenticationServiceTests
     {
         private IMapper _mapper;
-
         private IAuthenticationService _service;
 
         private Mock<IUserRepository> _repositoryMock;
-
         private Mock<IUnitOfWork> _unitOfWorkMock;
 
         private readonly string _registeredUserPassword = "Pa$$word";
-
         private User _registeredUser;
 
         private readonly string _newUserPassword = "Pa@@word";
-
         private User _newUser;
 
         [OneTimeSetUp]
@@ -129,14 +125,15 @@ namespace SCCB.Services.Tests
         public async Task CreateUser_NewUser_UserRepositoryAddCalled()
         {
             var userDto = _mapper.Map<Core.DTO.User>(_newUser);
+            userDto.Password = _newUserPassword;
 
             await _service.CreateUser(userDto);
 
             _repositoryMock.Verify(repo => repo.AddAsync(It.Is<User>(user =>
-                user.FirstName == userDto.FirstName &&
-                user.LastName == userDto.LastName &&
-                user.Email == userDto.Email &&
-                user.PasswordHash == userDto.PasswordHash
+                user.FirstName == _newUser.FirstName &&
+                user.LastName == _newUser.LastName &&
+                user.Email == _newUser.Email &&
+                user.PasswordHash == _newUser.PasswordHash
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
