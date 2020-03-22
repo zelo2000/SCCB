@@ -26,10 +26,10 @@
                     <li class="nav-item">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Profile">
+                            <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
                                 <img src="~/img/avatar.png" alt="Profile" width="50" />
                             </a>
-                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Profile">Профіль</a>
+                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
                         }
                         else
                         {
@@ -84,7 +84,7 @@
                 </a>
             </div>
         </div>
-        <form asp-action="Profile" method="post">
+        <form asp-action="Edit" method="post">
             <div class="row my-sm-5 my-4 d-flex justify-content-between">
                 <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
                     <label asp-for="FirstName" class="ml-2">Ім'я</label>
@@ -115,38 +115,5 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-dark">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Зміна паролю</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="text-danger">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label class="ml-2">Введіть старий пароль</label>
-                    <div>
-                        <input class="pl-3 py-1 border w-100" />
-                        <p class="show_pass"> Показати пароль <input type="checkbox" /></p>
-                    </div>
-                    <label class="ml-2">Введіть новий пароль</label>
-                    <div>
-                        <input class="pl-3 py-1 border w-100" />
-                        <p class="show_pass"> Показати пароль <input type="checkbox" /></p>
-                    </div>
-                    <label class="ml-2">Підтвердіть новий пароль</label>
-                    <div>
-                        <input class="pl-3 py-1 border w-100" />
-                        <p class="show_pass"> Показати пароль <input type="checkbox" /></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a class="green-bg hover-erase px-3 py-1">
-                        Зберегти зміни
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @{ await Html.RenderPartialAsync("_ChangePasswordPartial", new ChangePasswordModel()); }
 </div>

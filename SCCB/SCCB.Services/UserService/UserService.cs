@@ -109,6 +109,8 @@ namespace SCCB.Services.UserService
             if (user.PasswordHash == _passwordProcessor.GetPasswordHash(oldPassword))
             {
                 user.PasswordHash = _passwordProcessor.GetPasswordHash(newPassword);
+                _unitOfWork.Users.Update(user);
+                await _unitOfWork.CommitAsync();
             }
             else
             {

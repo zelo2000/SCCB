@@ -127,5 +127,21 @@ namespace SCCB.Services.Tests
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
+
+        [Test]
+        public async Task UpdatePassword_RegisteredUserOldPassword_UserRepositoryUpdateCalled()
+        {
+            await _service.UpdatePassword(_registeredUser.Id, _registeredUserPassword, _newUserPassword);
+
+            _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
+                user.Id == _registeredUser.Id &&
+                user.FirstName == _registeredUser.FirstName &&
+                user.LastName == _registeredUser.LastName &&
+                user.Email == _registeredUser.Email &&
+                user.PasswordHash == _newUser.PasswordHash
+            )));
+
+            _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
     }
 }

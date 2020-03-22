@@ -16,17 +16,15 @@ namespace SCCB.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly IAuthenticationService _authService;
 
-        public ProfileController(IMapper mapper, IUserService userService, IAuthenticationService authService)
+        public ProfileController(IMapper mapper, IUserService userService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _userService = userService ?? throw new ArgumentException(nameof(userService));
-            _authService = authService ?? throw new ArgumentException(nameof(authService));
         }
 
         [HttpGet]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Edit()
         {
             var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
             var user = await _userService.Find(id);
@@ -35,7 +33,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile(ProfileModel profileModel)
+        public async Task<IActionResult> Edit(ProfileModel profileModel)
         {
             if (ModelState.IsValid)
             {
@@ -44,7 +42,7 @@ namespace SCCB.Web.Controllers
                     var userDto = _mapper.Map<UserProfile>(profileModel);
                     userDto.Id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
                     await _userService.UpdateProfile(userDto);
-                    return RedirectToAction("Index", "Home");
+                    return View();
                 }
                 catch (ArgumentException e)
                 {
@@ -55,6 +53,27 @@ namespace SCCB.Web.Controllers
             else
             {
                 return View(profileModel);
+            }
+        }
+
+        [HttpGet]
+        public PartialViewResult ChangePassword()
+        {
+            return PartialView("_ChangePasswordPartial");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel passwords)
+        {
+            if (ModelState.IsValid)
+            {
+                var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+                await _userService.UpdatePassword(id, passwords.OldPassword, passwords.NewPassword);
+                return RedirectToAction("Edit");
+            }
+            else
+            {
+                return PartialView("_ChangePasswordPartial", passwords);
             }
         }
     }
