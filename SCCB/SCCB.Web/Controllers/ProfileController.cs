@@ -42,7 +42,7 @@ namespace SCCB.Web.Controllers
                     var userDto = _mapper.Map<UserProfile>(profileModel);
                     userDto.Id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
                     await _userService.UpdateProfile(userDto);
-                    return View();
+                    return View(profileModel);
                 }
                 catch (ArgumentException e)
                 {

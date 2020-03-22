@@ -11,7 +11,7 @@
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
         <div class="container-fluid ml-4 mr-4">
-            <a class="nav-link active text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
@@ -24,27 +24,13 @@
                 </ul>
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
-                                <img src="~/img/avatar.png" alt="Profile" width="50" />
-                            </a>
-                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link text-white pr-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogIn">Логін</a>
-                        }
+                        <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
+                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
+                        </a>
+                        <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
                     </li>
                     <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="SignUp">Реєстрація</a>
-                        }
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
                     </li>
                 </ul>
             </div>
@@ -101,13 +87,13 @@
                     <input asp-for="Email" class="pl-3 py-2 border" />
                     <span asp-validation-for="Email" class="field-validation-error">
                         @{if (ViewBag.Error != null)
-                            @ViewBag.Error
+                                @ViewBag.Error
                         }
                     </span>
                 </div>
             </div>
             <div class="d-flex justify-content-center justify-content-sm-end mt-3 mb-2">
-                <button type="submit" class="green-bg hover-erase px-3 py-2">
+                <button type="submit" class="green-bg px-3 py-2">
                     Зберегти зміни
                 </button>
             </div>
@@ -115,5 +101,52 @@
     </div>
 
     <!-- Modal -->
-    @{ await Html.RenderPartialAsync("_ChangePasswordPartial", new ChangePasswordModel()); }
+    <div id="ModalResults">
+        @{ await Html.RenderPartialAsync("_ChangePasswordPartial", new ChangePasswordModel()); }
+    </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+            $(function () {
+
+                $("#showOldPass").change(function () {
+                    var checked = $(this).is(":checked");
+
+                    if (checked) {
+                        $("#OldPassword").attr("type", "text");
+                    } else {
+                        $("#OldPassword").attr("type", "password");
+                    }
+                });
+
+                $("#showPass").change(function () {
+                    var checked = $(this).is(":checked");
+
+                    if (checked) {
+                        $("#NewPassword").attr("type", "text");
+                    } else {
+                        $("#NewPassword").attr("type", "password");
+                    }
+                });
+
+                $("#showPassRep").change(function () {
+                    var checked = $(this).is(":checked");
+
+                    if (checked) {
+                        $("#NewPasswordRepeat").attr("type", "text");
+                    } else {
+                        $("#NewPasswordRepeat").attr("type", "password");
+                    }
+                });
+            });
+
+            $(function () {
+                $('#btn').click(function () {
+                    var url = "@(Html.Raw(Url.Action("ChangePassword", "Profile")))"
+                    $("#ModalResults").load(url);
+                });
+            })
+    </script>
+}

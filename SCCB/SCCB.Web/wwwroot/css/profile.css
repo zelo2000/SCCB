@@ -51,7 +51,7 @@ a.hover-erase:hover {
 
 .border {
 	border: 0.0625rem solid white;
-	border-radius: 0.1875rem;
+	border-radius: 0.2rem;
 }
 
 .green {
@@ -60,7 +60,6 @@ a.hover-erase:hover {
 
 .green-bg {
 	background: rgba(0, 201, 209, 0.95);
-	border-radius: 0.1875rem;
 }
 
 .modal-body {
@@ -79,6 +78,20 @@ a.hover-erase:hover {
 	text-align: end;
 	margin-top: 0.5rem;
 	font-size: 0.8125rem;
+}
+
+button.green-bg {
+	border: none;
+	outline: none;
+	color: white;
+	border-radius: 0.2rem;
+}
+
+button.green-bg:hover {
+	background: rgba(27, 29, 34, 0.9);
+	-webkit-transition: .4s ease-out;
+	-o-transition: .4s ease-out;
+	transition: .4s ease-out;
 }
 
 @media (max-width: 576px) {
