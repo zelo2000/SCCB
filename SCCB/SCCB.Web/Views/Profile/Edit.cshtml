@@ -79,7 +79,8 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center mb-3">
-                <a class="border hover-erase px-2 py-2" data-toggle="modal" data-target="#exampleModalCenter">
+                <a class="border hover-erase px-2 py-2" data-target="#changePasswordModal"
+                   data-toggle="ajax-modal" data-url="@Url.Action("ChangePassword")" data-placeholder="#changePasswordModalPlaceholder">
                     Поміняти пароль
                 </a>
             </div>
@@ -101,7 +102,7 @@
                     <input asp-for="Email" class="pl-3 py-2 border" />
                     <span asp-validation-for="Email" class="field-validation-error">
                         @{if (ViewBag.Error != null)
-                            @ViewBag.Error
+                                @ViewBag.Error
                         }
                     </span>
                 </div>
@@ -115,5 +116,5 @@
     </div>
 
     <!-- Modal -->
-    @{ await Html.RenderPartialAsync("_ChangePasswordPartial", new ChangePasswordModel()); }
+    <div id="changePasswordModalPlaceholder"></div>
 </div>

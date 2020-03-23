@@ -67,9 +67,17 @@ namespace SCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
-                await _userService.UpdatePassword(id, passwords.OldPassword, passwords.NewPassword);
-                return RedirectToAction("Edit");
+                try
+                {
+                    var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+                    await _userService.UpdatePassword(id, passwords.OldPassword, passwords.NewPassword);
+                    return PartialView("_ChangePasswordPartial");
+                }
+                catch (ArgumentException e)
+                {
+                    ModelState.AddModelError("OldPassword", e.Message);
+                    return PartialView("_ChangePasswordPartial", passwords);
+                }
             }
             else
             {
