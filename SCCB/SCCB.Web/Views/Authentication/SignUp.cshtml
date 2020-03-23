@@ -81,31 +81,3 @@
     </form>
 </div>
 
-@section Scripts
-{
-    <script type="text/javascript">
-        $(function () {
-
-            $("#showPass").change(function () {
-                var checked = $(this).is(":checked");
-
-                if (checked) {
-                    $("#Password").attr("type", "text");
-                } else {
-                    $("#Password").attr("type", "password");
-                }
-            });
-
-            $("#showPassRep").change(function () {
-                var checked = $(this).is(":checked");
-
-                if (checked) {
-                    $("#PasswordRepeat").attr("type", "text");
-                } else {
-                    $("#PasswordRepeat").attr("type", "password");
-                }
-            });
-
-        });
-    </script>
-}

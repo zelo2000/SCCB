@@ -4,7 +4,7 @@
 
 .field-validation-error {
     font-size: 0.875rem;
-    color: #C1372A !important;
+    color: #ed2121 !important;
     display: block;
     font-weight: normal !important;
 }

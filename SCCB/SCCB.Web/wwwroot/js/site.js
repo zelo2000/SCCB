@@ -8,6 +8,26 @@ $(document).ready(function () {
         $('.animated-navbar-toggler-icon').toggleClass('open');
     });
 
+    $("#showPass").change(function () {
+        var checked = $(this).is(":checked");
+
+        if (checked) {
+            $("#Password").attr("type", "text");
+        } else {
+            $("#Password").attr("type", "password");
+        }
+    });
+    
+    $("#showPassRep").change(function () {
+        var checked = $(this).is(":checked");
+
+        if (checked) {
+            $("#PasswordRepeat").attr("type", "text");
+        } else {
+            $("#PasswordRepeat").attr("type", "password");
+        }
+    });
+
     // ajax modals
     //
     // button that opens modal should have following data attributes
@@ -24,6 +44,36 @@ $(document).ready(function () {
         $.get(url).done(function (data) {
             placeholderElement.html(data);
             placeholderElement.find('.modal').modal('show');
+
+            $("#showOldPass").change(function () {
+                var checked = $(this).is(":checked");
+
+                if (checked) {
+                    $("#OldPassword").attr("type", "text");
+                } else {
+                    $("#OldPassword").attr("type", "password");
+                }
+            });
+
+            $("#showNewPass").change(function () {
+                var checked = $(this).is(":checked");
+
+                if (checked) {
+                    $("#NewPassword").attr("type", "text");
+                } else {
+                    $("#NewPassword").attr("type", "password");
+                }
+            });
+
+            $("#showNewPassRep").change(function () {
+                var checked = $(this).is(":checked");
+
+                if (checked) {
+                    $("#NewPasswordRepeat").attr("type", "text");
+                } else {
+                    $("#NewPasswordRepeat").attr("type", "password");
+                }
+            });
 
             $('button[data-save="modal"]').click(function (event) {
                 event.preventDefault();
