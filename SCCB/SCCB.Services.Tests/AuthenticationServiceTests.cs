@@ -106,7 +106,7 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
-        public void LogIn_NotRegistered_ArguemntException()
+        public void LogIn_NotRegistered_ArgumentException()
         {
             Assert.That(() => _service.LogIn(_newUser.Email, _newUser.PasswordHash),
                 Throws.ArgumentException.With.Message.EqualTo("Wrong email or password"));
