@@ -79,7 +79,7 @@ namespace SCCB.Services.Tests
             _mapper = new Mapper(configuration);
 
             _service = new AuthenticationService.AuthenticationService(
-                _mapper, _unitOfWorkMock.Object, hashGenerationSetting);
+                _mapper, _unitOfWorkMock.Object, hashGenerationSetting, null, null);
         }
 
         [Test]
