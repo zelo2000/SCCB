@@ -32,8 +32,19 @@ namespace SCCB.Services.Tests
         private readonly string _newUserPassword = "Pa@@word";
         private User _newUser;
 
+        private readonly string _anotherRegisteredUserPassword = "Pa##word";
+        private User _anotherRegisteredUser;
+
         [OneTimeSetUp]
         public void OneTimeSetUp()
+        {
+            var serviceMapProfile = new ServiceMapProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
+            _mapper = new Mapper(configuration);
+        }
+
+        [SetUp]
+        public void SetUp()
         {
             _hashGenerationSetting = Options.Create(new HashGenerationSetting()
             {
@@ -63,25 +74,29 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student
             };
 
+            _anotherRegisteredUser = new User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Email = "anotherregistered@gmail.com",
+                PasswordHash = passwordProcessor.GetPasswordHash(_newUserPassword),
+                Role = Roles.Student
+            };
 
-
-            var serviceMapProfile = new ServiceMapProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
-            _mapper = new Mapper(configuration);
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
+            _repositoryMock.Setup(repo => repo.FindByEmailAsync(_anotherRegisteredUser.Email)).ReturnsAsync(_anotherRegisteredUser);
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_registeredUser.Id)).ReturnsAsync(_registeredUser);
+            _repositoryMock.Setup(repo => repo.FindAsync(_anotherRegisteredUser.Id)).ReturnsAsync(_anotherRegisteredUser);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(new Guid()));
             _repositoryMock.Setup(repo => repo.Update(_registeredUser));
             _repositoryMock.Setup(repo => repo.Remove(_registeredUser));
+            _repositoryMock.Setup(repo => repo.Update(_anotherRegisteredUser));
+            _repositoryMock.Setup(repo => repo.Remove(_anotherRegisteredUser));
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Users).Returns(_repositoryMock.Object);
@@ -111,6 +126,72 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
+        public void Add_RegisteredUser_ArgumentException()
+        {
+            var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
+
+            Assert.That(() => _service.Add(userDto),
+                Throws.ArgumentException.With.Message.EqualTo($"User with email {userDto.Email} already exists"));
+        }
+
+        [Test]
+        public async Task Find_RegisteredUser_ReturnedUser()
+        {
+            var result = await _service.Find(_registeredUser.Id);
+
+            Assert.That(result.Id,
+                Is.EqualTo(_registeredUser.Id));
+
+            Assert.That(result.FirstName,
+                Is.EqualTo(_registeredUser.FirstName));
+
+            Assert.That(result.LastName,
+                Is.EqualTo(_registeredUser.LastName));
+
+            Assert.That(result.Role,
+                Is.EqualTo(_registeredUser.Role));
+
+            Assert.That(result.Email,
+                Is.EqualTo(_registeredUser.Email));
+
+            Assert.That(result.Password,
+                Is.EqualTo(_registeredUser.PasswordHash));
+
+        }
+
+        [Test]
+        public void Find_NotRegisteredUser_ArgumentException()
+        {
+            Assert.That(() => _service.Find(_newUser.Id),
+                Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
+        public async Task Remove_RegisteredUser_UserRepositoryRemoveCalled()
+        {
+            var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
+
+            await _service.Remove(_registeredUser.Id);
+
+            _repositoryMock.Verify(repo => repo.Remove(It.Is<User>(user =>
+                user.Id == _registeredUser.Id &&
+                user.FirstName == _registeredUser.FirstName &&
+                user.LastName == _registeredUser.LastName &&
+                user.Email == _registeredUser.Email &&
+                user.PasswordHash == _registeredUser.PasswordHash
+            )));
+
+            _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public void Remove_NotRegisteredUser_ArgumentException()
+        {
+            Assert.That(() => _service.Remove(_newUser.Id),
+                Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
         public async Task UpdateProfileByEmail_RegisteredUserEmailAndNewUser_UserRepositoryUpdateCalled()
         {
             var userDto = _mapper.Map<Core.DTO.UserProfile>(_newUser);
@@ -129,6 +210,44 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
+        public void UpdateProfileByEmail_RegisteredUser_ArgumentException()
+        {
+            var userDto = _mapper.Map<Core.DTO.UserProfile>(_registeredUser);
+            userDto.Email = _anotherRegisteredUser.Email;
+
+            Assert.That(() => _service.UpdateProfile(userDto),
+                Throws.ArgumentException.With.Message.EqualTo($"User with email {userDto.Email} already exists"));
+        }
+
+        [Test]
+        public async Task UpdateByEmail_RegisteredUserEmailAndNewUser_UserRepositoryUpdateCalled()
+        {
+            var userDto = _mapper.Map<Core.DTO.User>(_newUser);
+            userDto.Id = _registeredUser.Id;
+
+            await _service.Update(userDto);
+
+            _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
+                user.Id == _registeredUser.Id &&
+                user.FirstName == _newUser.FirstName &&
+                user.LastName == _newUser.LastName &&
+                user.Email == _newUser.Email
+            )));
+
+            _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public void UpdateByEmail_RegisteredUserAndAnotherRegisteredUser_ArgumentException()
+        {
+            var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
+            userDto.Email = _anotherRegisteredUser.Email;
+
+            Assert.That(() => _service.Update(userDto),
+                Throws.ArgumentException.With.Message.EqualTo($"User with email {userDto.Email} already exists"));
+        }
+
+        [Test]
         public async Task UpdatePassword_RegisteredUserOldPassword_UserRepositoryUpdateCalled()
         {
             await _service.UpdatePassword(_registeredUser.Id, _registeredUserPassword, _newUserPassword);
@@ -142,6 +261,20 @@ namespace SCCB.Services.Tests
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public void UpdatePassword_WrongPassword_ArgumentException()
+        {
+            Assert.That(() => _service.UpdatePassword(_registeredUser.Id, "WrongPass", _newUserPassword),
+                Throws.ArgumentException.With.Message.EqualTo("Wrong password"));
+        }
+
+        [Test]
+        public void UpdatePassword_WrongId_ArgumentException()
+        {
+            Assert.That(() => _service.UpdatePassword(_newUser.Id, _newUserPassword, _registeredUserPassword),
+                Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
         }
     }
 }
