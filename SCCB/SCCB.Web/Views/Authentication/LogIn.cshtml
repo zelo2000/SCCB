@@ -39,7 +39,7 @@
     <h2>Залогіньтесь, щоб продовжити</h2>
 
     <form asp-action="LogIn" method="post" class="mt-5 mb-5 pb-5">
-        <div class="form_stuff">
+        <div class="form-stuff">
             <div class="d-flex flex-column mb-3">
                 <label asp-for="Email" class="ml-2">Емейл</label>
                 <input asp-for="Email" class="pl-3" />
@@ -52,13 +52,13 @@
             <div class="d-flex flex-column mb-3">
                 <label asp-for="Password" class="ml-2">Пароль</label>
                 <div>
-                    <input asp-for="Password" type="password" class="pl-3" />
+                    <input id="showPass" asp-for="Password" type="password" class="pl-3" />
                     <span asp-validation-for="Password" class="field-validation-error">
                         @{if (ViewBag.Error != null)
                                 @ViewBag.Error
                         }
                     </span>
-                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                    <p class="show-pass"> Показати пароль <input type="checkbox" class="showPass" data-id="#showPass"/></p>
                 </div>
             </div>
             <p class="my-4 mb-5"><a>Забули пароль ?</a></p>
@@ -66,3 +66,7 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <script src="~/js/ShowPassword.js" asp-append-version="true"></script>
+}

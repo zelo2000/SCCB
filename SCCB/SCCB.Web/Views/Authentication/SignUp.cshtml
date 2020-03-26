@@ -39,7 +39,7 @@
 <div class="signup-form mt-5 pt-5">
     <h2>Створіть акаунт</h2>
     <form asp-action="SignUp" method="post" class="mt-5 mb-5 pb-5">
-        <div class="form_stuff">
+        <div class="form-stuff">
             <div class="d-flex flex-column mb-3">
                 <label asp-for="FirstName" class="ml-2">Ім'я</label>
                 <input asp-for="FirstName" class="pl-3" />
@@ -63,17 +63,17 @@
             <div class="d-flex flex-column mb-3">
                 <label asp-for="Password" class="ml-2">Пароль</label>
                 <div>
-                    <input asp-for="Password" type="password" class="pl-3" />
+                    <input id="showPass" asp-for="Password" type="password" class="pl-3" />
                     <span asp-validation-for="Password" class="field-validation-error"></span>
-                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                    <p class="show-pass"> Показати пароль <input type="checkbox"class="showPass" data-id="#showPass" /></p>
                 </div>
             </div>
             <div class="d-flex flex-column mb-4">
                 <label asp-for="PasswordRepeat" class="ml-2">Повторіть пароль</label>
                 <div>
-                    <input asp-for="PasswordRepeat" type="password" class="pl-3" />
+                    <input id="showPassRep" asp-for="PasswordRepeat" type="password" class="pl-3" />
                     <span asp-validation-for="PasswordRepeat" class="field-validation-error"></span>
-                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPassRep" /></p>
+                    <p class="show-pass"> Показати пароль <input type="checkbox" class="showPass" data-id="#showPassRep" /></p>
                 </div>
             </div>
             <button type="submit"><span>Зареєструватися</span></button>
@@ -81,3 +81,6 @@
     </form>
 </div>
 
+@section Scripts {
+    <script src="~/js/ShowPassword.js" asp-append-version="true"></script>
+}
