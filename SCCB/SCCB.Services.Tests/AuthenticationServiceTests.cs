@@ -82,7 +82,7 @@ namespace SCCB.Services.Tests
             #endregion
 
             _service = new AuthenticationService.AuthenticationService(
-                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting);
+                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting, null, null);
         }
 
         [Test]

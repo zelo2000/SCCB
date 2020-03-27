@@ -58,15 +58,57 @@
                                 @ViewBag.Error
                         }
                     </span>
-                    <p class="show-pass"> Показати пароль <input type="checkbox" class="showPass" data-id="#showPass"/></p>
+                    <p class="show-pass"> Показати пароль <input type="checkbox" class="showPass" data-id="#showPass" /></p>
                 </div>
             </div>
-            <p class="my-4 mb-5"><a asp-action="ForgottenPassword">Забули пароль ?</a></p>
+            <p class="my-4 mb-5">
+                @*<a data-target="#changePasswordModal" data-toggle="ajax-modal"
+                   data-url="@Url.Action("ForgottenPassword")" data-placeholder="#changePasswordModalPlaceholder">*@
+                <a data-toggle="modal" data-target="#exampleModal">
+                    Забули пароль ?
+                </a>
+            </p>
             <button type="submit"><span>Логін</span></button>
         </div>
     </form>
+
+    <!-- Modal -->
+    @*<div id="changePasswordModalPlaceholder">*@
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Відновлення паролю</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-danger">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                        <label class="ml-2">Введіть ваш емейл</label>
+                        <div>
+                            <input class="pl-3 py-1 border w-100" />
+                            @*<span asp-validation-for="" class="field-validation-error">
+                        @{if (ViewBag.Error != null)
+                                @ViewBag.Error
+                        }
+                    </span>*@
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="green-bg hover-erase px-3 py-1 mt-5 mb-3">
+                            Надіслати лист
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@*</div>*@
 
 @section Scripts {
     <script src="~/js/ShowPassword.js" asp-append-version="true"></script>
+    <script src="~/js/AjaxModal.js" asp-append-version="true"></script>
 }

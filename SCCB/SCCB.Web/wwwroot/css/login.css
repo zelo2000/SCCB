@@ -26,7 +26,7 @@ p {
     font-size: 0.875rem;
 }
 
-form {
+login-form.form {
     height: auto;
     min-height: 20rem;
 }
@@ -122,4 +122,32 @@ form button:hover::before {
 
 form button:hover {
     color: white !important;
+}
+
+.green-bg {
+    background: rgba(0, 201, 209, 0.95);
+}
+
+button.green-bg {
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.2rem;
+}
+
+button.green-bg:hover {
+    background: rgba(27, 29, 34, 0.9);
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+
+.modal-header button {
+    outline: none;
+}
+
+.modal-body {
+    padding-right: 12%;
+    padding-left: 12%;
+    text-align: start;
 }
