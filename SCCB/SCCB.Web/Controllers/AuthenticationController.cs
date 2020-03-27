@@ -26,6 +26,11 @@ namespace SCCB.Web.Controllers
             _authSetting = authSetting.Value;
         }
 
+        //public IActionResult CreateNewPassword()
+        //{
+        //    return View();
+        //}
+
         [HttpGet]
         public IActionResult LogIn()
         {
