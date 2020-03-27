@@ -17,8 +17,10 @@ namespace SCCB.Services.Tests
 {
     public class AuthenticationServiceTests
     {
-        private IMapper _mapper;
         private IAuthenticationService _service;
+        
+        private IMapper _mapper;
+        private IOptions<HashGenerationSetting> _hashGenerationSetting;
 
         private Mock<IUserRepository> _repositoryMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
@@ -30,15 +32,15 @@ namespace SCCB.Services.Tests
         private User _newUser;
 
         [OneTimeSetUp]
-        public void Setup()
+        public void OneTimeSetUp()
         {
-            var hashGenerationSetting = Options.Create(new HashGenerationSetting()
+            _hashGenerationSetting = Options.Create(new HashGenerationSetting()
             {
                 Salt = "EWEM9nXVuQHIWiBzPOEj9A==",
                 IterationCount = 10000,
                 BytesNumber = 32
             });
-            var passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
+            var passwordProcessor = new PasswordProcessor(_hashGenerationSetting.Value);
 
             _registeredUser = new User()
             {
@@ -59,6 +61,15 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student
             };
 
+            var serviceMapProfile = new ServiceMapProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
+            _mapper = new Mapper(configuration);
+
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
@@ -70,12 +81,8 @@ namespace SCCB.Services.Tests
             _unitOfWorkMock.Setup(uow => uow.CommitAsync());
             #endregion
 
-            var serviceMapProfile = new ServiceMapProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
-            _mapper = new Mapper(configuration);
-
             _service = new AuthenticationService.AuthenticationService(
-                _mapper, _unitOfWorkMock.Object, hashGenerationSetting, null, null);
+                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting);
         }
 
         [Test]
@@ -99,7 +106,7 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
-        public void LogIn_NotRegistered_ArguemntException()
+        public void LogIn_NotRegistered_ArgumentException()
         {
             Assert.That(() => _service.LogIn(_newUser.Email, _newUser.PasswordHash),
                 Throws.ArgumentException.With.Message.EqualTo("Wrong email or password"));

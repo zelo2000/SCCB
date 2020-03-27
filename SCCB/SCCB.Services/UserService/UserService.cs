@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Options;
-using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.UserService
@@ -64,7 +62,7 @@ namespace SCCB.Services.UserService
         {
             var user = await FindUserEntity(userDto.Id);
 
-            if (user.Email == userDto.Email || await _unitOfWork.Users.FindByEmailAsync(userDto.Email) == null)
+            if (user.Email == userDto.Email || await CheckIfEmailAllowed(userDto.Email))
             {
                 user.Email = userDto.Email;
                 user.FirstName = userDto.FirstName;
@@ -86,7 +84,7 @@ namespace SCCB.Services.UserService
         {
             var user = await FindUserEntity(userDto.Id);
 
-            if (user.Email == userDto.Email || await _unitOfWork.Users.FindByEmailAsync(userDto.Email) == null)
+            if (user.Email == userDto.Email || await CheckIfEmailAllowed(userDto.Email))
             {
                 user.Email = userDto.Email;
                 user.FirstName = userDto.FirstName;
@@ -135,6 +133,16 @@ namespace SCCB.Services.UserService
             {
                 throw new ArgumentException($"Can not find user with id {id}");
             }
+        }
+
+        /// <summary>
+        /// Checks if email is not already taken
+        /// </summary>
+        /// <param name="email">Email</param>
+        /// <returns>False if email is already taken, otherwise true</returns>
+        private async Task<bool> CheckIfEmailAllowed(string email)
+        {
+            return await _unitOfWork.Users.FindByEmailAsync(email) == null;
         }
     }
 }
