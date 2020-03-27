@@ -8,8 +8,13 @@ namespace SCCB.Web
     {
         public WebApiMapProfile()
         {
-            CreateMap<SignUpModel, User>()
-                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+            // Model -> DTO
+            CreateMap<SignUpModel, User>();
+            CreateMap<ProfileModel, UserProfile>();
+
+            // DTO -> Model
+            CreateMap<UserProfile, ProfileModel>();
+            CreateMap<User, ProfileModel>();
         }
     }
 }

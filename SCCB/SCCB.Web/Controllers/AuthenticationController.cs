@@ -26,6 +26,11 @@ namespace SCCB.Web.Controllers
             _authSetting = authSetting.Value;
         }
 
+        //public IActionResult CreateNewPassword()
+        //{
+        //    return View();
+        //}
+
         [HttpGet]
         public IActionResult LogIn()
         {
@@ -96,11 +101,24 @@ namespace SCCB.Web.Controllers
             return View(logInModel);
         }
 
-        public async Task<IActionResult> ForgottenPassword()
+        [HttpGet]
+        public IActionResult ForgottenPassword()
         {
-            var email = "";
-            await _authenticationService.SendChangePasswordEmail(email);
-            return Ok();
+            return PartialView("_EmailPartial");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgottenPassword(EmailModel emailModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _authenticationService.SendChangePasswordEmail(emailModel.Email);
+                return PartialView("_EmailPartial");
+            }
+            else
+            {
+                return PartialView("_EmailPartial", emailModel);
+            }
         }
     }
 }

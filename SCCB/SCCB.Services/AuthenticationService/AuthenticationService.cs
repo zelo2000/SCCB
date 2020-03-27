@@ -21,17 +21,15 @@ namespace SCCB.Services.AuthenticationService
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor passwordProcessor;
-        private readonly IMemoryCache _cache;
         private readonly IEmailService _emailService;
 
         public AuthenticationService(IMapper mapper, IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting,
-            IEmailService emailService, IMemoryCache cache)
+            IEmailService emailService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
             passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
-            _cache = cache ?? throw new ArgumentException(nameof(cache));
             _emailService = emailService ?? throw new ArgumentException(nameof(emailService));
         }
 
@@ -42,8 +40,8 @@ namespace SCCB.Services.AuthenticationService
 
             if (user == null)
             {
-                userDto.PasswordHash = passwordProcessor.GetPasswordHash(userDto.PasswordHash);
                 user = _mapper.Map<DAL.Entities.User>(userDto);
+                user.PasswordHash = passwordProcessor.GetPasswordHash(userDto.Password);
                 user.Role = Roles.NotApprovedUser;
                 await _unitOfWork.Users.AddAsync(user);
                 await _unitOfWork.CommitAsync();
@@ -63,6 +61,7 @@ namespace SCCB.Services.AuthenticationService
             {
                 var claims = new List<Claim>
                 {
+                    new Claim(ClaimKeys.Id, user.Id.ToString()),
                     new Claim(ClaimKeys.FirstName, user.FirstName),
                     new Claim(ClaimKeys.LastName, user.LastName),
                     new Claim(ClaimKeys.Email, user.Email),

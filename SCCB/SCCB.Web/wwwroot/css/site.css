@@ -20,6 +20,14 @@ a:hover
     border-bottom: .0625rem solid white;
 }
 
+.img-link img{
+    border: 0.09375rem solid white;
+    border-radius: 50%;
+}
+.img-link:hover {
+    border-bottom: 0;
+}
+
 .active
 {
     color: rgba(0, 201, 209, .95) !important;
@@ -207,4 +215,39 @@ html
     left: 50%;
 
     width: 0;
+}
+
+.link-mobile {
+    display: none;
+}
+
+.warning {
+    height: 70vh;
+}
+
+.warning h1 {
+    color: black;
+    background-color: rgba(255, 255, 194, 0.7);
+}
+
+.warning h2 {
+    font-family: 'Roboto Slab', serif;
+}
+
+@media (max-width: 768px) {
+    .warning img {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    nav .main-link {
+        font-weight: bold;
+    }
+    .img-link {
+        display: none;
+    }
+    .link-mobile {
+        display: initial;
+    }
 }

@@ -25,6 +25,12 @@ namespace SCCB.Repos.Generic
         void AddRangeAsync(IEnumerable<TEntity> items);
 
         /// <summary>
+        /// Update entity
+        /// </summary>
+        /// <param name="items">Entity</param>
+        void Update(TEntity item);
+
+        /// <summary>
         /// Delete entity
         /// </summary>
         /// <param name="item">Entity</param>
