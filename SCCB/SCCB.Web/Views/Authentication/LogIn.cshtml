@@ -11,7 +11,7 @@
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
         <div class="container-fluid ml-4 mr-4">
-            <a class="nav-link active text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
@@ -24,27 +24,10 @@
                 </ul>
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
-                                <img src="~/img/avatar.png" alt="Profile" width="50" />
-                            </a>
-                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link text-white pr-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogIn">Логін</a>
-                        }
+                        <a class="nav-link active text-white pr-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogIn">Логін</a>
                     </li>
                     <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="SignUp">Реєстрація</a>
-                        }
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="SignUp">Реєстрація</a>
                     </li>
                 </ul>
             </div>
@@ -56,7 +39,7 @@
     <h2>Залогіньтесь, щоб продовжити</h2>
 
     <form asp-action="LogIn" method="post" class="mt-5 mb-5 pb-5">
-        <div class="form_stuff">
+        <div class="form-stuff">
             <div class="d-flex flex-column mb-3">
                 <label asp-for="Email" class="ml-2">Емейл</label>
                 <input asp-for="Email" class="pl-3" />
@@ -69,13 +52,13 @@
             <div class="d-flex flex-column mb-3">
                 <label asp-for="Password" class="ml-2">Пароль</label>
                 <div>
-                    <input asp-for="Password" type="password" class="pl-3" />
+                    <input id="showPass" asp-for="Password" type="password" class="pl-3" />
                     <span asp-validation-for="Password" class="field-validation-error">
                         @{if (ViewBag.Error != null)
                                 @ViewBag.Error
                         }
                     </span>
-                    <p class="show_pass"> Показати пароль <input type="checkbox" id="showPass" /></p>
+                    <p class="show-pass"> Показати пароль <input type="checkbox" class="showPass" data-id="#showPass"/></p>
                 </div>
             </div>
             <p class="my-4 mb-5"><a asp-action="ForgottenPassword">Забули пароль ?</a></p>
@@ -84,21 +67,6 @@
     </form>
 </div>
 
-@section Scripts
-{
-    <script type="text/javascript">
-        $(function () {
-
-            $("#showPass").change(function () {
-                var checked = $(this).is(":checked");
-
-                if (checked) {
-                    $("#Password").attr("type", "text");
-                } else {
-                    $("#Password").attr("type", "password");
-                }
-            });
-
-        });
-    </script>
+@section Scripts {
+    <script src="~/js/ShowPassword.js" asp-append-version="true"></script>
 }

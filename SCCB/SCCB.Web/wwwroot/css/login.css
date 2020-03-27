@@ -4,7 +4,7 @@
 
 .field-validation-error {
     font-size: 0.875rem;
-    color: #C1372A !important;
+    color: #ed2121 !important;
     display: block;
     font-weight: normal !important;
 }
@@ -42,12 +42,12 @@ form {
     text-align: center;
 }
 
-.form_stuff label {
+.form-stuff label {
     text-align: start;
     font-size: 0.9375rem;
 }
 
-.form_stuff {
+.form-stuff {
     width: 70%;
     margin: 0 auto;
 }
@@ -57,7 +57,7 @@ form {
     }
 }
 
-.form_stuff input {
+.form-stuff input {
     border: none;
     outline: none;
     border-radius: 0.1875rem;
@@ -65,14 +65,14 @@ form {
     height: 2.5rem;
 }
 
-.form_stuff input[type=checkbox] {
+.form-stuff input[type=checkbox] {
     width: 1rem;
     height: 1rem;
     display: table-cell;
     vertical-align: middle;
 }
 
-.show_pass {
+.show-pass {
     text-align: end;
     margin-top: 0.5rem;
     font-size: 0.8125rem;
