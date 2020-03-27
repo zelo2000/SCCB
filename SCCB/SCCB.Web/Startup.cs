@@ -43,6 +43,9 @@ namespace SCCB.Web
             var hashGenerationSetting = Configuration.GetSection("HashGenerationSetting");
             services.Configure<HashGenerationSetting>(hashGenerationSetting);
 
+            var emailSetting = Configuration.GetSection("EmailSetting");
+            services.Configure<EmailSetting>(emailSetting);
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 

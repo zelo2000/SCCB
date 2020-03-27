@@ -95,5 +95,12 @@ namespace SCCB.Web.Controllers
             }
             return View(logInModel);
         }
+
+        public async Task<IActionResult> ForgottenPassword()
+        {
+            var email = "";
+            await _authenticationService.SendChangePasswordEmail(email);
+            return Ok();
+        }
     }
 }

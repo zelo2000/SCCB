@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using SCCB.Services.AuthenticationService;
+using SCCB.Services.EmailService;
 using SCCB.Services.UserService;
 
 namespace SCCB.Services
@@ -10,6 +11,7 @@ namespace SCCB.Services
         {
             builder.RegisterType<AuthenticationService.AuthenticationService>().As<IAuthenticationService>();
             builder.RegisterType<UserService.UserService>().As<IUserService>();
+            builder.RegisterType<EmailService.EmailService>().As<IEmailService>();
         }
     }
 }

@@ -18,6 +18,10 @@ namespace SCCB.DAL.Entities
 
         public string Role { get; set; }
 
+        public string ChangePasswordToken { get; set; }
+
+        public DateTime? ExpirationChangePasswordTokenDate { get; set; }
+
         public Student Student { get; set; }
 
         public Lector Lector { get; set; }
