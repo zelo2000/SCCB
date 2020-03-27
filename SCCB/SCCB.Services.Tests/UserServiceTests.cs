@@ -30,7 +30,7 @@ namespace SCCB.Services.Tests
         private readonly string _newUserPassword = "Pa@@word";
         private User _newUser;
 
-        private readonly string _anotherRegisteredUserPassword = "Pa##word";
+        //private readonly string _anotherRegisteredUserPassword = "Pa##word";
         private User _anotherRegisteredUser;
 
         [OneTimeSetUp]

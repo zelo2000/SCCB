@@ -2,7 +2,6 @@
 using SCCB.Services.AuthenticationService;
 using SCCB.Services.UserService;
 using SCCB.Services.EmailService;
->>>>>>>>> Temporary merge branch 2
 
 namespace SCCB.Services
 {

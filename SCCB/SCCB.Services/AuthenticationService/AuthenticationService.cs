@@ -21,17 +21,15 @@ namespace SCCB.Services.AuthenticationService
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor passwordProcessor;
-        private readonly IMemoryCache _cache;
         private readonly IEmailService _emailService;
 
         public AuthenticationService(IMapper mapper, IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting,
-            IEmailService emailService, IMemoryCache cache)
+            IEmailService emailService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
             passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
-            _cache = cache ?? throw new ArgumentException(nameof(cache));
             _emailService = emailService ?? throw new ArgumentException(nameof(emailService));
         }
 
