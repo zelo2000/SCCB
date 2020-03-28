@@ -9,6 +9,7 @@ using SCCB.DAL.Entities;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Users;
 using SCCB.Services.AuthenticationService;
+using SCCB.Services.EmailService;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace SCCB.Services.Tests
 
         private Mock<IUserRepository> _repositoryMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<IEmailService> _emailServiceMock;
 
         private readonly string _registeredUserPassword = "Pa$$word";
         private User _registeredUser;
@@ -33,6 +35,15 @@ namespace SCCB.Services.Tests
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
+        {
+            var serviceMapProfile = new ServiceMapProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
+            _mapper = new Mapper(configuration);
+
+        }
+
+        [SetUp]
+        public void SetUp()
         {
             _hashGenerationSetting = Options.Create(new HashGenerationSetting()
             {
@@ -61,28 +72,23 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student
             };
 
-            var serviceMapProfile = new ServiceMapProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
-            _mapper = new Mapper(configuration);
-
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(new Guid()));
+            _repositoryMock.Setup(repo => repo.GetQuery(false)).Returns(new System.Collections.Generic.List<User>{ _registeredUser }.AsQueryable());
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Users).Returns(_repositoryMock.Object);
             _unitOfWorkMock.Setup(uow => uow.CommitAsync());
+
+            _emailServiceMock = new Mock<IEmailService>();
+            _emailServiceMock.Setup(service => service.SendChangePasswordEmail(It.IsAny<Core.DTO.EmailWithToken>()));
             #endregion
 
             _service = new AuthenticationService.AuthenticationService(
-                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting, null, null);
+                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting, _emailServiceMock.Object);
         }
 
         [Test]
@@ -144,6 +150,27 @@ namespace SCCB.Services.Tests
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public void ChangeForgottenPassword_WrongToken_AccessViolationException()
+        {
+            _registeredUser.ChangePasswordToken = Guid.NewGuid().ToString();
+            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(24);
+            var wrongToken = Guid.NewGuid().ToString();
+
+            Assert.That(() => _service.ChangeForgottenPassword(wrongToken, _newUserPassword),
+                Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
+        }
+
+        [Test]
+        public void ChangeForgottenPassword_ExpiredToken_AccessViolationException()
+        {
+            _registeredUser.ChangePasswordToken = Guid.NewGuid().ToString();
+            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(-24);
+
+            Assert.That(() => _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword),
+                Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
     }
 }

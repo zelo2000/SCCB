@@ -1,4 +1,6 @@
-﻿<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+﻿@model SCCB.Web.Models.EmailModel
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
@@ -8,20 +10,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form asp-action="ForgottenPassword">
                     <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
-                    <label class="ml-2">Введіть ваш емейл</label>
+                    <label asp-for="Email" class="ml-2">Введіть ваш емейл</label>
                     <div>
-                        <input class="pl-3 py-1 border w-100" />
-                        @*<span asp-validation-for="" class="field-validation-error">
+                        <input asp-for="Email" class="pl-3 py-1 border w-100" />
+                        <span asp-validation-for="Email" class="field-validation-error">
                                 @{if (ViewBag.Error != null)
                                         @ViewBag.Error
                                 }
-                            </span>*@
+                        </span>
                     </div>
                 </form>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="green-bg hover-erase px-3 py-1 mt-5 mb-3">
+                    <button type="submit" class="green-bg hover-erase px-3 py-1 mt-5 mb-3" data-save="modal">
                         Надіслати лист
                     </button>
                 </div>

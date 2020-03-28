@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using SCCB.Services.AuthenticationService;
-using SCCB.Services.EmailService;
 using SCCB.Services.UserService;
+using SCCB.Services.EmailService;
 
 namespace SCCB.Services
 {

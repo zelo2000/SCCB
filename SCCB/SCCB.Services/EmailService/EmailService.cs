@@ -40,6 +40,7 @@ namespace SCCB.Services.EmailService
             return template;
         }
 
+        /// <inheritdoc/>
         public void SendChangePasswordEmail(EmailWithToken email)
         {
             var replaceDictionary = new Dictionary<string, string>
