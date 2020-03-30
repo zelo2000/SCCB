@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Web.Models;
-using SCCB.Services.UserService;
+using SCCB.Services.LessonService;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 

@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SCCB.DAL;
+using SCCB.Repos.Classrooms;
+using SCCB.Repos.Groups;
+using SCCB.Repos.Lessons;
 using SCCB.Repos.Users;
 using System.Threading.Tasks;
 
@@ -14,10 +17,16 @@ namespace SCCB.Repos.UnitOfWork
         {
             _dbContext = context;
             Users = new UserRepository(_dbContext);
+            Lessons = new LessonRepository(_dbContext);
+            Groups = new GroupRepository(_dbContext);
+            Classrooms = new ClassroomRepository(_dbContext);
         }
 
         #region Repositories
         public IUserRepository Users { get; }
+        public ILessonRepository Lessons { get; }
+        public IGroupRepository Groups { get; }
+        public IClassroomRepository Classrooms { get; }
         #endregion
 
         /// <inheritdoc />
