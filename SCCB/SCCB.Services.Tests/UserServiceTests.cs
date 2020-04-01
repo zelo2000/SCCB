@@ -10,7 +10,7 @@ using SCCB.Core.Settings;
 using SCCB.DAL.Entities;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Users;
-using SCCB.Services.LessonService;
+using SCCB.Services.UserService;
 
 namespace SCCB.Services.Tests
 {
@@ -101,7 +101,7 @@ namespace SCCB.Services.Tests
             _unitOfWorkMock.Setup(uow => uow.CommitAsync());
             #endregion
 
-            _service = new LessonService.UserService(
+            _service = new UserService.UserService(
                 _mapper, _unitOfWorkMock.Object, _hashGenerationSetting);
         }
 

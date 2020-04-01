@@ -2,7 +2,7 @@
 using SCCB.Services.AuthenticationService;
 using SCCB.Services.LessonService;
 using SCCB.Services.EmailService;
-using SCCB.Services.LessonService;
+using SCCB.Services.UserService;
 
 namespace SCCB.Services
 {
@@ -11,7 +11,7 @@ namespace SCCB.Services
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<AuthenticationService.AuthenticationService>().As<IAuthenticationService>();
-            builder.RegisterType<LessonService.UserService>().As<IUserService>();
+            builder.RegisterType<UserService.UserService>().As<IUserService>();
             builder.RegisterType<EmailService.EmailService>().As<IEmailService>();
             builder.RegisterType<LessonService.LessonService>().As<ILessonService>();
         }
