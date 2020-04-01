@@ -234,6 +234,30 @@ html
     font-family: 'Roboto Slab', serif;
 }
 
+.green-bg {
+    background: rgba(0, 201, 209, 0.95);
+}
+
+button.green-bg {
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.2rem;
+}
+
+button.green-bg:hover {
+    background: rgba(27, 29, 34, 0.9);
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+
+.modal-body {
+    padding-right: 12%;
+    padding-left: 12%;
+    font-size: 0.9375rem;
+}
+
 @media (max-width: 768px) {
     .warning img {
         display: none;

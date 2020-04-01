@@ -38,10 +38,6 @@
     <ProjectReference Include="..\SCCB.Services\SCCB.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Profile\Admin\" />
-  </ItemGroup>
-
 
 
 </Project>
