@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SCCB.Services.LessonService
+namespace SCCB.Services.UserService
 {
     public interface IUserService
     {
