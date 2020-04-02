@@ -26,10 +26,35 @@ namespace SCCB.Web.Controllers
             _authSetting = authSetting.Value;
         }
 
-        //public IActionResult CreateNewPassword()
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        [Route("reset-password/{token}")]
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("reset-password/{token}")]
+        public async Task<IActionResult> ResetPassword(string token, ResetPasswordModel resetPasswordModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _authenticationService.ChangeForgottenPassword(token, resetPasswordModel.NewPassword);
+                    return RedirectToAction("LogIn", "Authentication");
+                }
+                catch(AccessViolationException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return View(resetPasswordModel);
+                }
+            }
+            else
+            {
+                return View("ResetPassword", resetPasswordModel);
+            }
+        }
 
         [HttpGet]
         public IActionResult LogIn()
