@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
 using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.LessonService
@@ -25,6 +28,13 @@ namespace SCCB.Services.LessonService
             var lesson = _mapper.Map<DAL.Entities.Lesson>(lessonDto);
             await _unitOfWork.Lessons.AddAsync(lesson);
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid id)
+        {
+            var lessons = await _unitOfWork.Lessons.FindLessonsByGroupIdAsync(id);
+            var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
+            return lessonsDto;
         }
 
         public async Task<Lesson> Find(Guid id)
@@ -72,5 +82,6 @@ namespace SCCB.Services.LessonService
                 throw new ArgumentException($"Can not find lesson with id {id}");
             }
         }
+
     }
 }
