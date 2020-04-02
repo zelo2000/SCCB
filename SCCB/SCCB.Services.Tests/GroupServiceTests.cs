@@ -11,6 +11,8 @@ using SCCB.DAL.Entities;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Groups;
 using SCCB.Services.GroupService;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SCCB.Services.Tests
 {
@@ -41,7 +43,7 @@ namespace SCCB.Services.Tests
             {
                 Id = Guid.NewGuid(),
                 Name = "PMI33",
-                IsAcademic = true
+                IsAcademic = false
             };
 
             _anotherExistingGroup = new Group()
@@ -68,6 +70,10 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.Remove(_existingGroup));
             _repositoryMock.Setup(repo => repo.Update(_anotherExistingGroup));
             _repositoryMock.Setup(repo => repo.Remove(_anotherExistingGroup));
+            _repositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(new List<Group> { _existingGroup, _anotherExistingGroup });
+            _repositoryMock.Setup(repo => repo.FindByIsAcademic(It.IsAny<bool>())).ReturnsAsync((List<Group>)null);
+            _repositoryMock.Setup(repo => repo.FindByIsAcademic(_existingGroup.IsAcademic)).ReturnsAsync(new List<Group> { _existingGroup });
+            _repositoryMock.Setup(repo => repo.FindByIsAcademic(_anotherExistingGroup.IsAcademic)).ReturnsAsync(new List<Group> { _anotherExistingGroup });
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Groups).Returns(_repositoryMock.Object);
@@ -108,6 +114,36 @@ namespace SCCB.Services.Tests
             Assert.That(result.IsAcademic,
                 Is.EqualTo(_existingGroup.IsAcademic));
 
+        }
+
+        [Test]
+        public async Task GetAll_ExistingGroups_ReturnedGroups()
+        {
+            var result = await _service.GetAll();
+
+            Assert.That(result.First().Id,
+                Is.EqualTo(_existingGroup.Id));
+
+            Assert.That(result.Last().Id,
+                Is.EqualTo(_anotherExistingGroup.Id));
+
+            Assert.That(result.Count(),
+               Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task GetAllAcademic_ExistingGroups_ReturnedGroups()
+        {
+            var result = await _service.GetAllAcademic();
+
+            Assert.That(result.First().IsAcademic,
+                Is.EqualTo(true));
+
+            Assert.That(result.First().Id,
+                Is.EqualTo(_anotherExistingGroup.Id));
+
+            Assert.That(result.Count(),
+                Is.EqualTo(1));
         }
 
         [Test]

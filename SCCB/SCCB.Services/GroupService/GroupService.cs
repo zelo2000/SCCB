@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
 using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.GroupService
@@ -52,6 +55,20 @@ namespace SCCB.Services.GroupService
             _unitOfWork.Groups.Update(group);
             await _unitOfWork.CommitAsync();
 
+        }
+
+        public async Task<IEnumerable<Group>>  GetAll()
+        {
+            var groups = await _unitOfWork.Groups.GetAllAsync();
+            var groupsDto = _mapper.Map<List<Core.DTO.Group>>(groups);
+            return groupsDto;
+        }
+
+        public async Task<IEnumerable<Group>> GetAllAcademic()
+        {
+            var groups = await _unitOfWork.Groups.FindByIsAcademic(true);
+            var groupsDto = _mapper.Map<List<Core.DTO.Group>>(groups);
+            return groupsDto;
         }
 
         private async Task<DAL.Entities.Group> FindGroupEntity(Guid id)

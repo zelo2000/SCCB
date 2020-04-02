@@ -1,5 +1,6 @@
 ﻿using SCCB.Core.DTO;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.GroupService
@@ -31,5 +32,17 @@ namespace SCCB.Services.GroupService
         /// <param name="id">Group's id</param>
         /// <returns>Group</returns>
         Task<Group> Find(Guid id);
+
+        /// <summary>
+        /// Get all group's
+        /// </summary>
+        /// <returns>Group</returns>
+        Task<IEnumerable<Group>> GetAll();
+
+        /// <summary>
+        /// Find group by is academic
+        /// </summary>
+        /// <returns>Group</returns>
+        Task<IEnumerable<Group>> GetAllAcademic();
     }
 }
