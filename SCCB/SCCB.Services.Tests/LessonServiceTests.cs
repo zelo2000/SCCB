@@ -11,6 +11,8 @@ using SCCB.DAL.Entities;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Lessons;
 using SCCB.Services.LessonService;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SCCB.Services.Tests
 {
@@ -78,6 +80,10 @@ namespace SCCB.Services.Tests
             
             #region setup mocks
             _repositoryMock = new Mock<ILessonRepository>();
+            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(It.IsAny<Guid>())).ReturnsAsync((List<Lesson>)null);
+            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(_existingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _existingLesson });
+            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(_anotherExistingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _anotherExistingLesson });
+
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Lesson)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingLesson.Id)).ReturnsAsync(_existingLesson);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherExistingLesson.Id)).ReturnsAsync(_anotherExistingLesson);
@@ -117,6 +123,22 @@ namespace SCCB.Services.Tests
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
+
+        [Test]
+        public async Task FindLessonsByGroupId_GroupId_ReturnedListOfLessons()
+        {
+            var result = await _service.FindLessonsByGroupId(_existingLesson.GroupId);
+
+            Assert.That(result.First().GroupId,
+                Is.EqualTo(_existingLesson.GroupId));
+
+            Assert.That(result.First().Id,
+                Is.EqualTo(_existingLesson.Id));
+
+            Assert.That(result.Count(),
+                Is.EqualTo(1));
+        }
+
 
         [Test]
         public async Task Find_ExistingLesson_ReturnedLesson()

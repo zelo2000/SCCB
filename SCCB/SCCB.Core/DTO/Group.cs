@@ -2,7 +2,7 @@
 
 namespace SCCB.Core.DTO
 {
-    class Group
+    public class Group
     {
         public Guid Id { get; set; }
 
