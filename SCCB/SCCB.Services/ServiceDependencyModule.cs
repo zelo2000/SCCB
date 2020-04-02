@@ -4,6 +4,7 @@ using SCCB.Services.LessonService;
 using SCCB.Services.EmailService;
 using SCCB.Services.UserService;
 using SCCB.Services.GroupService;
+using SCCB.Services.ClassroomService;
 
 namespace SCCB.Services
 {
@@ -16,6 +17,7 @@ namespace SCCB.Services
             builder.RegisterType<EmailService.EmailService>().As<IEmailService>();
             builder.RegisterType<LessonService.LessonService>().As<ILessonService>();
             builder.RegisterType<GroupService.GroupService>().As<IGroupService>();
+            builder.RegisterType<ClassroomService.ClassroomService>().As<IClassroomService>();
         }
     }
 }
