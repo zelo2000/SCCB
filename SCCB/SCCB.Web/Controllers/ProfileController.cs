@@ -21,7 +21,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> AdminEdit()
         {
             var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
             var user = await _userService.Find(id);
@@ -30,7 +30,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ProfileModel profileModel)
+        public async Task<IActionResult> AdminEdit(ProfileModel profileModel)
         {
             if (ModelState.IsValid)
             {

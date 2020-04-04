@@ -1,0 +1,128 @@
+﻿@model SCCB.Web.Models.ProfileModel
+
+@section Styles {
+    <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
+}
+
+@{
+    ViewData["Title"] = "Profile Page";
+}
+
+@section Header {
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+        <div class="container-fluid ml-4 mr-4">
+            <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
+            </button>
+            <div class="navbar-collapse collapse justify-content-between flex-sm-row">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="AdminEdit">
+                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
+                        </a>
+                        <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="AdminEdit">Профіль</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+}
+
+<div class="container-fluid container-profile px-5 mt-5">
+    <div class="d-flex justify-content-md-between flex-md-row flex-column mb-4">
+        <div class="admin-button d-flex justify-content-center align-items-center">
+            <a class="my-2 font-slab hover-erase font-weight-bold"  asp-area="" asp-controller="ScheduleEditing" asp-action="Edit">
+                Редагування розкладу
+            </a>
+        </div>
+        <div class="admin-button d-flex justify-content-center align-items-center">
+            <a class="my-2 font-slab hover-erase font-weight-bold">
+                Редагування користувачів
+            </a>
+        </div>
+        <div class="admin-button d-flex justify-content-center align-items-center">
+            <a class="my-2 font-slab hover-erase font-weight-bold">
+                Підтвердження букінгу
+            </a>
+        </div>
+    </div>   
+    <div class="d-flex justify-content-between">
+        <div class="profile-button d-flex justify-content-center align-items-center">
+            <p class="my-2 font-slab font-weight-bold">Ваш профіль</p>
+        </div>
+        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
+            <a class="my-2 font-slab hover-erase font-weight-bold">
+                Ваші бронювання
+            </a>
+        </div>
+    </div>
+    <div class="profile-info-block my-4 py-5">
+        <div class="row">
+            <div class="col-12 col-sm-6 mb-4 d-flex justify-content-center justify-content-sm-start">
+                <div class="d-flex flex-column flex-sm-row font-slab">
+                    <div class="text-center">
+                        <img class="profile-img" src="~/img/avatar.png" alt="Profile" />
+                    </div>
+                    <div class="ml-sm-4 ml-0 mt-sm-0 mt-4 px-sm-0 px-5 pt-3 text-start-center">
+                        <h4 class="border-bottom">
+                            @Model.FirstName @Model.LastName
+                        </h4>
+                        <p class="green">@User.FindFirst("Role").Value</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-sm-end align-items-center mb-3">
+                <a class="border hover-erase px-2 py-2" data-target="#changePasswordModal"
+                   data-toggle="ajax-modal" data-url="@Url.Action("ChangePassword")" data-placeholder="#changePasswordModalPlaceholder">
+                    Поміняти пароль
+                </a>
+            </div>
+        </div>
+        <form asp-action="Edit" method="post">
+            <div class="row my-sm-5 my-4 d-flex justify-content-between">
+                <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
+                    <label asp-for="FirstName" class="ml-2">Ім'я</label>
+                    <input asp-for="FirstName" class="pl-3 py-2 border" />
+                    <span asp-validation-for="Email" class="field-validation-error"></span>
+                </div>
+                <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
+                    <label asp-for="LastName" class="ml-2">Прізвище</label>
+                    <input asp-for="LastName" class="pl-3 py-2 border" />
+                    <span asp-validation-for="Email" class="field-validation-error"></span>
+                </div>
+                <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
+                    <label asp-for="Email" class="ml-2">Емейл</label>
+                    <input asp-for="Email" class="pl-3 py-2 border" />
+                    <span asp-validation-for="Email" class="field-validation-error">
+                        @{if (ViewBag.Error != null)
+                                @ViewBag.Error
+                        }
+                    </span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center justify-content-sm-end mt-3 mb-2">
+                <button type="submit" class="green-bg px-3 py-2">
+                    Зберегти зміни
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="changePasswordModalPlaceholder"></div>
+</div>
+
+@section Scripts {
+    <script src="~/js/ShowPassword.js" asp-append-version="true"></script>
+    <script src="~/js/AjaxModal.js" asp-append-version="true"></script>
+}
