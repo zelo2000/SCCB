@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
 using SCCB.Core.Settings;
@@ -16,14 +17,17 @@ namespace SCCB.Web.Controllers
         private readonly IMapper _mapper;
         private readonly Services.AuthenticationService.IAuthenticationService _authenticationService;
         private readonly AuthSetting _authSetting;
+        readonly ILogger<AuthenticationController> _log;
 
         public AuthenticationController(IMapper mapper,
             Services.AuthenticationService.IAuthenticationService authenticationService,
-            IOptions<AuthSetting> authSetting)
+            IOptions<AuthSetting> authSetting,
+            ILogger<AuthenticationController> log)
         {
             _mapper = mapper;
             _authenticationService = authenticationService;
             _authSetting = authSetting.Value;
+            _log = log;
         }
 
         [HttpGet]
@@ -44,16 +48,17 @@ namespace SCCB.Web.Controllers
                     await _authenticationService.ChangeForgottenPassword(token, resetPasswordModel.NewPassword);
                     return RedirectToAction("LogIn", "Authentication");
                 }
-                catch(AccessViolationException e)
+                catch (AccessViolationException e)
                 {
                     ViewBag.Error = e.Message;
                     return View(resetPasswordModel);
                 }
+                catch (Exception e)
+                {
+                    _log.LogInformation(e.Message);
+                }
             }
-            else
-            {
-                return View("ResetPassword", resetPasswordModel);
-            }
+            return View("ResetPassword", resetPasswordModel);
         }
 
         [HttpGet]
@@ -93,6 +98,10 @@ namespace SCCB.Web.Controllers
                     ViewBag.Error = e.Message;
                     return View(signUpModel);
                 }
+                catch (Exception e)
+                {
+                    _log.LogInformation(e.Message);
+                }
             }
             return View(signUpModel);
         }
@@ -121,6 +130,10 @@ namespace SCCB.Web.Controllers
                 {
                     ViewBag.Error = e.Message;
                     return View(logInModel);
+                }
+                catch (Exception e)
+                {
+                    _log.LogInformation(e.Message);
                 }
             }
             return View(logInModel);

@@ -6,6 +6,7 @@ using SCCB.Web.Models;
 using SCCB.Services.UserService;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
+using Microsoft.Extensions.Logging;
 
 namespace SCCB.Web.Controllers
 {
@@ -13,11 +14,13 @@ namespace SCCB.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        readonly ILogger<ProfileController> _log;
 
-        public ProfileController(IMapper mapper, IUserService userService)
+        public ProfileController(IMapper mapper, IUserService userService, ILogger<ProfileController> log)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _userService = userService ?? throw new ArgumentException(nameof(userService));
+            _log = log ?? throw new ArgumentException(nameof(userService));
         }
 
         [HttpGet]
@@ -46,11 +49,12 @@ namespace SCCB.Web.Controllers
                     ViewBag.Error = e.Message;
                     return View(profileModel);
                 }
+                catch (Exception e)
+                {
+                    _log.LogInformation(e.Message);
+                }
             }
-            else
-            {
-                return View(profileModel);
-            }
+            return View(profileModel);
         }
 
         [HttpGet]
@@ -75,11 +79,12 @@ namespace SCCB.Web.Controllers
                     ModelState.AddModelError("OldPassword", e.Message);
                     return PartialView("_ChangePasswordPartial", passwords);
                 }
+                catch (Exception e)
+                {
+                    _log.LogInformation(e.Message);
+                }
             }
-            else
-            {
-                return PartialView("_ChangePasswordPartial", passwords);
-            }
+            return PartialView("_ChangePasswordPartial", passwords);
         }
     }
 }

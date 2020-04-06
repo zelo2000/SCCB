@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SCCB.Core.Settings;
 using SCCB.DAL;
@@ -46,12 +47,19 @@ namespace SCCB.Web
             var emailSetting = Configuration.GetSection("EmailSetting");
             services.Configure<EmailSetting>(emailSetting);
 
+            var seqSettings = Configuration.GetSection("Seq");
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SCCBDbContext>(options => options.UseSqlServer(connectionString,
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSeq(seqSettings);
+            });
 
             services.AddControllersWithViews();
 
@@ -70,9 +78,6 @@ namespace SCCB.Web
             builder.Populate(services);
             builder.RegisterModule<ReposDependencyModule>();
             builder.RegisterModule<ServiceDependencyModule>();
-
-            //builder.RegisterType<TokenServiceMiddleware>().InstancePerDependency();
-            //builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
             ApplicationContainer = builder.Build();
 
