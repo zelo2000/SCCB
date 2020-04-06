@@ -2,6 +2,7 @@
 using SCCB.DAL;
 using SCCB.Repos.Classrooms;
 using SCCB.Repos.Groups;
+using SCCB.Repos.Lectors;
 using SCCB.Repos.Lessons;
 using SCCB.Repos.Users;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace SCCB.Repos.UnitOfWork
             Lessons = new LessonRepository(_dbContext);
             Groups = new GroupRepository(_dbContext);
             Classrooms = new ClassroomRepository(_dbContext);
+            Lectors = new LectorRepository(_dbContext);
         }
 
         #region Repositories
@@ -27,6 +29,7 @@ namespace SCCB.Repos.UnitOfWork
         public ILessonRepository Lessons { get; }
         public IGroupRepository Groups { get; }
         public IClassroomRepository Classrooms { get; }
+        public ILectorRepository Lectors { get; }
         #endregion
 
         /// <inheritdoc />

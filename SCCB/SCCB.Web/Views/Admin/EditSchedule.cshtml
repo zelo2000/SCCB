@@ -1,0 +1,111 @@
+﻿@model SCCB.Web.Models.ScheduleEditModel
+
+@section Styles {
+    <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
+}
+
+@{
+    ViewData["Title"] = "Schedule Editing";
+}
+
+@section Header {
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+        <div class="container-fluid ml-4 mr-4">
+            <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
+            </button>
+            <div class="navbar-collapse collapse justify-content-between flex-sm-row">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
+                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
+                        </a>
+                        <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+}
+
+<div class="edit-bg mt-5 px-5 py-4">
+    <div class="row">
+        <form asp-action="EditSchedule" method="get" class="col-2">
+            <label asp-for="GroupId" class="ml-2">Група</label>
+            <select asp-for="GroupId" class="selectpicker" data-live-search="true" onchange="this.form.submit()">
+                <option disabled selected>-- Оберіть групу --</option>
+                @await Component.InvokeAsync("GroupOptions", new { groupId = Model.GroupId })
+            </select>
+        </form>
+    </div>
+    @if (Model.GroupId != null)
+    {
+        <div class="wrapper mt-5">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                @{
+                    string[] days = { "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця" };
+                }
+                @for (int i = 0; i < days.Length; i++)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="@("heading" + i)">
+                            <h4 class="panel-title">
+                                <a class="p-3" role="button" data-toggle="collapse" data-parent="#accordion" href="@("#collapse" + i)"
+                                   aria-expanded="true" aria-controls="@("collapse" + i)">
+                                    @days[i]
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="@("collapse" + i)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@("heading" + i)">
+                            <div class="panel-body py-3">
+
+                                <div id="@("lessonsFor" + i)">
+                                    @await Component.InvokeAsync("LessonsForDay", new { groupId = Model.GroupId, weekday = days[i] })
+                                </div>
+
+                                <div class="d-flex justify-content-center justify-content-sm-end">
+                                    @{ 
+                                        var routeData = new Dictionary<string, string>
+                                        {
+                                            { "groupId", Model.GroupId.ToString() },
+                                            { "weekday", days[i] }
+                                        };
+                                    }
+                                    <button type="button" class="green-bg-reverse px-4 py-2" data-target="#AddingLesson" 
+                                            data-toggle="ajax-modal" data-url="@Url.Action("AddLesson", @routeData)">
+                                        Додати пару
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="d-flex justify-content-center justify-content-sm-end mt-5 mb-2">
+                <button type="submit" class="green-bg px-4 py-2">
+                    Зберегти зміни
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal -->
+<div id="AddLessonPlaceholder"></div>
+
+@section Scripts {
+    <script src="~/js/Accordion.js" asp-append-version="true"></script>
+    <script src="~/js/EditSchedule.js" asp-append-version="true"></script>
+}

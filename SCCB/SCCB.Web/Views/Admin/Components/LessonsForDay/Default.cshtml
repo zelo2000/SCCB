@@ -1,0 +1,9 @@
+﻿@model IEnumerable<LessonModel>
+
+@foreach (var lesson in Model)
+{
+    <div>
+        <span>@lesson.LessonNumber</span>
+        <span>@lesson.Title</span>
+    </div>
+}

@@ -13,6 +13,7 @@ namespace SCCB.Services
             CreateMap<Core.DTO.Lesson, DAL.Entities.Lesson>();
             CreateMap<Core.DTO.Group, DAL.Entities.Group>();
             CreateMap<Core.DTO.Classroom, DAL.Entities.Classroom>();
+            CreateMap<Core.DTO.Lector, DAL.Entities.Lector>();
 
             // Entities -> DTO
             CreateMap<DAL.Entities.User, Core.DTO.User>()
@@ -21,6 +22,7 @@ namespace SCCB.Services
             CreateMap<DAL.Entities.Lesson, Core.DTO.Lesson>();
             CreateMap<DAL.Entities.Group, Core.DTO.Group>();
             CreateMap<DAL.Entities.Classroom, Core.DTO.Classroom>();
+            CreateMap<DAL.Entities.Lector, Core.DTO.Lector>();
         }
     }
 }

@@ -5,6 +5,7 @@ using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.ClassroomService
@@ -51,6 +52,13 @@ namespace SCCB.Services.ClassroomService
             _unitOfWork.Classrooms.Update(classroom);
             await _unitOfWork.CommitAsync();
 
+        }
+
+        public async Task<IEnumerable<Classroom>> GetAll()
+        {
+            var classrooms = await _unitOfWork.Classrooms.GetAllAsync();
+            var classroomDtos = _mapper.Map<IEnumerable<Classroom>>(classrooms);
+            return classroomDtos;
         }
 
         private async Task<DAL.Entities.Classroom> FindClassroomEntity(Guid id)

@@ -12,7 +12,7 @@ namespace SCCB.Services.LessonService
         /// </summary>
         /// <param name="id">Group id</param>
         /// <returns>Lessons list</returns>
-        Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid id);
+        Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid? id);
 
         /// <summary>
         /// Add lesson
