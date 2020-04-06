@@ -1,0 +1,6 @@
+﻿@model IEnumerable<LectorModel>
+
+@foreach (var lector in Model)
+{
+    <option value="@lector.Id">@(lector.FirstName + " " + lector.LastName)</option>
+}

@@ -20,10 +20,20 @@
                     <li class="nav-item">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="AdminEdit">
-                                <img src="~/img/avatar.png" alt="Profile" width="50" />
-                            </a>
-                            <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="AdminEdit">Профіль</a>
+                            @if (User.FindFirst("Role").Value == "Admin")
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" />
+                                </a>
+                                <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
+                            }
+                            else
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" />
+                                </a>
+                                <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
+                            }
                         }
                         else
                         {

@@ -1,5 +1,6 @@
 ﻿using SCCB.Core.DTO;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.ClassroomService
@@ -31,5 +32,11 @@ namespace SCCB.Services.ClassroomService
         /// <param name="id">Classroom's id</param>
         /// <returns>Classroom</returns>
         Task<Classroom> Find(Guid id);
+
+        /// <summary>
+        /// Get all classrooms
+        /// </summary>
+        /// <returns>IEnumerable of classrooms</returns>
+        Task<IEnumerable<Classroom>> GetAll();
     }
 }

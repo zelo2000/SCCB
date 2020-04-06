@@ -3,6 +3,7 @@ using SCCB.Repos.Users;
 using SCCB.Repos.Groups;
 using SCCB.Repos.Classrooms;
 using System.Threading.Tasks;
+using SCCB.Repos.Lectors;
 
 namespace SCCB.Repos.UnitOfWork
 {
@@ -13,6 +14,7 @@ namespace SCCB.Repos.UnitOfWork
         public ILessonRepository Lessons { get; }
         public IGroupRepository Groups { get; }
         public IClassroomRepository Classrooms { get; }
+        public ILectorRepository Lectors { get; }
         #endregion
 
         /// <summary>
