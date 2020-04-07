@@ -9,7 +9,7 @@ namespace SCCB.Web.Controllers
 {
     public class BookingController : Controller
     {
-        public IActionResult Book()
+        public IActionResult PersonalBooking()
         {
             return View();
         }
