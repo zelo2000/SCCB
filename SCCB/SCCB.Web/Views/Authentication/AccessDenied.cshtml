@@ -1,4 +1,6 @@
-﻿@{
+﻿@model string
+
+@{
     ViewData["Title"] = "Warning Page";
 }
 
@@ -53,6 +55,6 @@
             Sorry, you do not have access to this page
             <img src="~/img/warning_icon.png" alt="Warning img" width="50" />
         </h1>
-        <h2>Please wait while our administrator confirms your identity</h2>
+        <h2>@Model</h2>
     </div>
 </div>

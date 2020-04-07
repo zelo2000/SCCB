@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SCCB.Core.Constants;
 using SCCB.Core.Settings;
 using SCCB.DAL;
 using SCCB.Repos;
@@ -47,7 +48,24 @@ namespace SCCB.Web
             services.Configure<EmailSetting>(emailSetting);
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Authentication/AccessDenied";
+                    options.LoginPath = "/Authentication/LogIn";
+                });
+                    
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Policies.UserOnly, policy =>
+                    policy.RequireRole(Roles.NotApprovedUser, Roles.Student, Roles.Lector));
+
+                options.AddPolicy(Policies.ApprovedUserOnly, policy =>
+                    policy.RequireRole(Roles.Student, Roles.Lector));
+
+                options.AddPolicy(Policies.AdminOnly, policy =>
+                    policy.RequireRole(Roles.Admin));
+            });
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SCCBDbContext>(options => options.UseSqlServer(connectionString,
