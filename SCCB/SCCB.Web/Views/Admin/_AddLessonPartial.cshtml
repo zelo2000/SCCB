@@ -43,18 +43,17 @@
                         <span asp-validation-for="IsDenominator" class="field-validation-error"></span>
                     </div>
 
-                    @*
-                    TODO: Add lesson type to lesson model and uncomment
+                    
                     <label asp-for="Type" class="ml-2">Вкажіть тип пари</label>
                     <div class="mb-4">
-                        <select asp-for="Type" class="selectpicker w-100">
+                        <select asp-for="Type" class="w-100">
+                            <option selected disabled value="">-- Виберіть тип пари --</option>
                             <option>Лекція</option>
                             <option>Практична</option>
-                            <option>Лабораторна</option>
                         </select>
                     </div>
                     <span asp-validation-for="Type" class="field-validation-error"></span>
-                    *@
+                    
 
                     <label asp-for="LectorId" class="ml-2">Оберіть викладача</label>
                     <div class="mb-4">

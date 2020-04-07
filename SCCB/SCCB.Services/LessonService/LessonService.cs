@@ -67,6 +67,7 @@ namespace SCCB.Services.LessonService
             lesson.LectorId = lessonDto.LectorId;
             lesson.IsDenominator = lessonDto.IsDenominator;
             lesson.IsEnumerator = lessonDto.IsEnumerator;
+            lesson.Type = lessonDto.Type;
             lesson.Weekday = lessonDto.Weekday;
             lesson.LessonNumber = lessonDto.LessonNumber;
             lesson.ClassroomId = lessonDto.ClassroomId;
