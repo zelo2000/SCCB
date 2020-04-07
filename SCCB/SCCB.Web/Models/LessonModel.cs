@@ -34,6 +34,10 @@ namespace SCCB.Web.Models
         public bool IsDenominator { get; set; }
 
         [Required]
+        [MaxLength(9)]
+        public string Type { get; set; }
+
+        [Required]
         public bool IsEnumerator { get; set; }
     }
 }

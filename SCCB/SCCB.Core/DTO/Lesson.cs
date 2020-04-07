@@ -16,6 +16,8 @@ namespace SCCB.Core.DTO
 
         public bool IsEnumerator { get; set; }
 
+        public string Type { get; set; }
+
         public string Weekday { get; set; }
 
         public string LessonNumber { get; set; }

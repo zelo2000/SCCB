@@ -24,6 +24,10 @@ namespace SCCB.DAL.Configuration
             builder.Property(x => x.IsEnumerator)
                 .IsRequired();
 
+            builder.Property(x => x.Type)
+                .HasMaxLength(9)
+                .IsRequired();
+
             builder.Property(x => x.LessonNumber)
                 .IsRequired();
         }
