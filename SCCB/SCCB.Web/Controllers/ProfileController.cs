@@ -7,9 +7,11 @@ using SCCB.Services.UserService;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SCCB.Web.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
         private readonly IMapper _mapper;
@@ -23,6 +25,7 @@ namespace SCCB.Web.Controllers
             _log = log ?? throw new ArgumentException(nameof(userService));
         }
 
+        [Authorize(Policy = Policies.UserOnly)]
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
@@ -32,6 +35,7 @@ namespace SCCB.Web.Controllers
             return View(profileModel);
         }
 
+        [Authorize(Policy = Policies.UserOnly)]
         [HttpPost]
         public async Task<IActionResult> Edit(ProfileModel profileModel)
         {

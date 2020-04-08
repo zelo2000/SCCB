@@ -1,4 +1,5 @@
 ﻿@model SCCB.Web.Models.ProfileModel
+@using SCCB.Core.Constants
 
 @section Styles {
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
@@ -60,7 +61,18 @@
                         <h4 class="border-bottom">
                             @Model.FirstName @Model.LastName
                         </h4>
-                        <p class="green">@User.FindFirst("Role").Value</p>
+                        @if (User.IsInRole(Roles.NotApprovedUser))
+                        {
+                            <p class="green">Не підтверджений користувач</p>
+                        }
+                        else if (User.IsInRole(Roles.Student))
+                        {
+                            <p class="green">Студент</p>
+                        }
+                        else if (User.IsInRole(Roles.Lector))
+                        {
+                            <p class="green">Викладач</p>
+                        }
                     </div>
                 </div>
             </div>

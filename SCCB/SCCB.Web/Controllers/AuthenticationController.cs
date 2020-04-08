@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -30,6 +31,7 @@ namespace SCCB.Web.Controllers
             _log = log;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("reset-password/{token}")]
         public IActionResult ResetPassword(string token)
@@ -37,6 +39,7 @@ namespace SCCB.Web.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [Route("reset-password/{token}")]
         public async Task<IActionResult> ResetPassword(string token, ResetPasswordModel resetPasswordModel)
@@ -73,6 +76,7 @@ namespace SCCB.Web.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> LogOut()
         {
@@ -157,6 +161,25 @@ namespace SCCB.Web.Controllers
             {
                 return PartialView("_EmailPartial", emailModel);
             }
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            string message;
+            if (ReturnUrl.StartsWith("/Admin"))
+            {
+                message = $"Only administrator can access {ReturnUrl}";
+            }
+            else if (ReturnUrl == "/Profile/Edit")
+            {
+                message = $"Only ordinary users can access {ReturnUrl}";
+            }
+            else
+            {
+                message = "";
+            }
+            return View("AccessDenied", message);
         }
     }
 }

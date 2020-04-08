@@ -65,7 +65,7 @@ namespace SCCB.Services.AuthenticationService
                     new Claim(ClaimKeys.FirstName, user.FirstName),
                     new Claim(ClaimKeys.LastName, user.LastName),
                     new Claim(ClaimKeys.Email, user.Email),
-                    new Claim(ClaimKeys.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
