@@ -100,5 +100,11 @@ namespace SCCB.Web.Controllers
                 return PartialView("_AddLessonPartial", model);
             }
         }
+
+        [HttpDelete]
+        public async Task RemoveLesson(Guid id)
+        {
+            await _lessonService.Remove(id);
+        }
     }
 }

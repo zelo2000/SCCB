@@ -10,6 +10,11 @@ body
     background-size: cover;
 }
 
+input {
+    box-shadow: none !important;
+    outline: none;
+}
+
 a
 {
     cursor: pointer;

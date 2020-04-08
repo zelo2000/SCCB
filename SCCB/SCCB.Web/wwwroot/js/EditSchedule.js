@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     var placeholderElement = $('#AddLessonPlaceholder');
     var weekdays = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"];
 
@@ -25,6 +24,7 @@
         $.get(url).done(function (data) {
             placeholderElement.html(data);
             placeholderElement.find('.modal').modal('show');
+            $('.selectpicker').selectpicker('render');
         });
     });
 
@@ -51,4 +51,8 @@
             }
         });
     });
+
+    $('close-button').click(function (event) {
+          //TODO
+    }
 });

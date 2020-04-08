@@ -12,19 +12,20 @@
             </div>
             <div class="modal-body">
                 <form asp-action="AddLesson">
-                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()"/>
                     <input asp-for="GroupId" type="hidden" class="pl-3 py-2 w-100" />
                     <input asp-for="Weekday" type="hidden" class="pl-3 py-2 w-100" />
 
                     <label asp-for="Title" class="ml-2">Вкажіть назву пари</label>
                     <div class="mb-4">
-                        <input asp-for="Title" class="pl-3 py-2 w-100" />
+                        <input asp-for="Title" class="pl-3 py-2 w-100 border" />
                     </div>
                     <span asp-validation-for="Title" class="field-validation-error"></span>
 
                     <label asp-for="LessonNumber" class="ml-2">Вкажіть номер пари</label>
                     <div class="mb-4">
-                        <select asp-for="LessonNumber" class="border w-100">
+                        <select asp-for="LessonNumber" class="w-100 selectpicker">
+                            <option selected disabled value="">-- Виберіть номер пари --</option>
                             @for (int i = 1; i <= 8; i++)
                             {
                                 <option value="@i">@i</option>
@@ -33,20 +34,23 @@
                     </div>
                     <span asp-validation-for="LessonNumber" class="field-validation-error"></span>
 
-                    <div class="mb-4">
-                        <input asp-for="IsEnumerator" type="checkbox" />
-                        <label asp-for="IsEnumerator">Чисельник</label>
-                        <span asp-validation-for="IsEnumerator" class="field-validation-error"></span>
-
-                        <input asp-for="IsDenominator" type="checkbox" />
-                        <label asp-for="IsDenominator">Знаменник</label>
-                        <span asp-validation-for="IsDenominator" class="field-validation-error"></span>
+                    <div class="mb-4 mx-4 d-flex justify-content-between">
+                        <div>
+                            <label asp-for="IsEnumerator">Чисельник</label>
+                            <input asp-for="IsEnumerator" type="checkbox" />
+                            <span asp-validation-for="IsEnumerator" class="field-validation-error"></span>
+                        </div>
+                        <div>
+                            <label asp-for="IsDenominator">Знаменник</label>
+                            <input asp-for="IsDenominator" type="checkbox" />
+                            <span asp-validation-for="IsDenominator" class="field-validation-error"></span>
+                        </div>
                     </div>
 
                     
                     <label asp-for="Type" class="ml-2">Вкажіть тип пари</label>
                     <div class="mb-4">
-                        <select asp-for="Type" class="w-100">
+                        <select asp-for="Type" class="w-100 selectpicker">
                             <option selected disabled value="">-- Виберіть тип пари --</option>
                             <option>Лекція</option>
                             <option>Практична</option>
@@ -57,7 +61,7 @@
 
                     <label asp-for="LectorId" class="ml-2">Оберіть викладача</label>
                     <div class="mb-4">
-                        <select asp-for="LectorId" class="border w-100" data-live-search="true">
+                        <select asp-for="LectorId" class="w-100 selectpicker" data-live-search="true">
                             <option disabled selected value="">-- Оберіть викладача --</option>
                             @await Component.InvokeAsync("LectorOptions")
                         </select>
@@ -66,7 +70,7 @@
 
                     <label asp-for="ClassroomId" class="ml-2">Оберіть аудиторію</label>
                     <div class="mb-3">
-                        <select asp-for="ClassroomId" class="border w-100" data-live-search="true">
+                        <select asp-for="ClassroomId" class="w-100 selectpicker" data-live-search="true">
                             <option disabled selected value="">-- Оберіть аудиторію --</option>
                             @await Component.InvokeAsync("ClassroomOptions")
                         </select>

@@ -44,6 +44,20 @@ namespace SCCB.Services.LessonService
             }
         }
 
+        public async Task<IEnumerable<Lesson>> GetLessonsOrderedByNumber(Guid? groupId, string weekday)
+        {
+            if (groupId != null)
+            {
+                var lessons = await _unitOfWork.Lessons.GetLessonsOrderedbyNumber((Guid)groupId, weekday);
+                var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
+                return lessonsDto;
+            }
+            else
+            {
+                return new List<Core.DTO.Lesson>();
+            }
+        }
+
         public async Task<Lesson> Find(Guid id)
         {
             var lesson = await FindLessonEntity(id);

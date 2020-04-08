@@ -8,6 +8,14 @@ namespace SCCB.Services.LessonService
     public interface ILessonService
     {
         /// <summary>
+        /// Get lists of lessons by weekday and group, ordered by number
+        /// </summary>
+        /// <param name="groupId">Group id</param>
+        /// <param name="weekday">Weekday</param>
+        /// <returns>Lessons list</returns>
+        Task<IEnumerable<Lesson>> GetLessonsOrderedByNumber(Guid? groupId, string weekday);
+
+        /// <summary>
         /// Find list of lessons by group id
         /// </summary>
         /// <param name="id">Group id</param>
