@@ -25,7 +25,7 @@
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
                         <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
-                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
+                            <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
                         </a>
                         <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
                     </li>
@@ -50,7 +50,7 @@
     </div>
     @if (Model.GroupId != null)
     {
-        <div class="wrapper mt-5">
+        <div class="wrapper mt-5 mb-3">
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
                 @{
@@ -58,7 +58,7 @@
                 }
                 @for (int i = 0; i < days.Length; i++)
                 {
-                    <div class="panel panel-default">
+                    <div class="panel panel-default mb-3">
                         <div class="panel-heading" role="tab" id="@("heading" + i)">
                             <h4 class="panel-title">
                                 <a class="p-3" role="button" data-toggle="collapse" data-parent="#accordion" href="@("#collapse" + i)"
@@ -92,11 +92,6 @@
                     </div>
                 }
 
-            </div>
-            <div class="d-flex justify-content-center justify-content-sm-end mt-5 mb-2">
-                <button type="submit" class="green-bg px-4 py-2">
-                    Зберегти зміни
-                </button>
             </div>
         </div>
     }

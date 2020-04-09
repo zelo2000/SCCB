@@ -59,8 +59,16 @@
 	border-radius: 0.1875rem;
 }
 
+.color-erase:hover {
+	background: rgba(0, 201, 209, 0.8);
+	-webkit-transition: .3s ease-out;
+	-o-transition: .3s ease-out;
+	transition: .3s ease-out;
+}
+
 a.hover-erase:hover {
 	border: none;
+	text-decoration: none;
 }
 
 .profile-info-block {
@@ -104,14 +112,6 @@ a.hover-erase:hover {
 	text-align: end;
 	margin-top: 0.5rem;
 	font-size: 0.8125rem;
-}
-
-.field-validation-error {
-	font-size: 0.875rem;
-	color: #ed2121 !important;
-	display: block;
-	font-weight: normal !important;
-	text-align: center;
 }
 
 .modal-header button {

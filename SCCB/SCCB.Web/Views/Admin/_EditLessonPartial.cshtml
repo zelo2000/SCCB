@@ -1,26 +1,26 @@
 ﻿@model SCCB.Web.Models.LessonModel
 
 <!-- Modal -->
-<div class="modal fade" id="AddingLesson" tabindex="-1" role="dialog" aria-labelledby="AddingLessonLabel" aria-hidden="true">
+<div class="modal fade" id="EditingLesson" tabindex="-1" role="dialog" aria-labelledby="EditingLessonLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content bg-dark">
             <div class="modal-header">
-                <h5 class="modal-title" id="AddingLessonLabel">Додавання пари</h5>
+                <h5 class="modal-title" id="EditingLessonLabel">Редагування пари</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" class="text-danger">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="AddLesson">
-                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()"/>
+                <form asp-action="EditLesson">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
                     <input asp-for="GroupId" type="hidden" class="pl-3 py-2 w-100" />
                     <input asp-for="Weekday" type="hidden" class="pl-3 py-2 w-100" />
 
                     <label asp-for="Title" class="ml-2">Вкажіть назву пари</label>
                     <div class="mb-4">
                         <input asp-for="Title" class="pl-3 py-2 w-100 border" />
-                        <span asp-validation-for="Title" class="field-validation-error"></span>
                     </div>
+                    <span asp-validation-for="Title" class="field-validation-error"></span>
 
                     <label asp-for="LessonNumber" class="ml-2">Вкажіть номер пари</label>
                     <div class="mb-4">
@@ -31,8 +31,8 @@
                                 <option value="@i">@i</option>
                             }
                         </select>
-                        <span asp-validation-for="LessonNumber" class="field-validation-error"></span>
                     </div>
+                    <span asp-validation-for="LessonNumber" class="field-validation-error"></span>
 
                     <div class="mb-4 mx-4 d-flex justify-content-between">
                         <div>
@@ -46,7 +46,8 @@
                             <span asp-validation-for="IsDenominator" class="field-validation-error"></span>
                         </div>
                     </div>
-                    
+
+
                     <label asp-for="Type" class="ml-2">Вкажіть тип пари</label>
                     <div class="mb-4">
                         <select asp-for="Type" class="w-100 selectpicker">
@@ -54,17 +55,18 @@
                             <option>Лекція</option>
                             <option>Практична</option>
                         </select>
-                        <span asp-validation-for="Type" class="field-validation-error"></span>
                     </div>
-                    
+                    <span asp-validation-for="Type" class="field-validation-error"></span>
+
+
                     <label asp-for="LectorId" class="ml-2">Оберіть викладача</label>
                     <div class="mb-4">
                         <select asp-for="LectorId" class="w-100 selectpicker" data-live-search="true">
                             <option disabled selected value="">-- Оберіть викладача --</option>
                             @await Component.InvokeAsync("LectorOptions")
                         </select>
-                        <span asp-validation-for="LectorId" class="field-validation-error"></span>
                     </div>
+                    <span asp-validation-for="LectorId" class="field-validation-error"></span>
 
                     <label asp-for="ClassroomId" class="ml-2">Оберіть аудиторію</label>
                     <div class="mb-3">
@@ -72,16 +74,15 @@
                             <option disabled selected value="">-- Оберіть аудиторію --</option>
                             @await Component.InvokeAsync("ClassroomOptions")
                         </select>
-                        <span asp-validation-for="ClassroomId" class="field-validation-error"></span>
                     </div>
+                    <span asp-validation-for="ClassroomId" class="field-validation-error"></span>
                 </form>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="green-bg px-3 py-2 mt-3 mb-3" id="AddLessonSubmit">
-                        Додати
+                    <button type="submit" class="green-bg px-3 py-2 mt-3 mb-3" id="EditLessonSubmit">
+                        Редагувати
                     </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

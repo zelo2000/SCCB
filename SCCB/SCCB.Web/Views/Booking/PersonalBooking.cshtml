@@ -1,4 +1,6 @@
-﻿@section Styles {
+﻿@using SCCB.Core.Constants
+
+@section Styles {
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
 }
@@ -23,10 +25,27 @@
                 </ul>
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
-                        <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
-                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
-                        </a>
-                        <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole(Roles.Admin))
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
+                                </a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
+                            }
+                            else
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
+                                </a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="nav-link text-white pr-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogIn">Логін</a>
+                        }
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
@@ -40,33 +59,43 @@
 <div class="container-fluid container-profile px-5 mt-5">
     <div class="d-flex justify-content-between">
         <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 font-slab font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Edit">Ваш профіль</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Admin" asp-action="Index">Ваш профіль</a>
+                }
+                else
+                {
+                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Edit">Ваш профіль</a>
+                }
+            }
         </div>
         <div class="profile-button d-flex justify-content-center align-items-center">
-            <p class="my-2 font-slab hover-erase font-weight-bold">
+            <p class="my-2 font-slab font-weight-bold">
                 Ваші бронювання
             </p>
         </div>
     </div>
-    <div class="profile-info-block my-4 py-5">
-        <div class="row container-personal-booking">
-            <div class="col-12 personal-booking-block">
-                
-                <div class="row personal-booking-block font-weight-bold">
-                    <div class="col-4 ">Дата: 03.03.2020</div>
-                    <div class="col-4 ">ауд. 439</div>
-                    <div class="col-4 ">6 пара(16:10 - 18:00) </div>
-                </div>
-                <div class="row personal-booking-block text-white font-weight-bold">
-                    <div class="col-12 ">Додаткова пара з систем СШІ в ПМІ-33</div>
-                    
-                </div>
-                <div class="row  personal-booking-block ">
-                    <div class="col-12 text-right font-weight-bold">
-                        <button type="submit" class=" btn btn-outline-danger px-3 py-2">
-                            Скасувати бронювання
-                        </button>
+    <div class="profile-info-block my-4 py-5 px-5">
+        <div class="container-personal-booking">
+            <div class="personal-booking-block px-4 py-4">
+                <div class="personal-booking-block font-weight-bold d-flex flex-column flex-md-row">
+                    <div class="mr-4">
+                        <span>дата: 03.03.2020</span>
                     </div>
+                    <div class="d-flex flex-column flex-sm-row">
+                        <span class="mr-4">ауд. 439</span>
+                        <span>6 пара(16:10 - 18:00)</span>
+                    </div>
+                </div>
+                <div class="text-white font-weight-bold my-4">
+                    <p>Перенесення пари з Методів комп’ютерних обчислень в ПМІ-32 через обставини у викладача</p>
+                </div>
+                <div class="text-center text-sm-right font-weight-bold">
+                    <button class="cancel-button px-2 py-1">
+                        Скасувати бронювання
+                    </button>
                 </div>
             </div>
         </div>

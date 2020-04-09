@@ -103,6 +103,29 @@ namespace SCCB.Web.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditLesson(Guid id)
+        {
+            var lessonDto = await _lessonService.Find(id);
+            var lessonModel = _mapper.Map<ProfileModel>(lessonDto);
+            return PartialView("_EditLessonPartial", lessonModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditLesson(LessonModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var lessonDto = _mapper.Map<Lesson>(model);
+                await _lessonService.Update(lessonDto);
+                return PartialView("_EditLessonPartial");
+            }
+            else
+            {
+                return PartialView("_EditLessonPartial", model);
+            }
+        }
+
         [HttpDelete]
         public async Task RemoveLesson(Guid id)
         {

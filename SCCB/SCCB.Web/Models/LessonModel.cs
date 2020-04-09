@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using SCCB.Core.Attributes;
 
 namespace SCCB.Web.Models
 {
@@ -24,12 +25,15 @@ namespace SCCB.Web.Models
         public string Weekday { get; set; }
 
         [Required]
+        [NotEmptyGuid]
         public Guid GroupId { get; set; }
 
         [Required]
+        [NotEmptyGuid]
         public Guid LectorId { get; set; }
 
         [Required]
+        [NotEmptyGuid]
         public Guid ClassroomId { get; set; }
 
         [Required]

@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     var placeholderElement = $('#AddLessonPlaceholder');
+    var placeholderElementEdit = $('#EditLessonPlaceholder');
     var weekdays = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"];
 
     function refreshLessonsList(groupId, weekday) {
@@ -39,6 +40,7 @@
             var newBody = $('.modal-body', data);
 
             placeholderElement.find('.modal-body').replaceWith(newBody);
+            $('.selectpicker').selectpicker('render');
             var isValid = newBody.find('[name="IsValid"]').val() == 'True';
 
             if (isValid) {
@@ -52,7 +54,41 @@
         });
     });
 
-    $('close-button').click(function (event) {
-          //TODO
-    }
+    //$('button[data-toggle="ajax-modal-edit"]').click(function (event) {
+    //    var url = $(this).data('url');
+
+    //    $.get(url).done(function (data) {
+    //        placeholderElementEdit.html(data);
+    //        placeholderElementEdit.find('.modal').modal('show');
+    //        $('.selectpicker').selectpicker('render');
+    //    });
+    //});
+
+    //placeholderElementEdit.on('click', '#EditLessonSubmit', function (event) {
+    //    event.preventDefault();
+
+    //    var form = $(this).parents('.modal').find('form');
+    //    var actionUrl = form.attr('action');
+    //    var dataToSend = form.serialize();
+
+    //    $.post(actionUrl, dataToSend).done(function (data) {
+    //        var newBody = $('.modal-body', data);
+
+    //        placeholderElementEdit.find('.modal-body').replaceWith(newBody);
+    //        var isValid = newBody.find('[name="IsValid"]').val() == 'True';
+
+    //        if (isValid) {
+    //            placeholderElementEdit.find('.modal').modal('hide');
+
+    //            var groupId = newBody.find('[name="GroupId"]').val();
+    //            var weekday = newBody.find('[name="Weekday"]').val();
+
+    //            refreshLessonsList(groupId, weekday);
+    //        }
+    //    });
+    //});
+
+    //$('close-button').click(function (event) {
+    //      //TODO
+    //}
 });

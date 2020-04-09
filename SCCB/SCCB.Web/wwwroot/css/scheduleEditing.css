@@ -75,7 +75,7 @@
     background: var(--gray);
 }
 
-.green-bg-reverse, .close-button, .edit-button {
+button.green-bg-reverse, button.close-button, button.edit-button {
     border: none;
     outline: none;
     color: white;
