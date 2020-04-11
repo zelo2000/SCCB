@@ -56,7 +56,7 @@ namespace SCCB.Web
                     options.AccessDeniedPath = "/Authentication/AccessDenied";
                     options.LoginPath = "/Authentication/LogIn";
                 });
-                    
+
 
             services.AddAuthorization(options =>
             {

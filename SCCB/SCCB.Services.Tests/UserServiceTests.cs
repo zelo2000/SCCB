@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
@@ -11,6 +9,8 @@ using SCCB.DAL.Entities;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Users;
 using SCCB.Services.UserService;
+using System;
+using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {

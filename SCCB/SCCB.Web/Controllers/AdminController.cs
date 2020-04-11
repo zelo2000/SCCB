@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Services.GroupService;
 using SCCB.Services.LessonService;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace SCCB.Web.Controllers
 {
@@ -23,7 +20,7 @@ namespace SCCB.Web.Controllers
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
 
-        public AdminController (IMapper mapper, ILessonService lessonService, IGroupService groupService, IUserService userService)
+        public AdminController(IMapper mapper, ILessonService lessonService, IGroupService groupService, IUserService userService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lessonService = lessonService ?? throw new ArgumentException(nameof(lessonService));

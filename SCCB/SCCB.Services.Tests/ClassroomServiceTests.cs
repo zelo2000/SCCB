@@ -1,16 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.Extensions.Options;
+﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using SCCB.Core.Constants;
-using SCCB.Core.Helpers;
-using SCCB.Core.Settings;
 using SCCB.DAL.Entities;
-using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Classrooms;
+using SCCB.Repos.UnitOfWork;
 using SCCB.Services.ClassroomService;
+using System;
+using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -89,7 +85,7 @@ namespace SCCB.Services.Tests
                 classroom.Id == _newClassroom.Id &&
                 classroom.Number == _newClassroom.Number &&
                 classroom.Building == _newClassroom.Building
-                
+
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
@@ -130,7 +126,7 @@ namespace SCCB.Services.Tests
                 classroom.Id == _existingClassroom.Id &&
                 classroom.Number == _existingClassroom.Number &&
                 classroom.Building == _existingClassroom.Building
-                
+
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
@@ -154,8 +150,8 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.Update(It.Is<Classroom>(classroom =>
                 classroom.Id == _existingClassroom.Id &&
                 classroom.Number == _existingClassroom.Number &&
-                classroom.Building == _existingClassroom.Building 
-                
+                classroom.Building == _existingClassroom.Building
+
             )));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());

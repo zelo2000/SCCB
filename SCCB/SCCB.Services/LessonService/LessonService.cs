@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
-using SCCB.Core.Helpers;
-using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SCCB.Services.LessonService
@@ -88,7 +83,7 @@ namespace SCCB.Services.LessonService
 
             _unitOfWork.Lessons.Update(lesson);
             await _unitOfWork.CommitAsync();
-            
+
         }
 
         private async Task<DAL.Entities.Lesson> FindLessonEntity(Guid id)

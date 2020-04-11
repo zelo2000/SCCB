@@ -34,7 +34,7 @@ namespace SCCB.Services.LessonService
         /// </summary>
         /// <param name="lessonDto">Updated lesson data</param>
         Task Update(Lesson lessonDto);
-        
+
         /// <summary>
         /// Remove lesson
         /// </summary>

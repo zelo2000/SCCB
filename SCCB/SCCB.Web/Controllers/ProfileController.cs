@@ -1,13 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SCCB.Web.Models;
-using SCCB.Services.UserService;
+using Microsoft.Extensions.Logging;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
+using SCCB.Services.UserService;
+using SCCB.Web.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace SCCB.Web.Controllers
 {

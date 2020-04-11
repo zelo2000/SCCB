@@ -2,7 +2,6 @@
 using SCCB.Repos.Generic;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SCCB.Repos.Lectors

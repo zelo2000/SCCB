@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SCCB.Core.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using SCCB.Core.Attributes;
 
 namespace SCCB.Web.Models
 {

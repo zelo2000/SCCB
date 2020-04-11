@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
-using SCCB.Core.Helpers;
-using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using System;
 using System.Collections.Generic;

@@ -15,7 +15,7 @@ namespace SCCB.Services.UserService
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor _passwordProcessor;
 
-        public UserService (IMapper mapper, IUnitOfWork unitOfWork,
+        public UserService(IMapper mapper, IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting)
         {
             _mapper = mapper;

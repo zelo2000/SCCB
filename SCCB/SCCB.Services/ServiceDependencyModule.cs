@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using SCCB.Services.AuthenticationService;
-using SCCB.Services.LessonService;
-using SCCB.Services.EmailService;
-using SCCB.Services.UserService;
-using SCCB.Services.GroupService;
 using SCCB.Services.ClassroomService;
+using SCCB.Services.EmailService;
+using SCCB.Services.GroupService;
 using SCCB.Services.LectorService;
+using SCCB.Services.LessonService;
+using SCCB.Services.UserService;
 
 namespace SCCB.Services
 {

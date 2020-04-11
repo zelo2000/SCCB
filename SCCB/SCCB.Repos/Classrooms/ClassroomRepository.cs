@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SCCB.DAL;
+﻿using SCCB.DAL;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Generic;
 using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Repos.Classrooms
 {

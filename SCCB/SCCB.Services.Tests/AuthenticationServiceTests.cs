@@ -19,7 +19,7 @@ namespace SCCB.Services.Tests
     public class AuthenticationServiceTests
     {
         private IAuthenticationService _service;
-        
+
         private IMapper _mapper;
         private IOptions<HashGenerationSetting> _hashGenerationSetting;
 
@@ -77,7 +77,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(new Guid()));
-            _repositoryMock.Setup(repo => repo.GetQuery(false)).Returns(new System.Collections.Generic.List<User>{ _registeredUser }.AsQueryable());
+            _repositoryMock.Setup(repo => repo.GetQuery(false)).Returns(new System.Collections.Generic.List<User> { _registeredUser }.AsQueryable());
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Users).Returns(_repositoryMock.Object);

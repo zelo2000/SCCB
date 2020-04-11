@@ -1,18 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.Extensions.Options;
+﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using SCCB.Core.Constants;
-using SCCB.Core.Helpers;
-using SCCB.Core.Settings;
 using SCCB.DAL.Entities;
-using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Lessons;
+using SCCB.Repos.UnitOfWork;
 using SCCB.Services.LessonService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -80,7 +76,7 @@ namespace SCCB.Services.Tests
                 LectorId = Guid.NewGuid(),
                 LessonNumber = "3"
             };
-            
+
             #region setup mocks
             _repositoryMock = new Mock<ILessonRepository>();
             _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(It.IsAny<Guid>())).ReturnsAsync((List<Lesson>)null);

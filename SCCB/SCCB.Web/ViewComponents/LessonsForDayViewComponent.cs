@@ -4,7 +4,6 @@ using SCCB.Services.LessonService;
 using SCCB.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SCCB.Web.ViewComponents
