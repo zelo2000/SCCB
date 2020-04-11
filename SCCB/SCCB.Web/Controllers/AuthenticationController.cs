@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -8,8 +10,6 @@ using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
 using SCCB.Core.Settings;
 using SCCB.Web.Models;
-using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Web.Controllers
 {
@@ -18,9 +18,10 @@ namespace SCCB.Web.Controllers
         private readonly IMapper _mapper;
         private readonly Services.AuthenticationService.IAuthenticationService _authenticationService;
         private readonly AuthSetting _authSetting;
-        readonly ILogger<AuthenticationController> _log;
+        private readonly ILogger<AuthenticationController> _log;
 
-        public AuthenticationController(IMapper mapper,
+        public AuthenticationController(
+            IMapper mapper,
             Services.AuthenticationService.IAuthenticationService authenticationService,
             IOptions<AuthSetting> authSetting,
             ILogger<AuthenticationController> log)
@@ -34,7 +35,7 @@ namespace SCCB.Web.Controllers
         [Authorize]
         [HttpGet]
         [Route("reset-password/{token}")]
-        public IActionResult ResetPassword(string token)
+        public IActionResult ResetPassword()
         {
             return View();
         }
@@ -61,6 +62,7 @@ namespace SCCB.Web.Controllers
                     _log.LogInformation(e.Message);
                 }
             }
+
             return View("ResetPassword", resetPasswordModel);
         }
 
@@ -107,6 +109,7 @@ namespace SCCB.Web.Controllers
                     _log.LogInformation(e.Message);
                 }
             }
+
             return View(signUpModel);
         }
 
@@ -124,9 +127,8 @@ namespace SCCB.Web.Controllers
                         claimsPrinciple,
                         new AuthenticationProperties
                         {
-                            ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt)
-                        }
-                    );
+                            ExpiresUtc = DateTime.UtcNow.AddHours(_authSetting.ExpiredAt),
+                        });
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -140,6 +142,7 @@ namespace SCCB.Web.Controllers
                     _log.LogInformation(e.Message);
                 }
             }
+
             return View(logInModel);
         }
 
@@ -164,21 +167,22 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AccessDenied(string ReturnUrl)
+        public IActionResult AccessDenied(string returnUrl)
         {
             string message;
-            if (ReturnUrl.StartsWith("/Admin"))
+            if (returnUrl.StartsWith("/Admin"))
             {
-                message = $"Only administrator can access {ReturnUrl}";
+                message = $"Only administrator can access {returnUrl}";
             }
-            else if (ReturnUrl == "/Profile/Edit")
+            else if (returnUrl == "/Profile/Edit")
             {
-                message = $"Only ordinary users can access {ReturnUrl}";
+                message = $"Only ordinary users can access {returnUrl}";
             }
             else
             {
                 message = "";
             }
+
             return View("AccessDenied", message);
         }
     }

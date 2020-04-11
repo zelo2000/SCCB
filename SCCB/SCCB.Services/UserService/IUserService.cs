@@ -1,49 +1,53 @@
-﻿using SCCB.Core.DTO;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using SCCB.Core.DTO;
 
 namespace SCCB.Services.UserService
 {
     public interface IUserService
     {
         /// <summary>
-        /// Add user
+        /// Add user.
         /// </summary>
-        /// <param name="userDto">User</param>
-        /// <returns>User id</returns>
+        /// <param name="userDto">User.</param>
+        /// <returns>Task.</returns>
         Task Add(User userDto);
 
         /// <summary>
-        /// Update all user's properties
+        /// Update all user's properties.
         /// </summary>
-        /// <param name="userDto">Updated user data</param>
+        /// <param name="userDto">Updated user data.</param>
+        /// <returns>Task.</returns>
         Task Update(User userDto);
 
         /// <summary>
-        /// Update user's email, firstname and lastname 
+        /// Update user's email, firstname and lastname.
         /// </summary>
-        /// <param name="userDto">Updated user data</param>
+        /// <param name="userDto">Updated user data.</param>
+        /// <returns>Task.</returns>
         Task UpdateProfile(UserProfile userDto);
 
         /// <summary>
-        /// Update password
+        /// Update password.
         /// </summary>
-        /// <param name="id">User's id</param>
-        /// <param name="oldPassword">Old password</param>
-        /// <param name="newPassword">New Password</param>
+        /// <param name="id">User's id.</param>
+        /// <param name="oldPassword">Old password.</param>
+        /// <param name="newPassword">New Password.</param>
+        /// <returns>Task.</returns>
         Task UpdatePassword(Guid id, string oldPassword, string newPassword);
 
         /// <summary>
-        /// Remove user
+        /// Remove user.
         /// </summary>
-        /// <param name="id">User's id</param>
+        /// <param name="id">User's id.</param>
+        /// <returns>Task.</returns>
         Task Remove(Guid id);
 
         /// <summary>
-        /// Find user
+        /// Find user.
         /// </summary>
-        /// <param name="id">User's id</param>
-        /// <returns>User</returns>
+        /// <param name="id">User's id.</param>
+        /// <returns>User.</returns>
         Task<User> Find(Guid id);
     }
 }

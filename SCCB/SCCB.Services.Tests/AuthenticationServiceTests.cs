@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -10,14 +13,14 @@ using SCCB.Repos.UnitOfWork;
 using SCCB.Repos.Users;
 using SCCB.Services.AuthenticationService;
 using SCCB.Services.EmailService;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
     public class AuthenticationServiceTests
     {
+        private readonly string _registeredUserPassword = "Pa$$word";
+        private readonly string _newUserPassword = "Pa@@word";
+
         private IAuthenticationService _service;
 
         private IMapper _mapper;
@@ -27,10 +30,7 @@ namespace SCCB.Services.Tests
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEmailService> _emailServiceMock;
 
-        private readonly string _registeredUserPassword = "Pa$$word";
         private User _registeredUser;
-
-        private readonly string _newUserPassword = "Pa@@word";
         private User _newUser;
 
         [OneTimeSetUp]
@@ -39,7 +39,6 @@ namespace SCCB.Services.Tests
             var serviceMapProfile = new ServiceMapProfile();
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile(serviceMapProfile));
             _mapper = new Mapper(configuration);
-
         }
 
         [SetUp]
@@ -49,18 +48,18 @@ namespace SCCB.Services.Tests
             {
                 Salt = "EWEM9nXVuQHIWiBzPOEj9A==",
                 IterationCount = 10000,
-                BytesNumber = 32
+                BytesNumber = 32,
             });
             var passwordProcessor = new PasswordProcessor(_hashGenerationSetting.Value);
 
             _registeredUser = new User()
             {
-                Id = new Guid(),
+                Id = Guid.Empty,
                 FirstName = "Firstname",
                 LastName = "Lastname",
                 Email = "registered@gmail.com",
                 PasswordHash = passwordProcessor.GetPasswordHash(_registeredUserPassword),
-                Role = Roles.Student
+                Role = Roles.Student,
             };
 
             _newUser = new User()
@@ -69,14 +68,14 @@ namespace SCCB.Services.Tests
                 LastName = "Lastname",
                 Email = "new@gmail.com",
                 PasswordHash = passwordProcessor.GetPasswordHash(_newUserPassword),
-                Role = Roles.Student
+                Role = Roles.Student,
             };
 
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
-            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(new Guid()));
+            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.GetQuery(false)).Returns(new System.Collections.Generic.List<User> { _registeredUser }.AsQueryable());
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
@@ -96,16 +95,20 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.LogIn(_registeredUser.Email, _registeredUserPassword);
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.Email).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(
+                result.Claims.Where(c => c.Type == ClaimKeys.Email).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.Email));
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.Role).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(
+                result.Claims.Where(c => c.Type == ClaimKeys.Role).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.Role));
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.FirstName).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(
+                result.Claims.Where(c => c.Type == ClaimKeys.FirstName).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.FirstName));
 
-            Assert.That(result.Claims.Where(c => c.Type == ClaimKeys.LastName).Select(c => c.Value).SingleOrDefault(),
+            Assert.That(
+                result.Claims.Where(c => c.Type == ClaimKeys.LastName).Select(c => c.Value).SingleOrDefault(),
                 Is.EqualTo(_registeredUser.LastName));
 
             _repositoryMock.Verify(repo => repo.FindByEmailAsync(_registeredUser.Email));
@@ -114,14 +117,16 @@ namespace SCCB.Services.Tests
         [Test]
         public void LogIn_NotRegistered_ArgumentException()
         {
-            Assert.That(() => _service.LogIn(_newUser.Email, _newUser.PasswordHash),
+            Assert.That(
+                () => _service.LogIn(_newUser.Email, _newUser.PasswordHash),
                 Throws.ArgumentException.With.Message.EqualTo("Wrong email or password"));
         }
 
         [Test]
         public void LogIn_WrongPassword_ArgumentException()
         {
-            Assert.That(() => _service.LogIn(_registeredUser.Email, "WrongPass"),
+            Assert.That(
+                () => _service.LogIn(_registeredUser.Email, "WrongPass"),
                 Throws.ArgumentException.With.Message.EqualTo("Wrong email or password"));
         }
 
@@ -130,7 +135,8 @@ namespace SCCB.Services.Tests
         {
             var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
 
-            Assert.That(() => _service.CreateUser(userDto),
+            Assert.That(
+                () => _service.CreateUser(userDto),
                 Throws.ArgumentException.With.Message.EqualTo("User already exists"));
         }
 
@@ -146,8 +152,7 @@ namespace SCCB.Services.Tests
                 user.FirstName == _newUser.FirstName &&
                 user.LastName == _newUser.LastName &&
                 user.Email == _newUser.Email &&
-                user.PasswordHash == _newUser.PasswordHash
-            )));
+                user.PasswordHash == _newUser.PasswordHash)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -159,7 +164,8 @@ namespace SCCB.Services.Tests
             _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(24);
             var wrongToken = Guid.NewGuid().ToString();
 
-            Assert.That(() => _service.ChangeForgottenPassword(wrongToken, _newUserPassword),
+            Assert.That(
+                () => _service.ChangeForgottenPassword(wrongToken, _newUserPassword),
                 Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
 
@@ -169,7 +175,8 @@ namespace SCCB.Services.Tests
             _registeredUser.ChangePasswordToken = Guid.NewGuid().ToString();
             _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(-24);
 
-            Assert.That(() => _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword),
+            Assert.That(
+                () => _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword),
                 Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
     }

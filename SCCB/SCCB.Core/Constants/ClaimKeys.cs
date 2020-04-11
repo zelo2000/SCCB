@@ -1,29 +1,32 @@
 ﻿namespace SCCB.Core.Constants
 {
+    /// <summary>
+    /// Constants for Claim names.
+    /// </summary>
     public static class ClaimKeys
     {
         /// <summary>
-        /// Claim key for id
+        /// Claim key for id.
         /// </summary>
         public const string Id = "Id";
 
         /// <summary>
-        /// Claim key for first name
+        /// Claim key for first name.
         /// </summary>
         public const string FirstName = "FirstName";
 
         /// <summary>
-        /// Claim key for last name
+        /// Claim key for last name.
         /// </summary>
         public const string LastName = "LastName";
 
         /// <summary>
-        /// Claim key for email
+        /// Claim key for email.
         /// </summary>
         public const string Email = "Email";
 
         /// <summary>
-        /// Claim key for role
+        /// Claim key for role.
         /// </summary>
         public const string Role = "Role";
     }

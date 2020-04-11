@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-
 namespace SCCB.Web.Controllers
 {
     public class BookingController : Controller

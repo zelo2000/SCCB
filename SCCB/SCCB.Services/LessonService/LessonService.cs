@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using SCCB.Core.DTO;
-using SCCB.Repos.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using SCCB.Core.DTO;
+using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LessonService
 {
@@ -83,7 +83,6 @@ namespace SCCB.Services.LessonService
 
             _unitOfWork.Lessons.Update(lesson);
             await _unitOfWork.CommitAsync();
-
         }
 
         private async Task<DAL.Entities.Lesson> FindLessonEntity(Guid id)
@@ -99,6 +98,5 @@ namespace SCCB.Services.LessonService
                 throw new ArgumentException($"Can not find lesson with id {id}");
             }
         }
-
     }
 }

@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SCCB.DAL;
-using SCCB.DAL.Entities;
-using SCCB.Repos.Generic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SCCB.DAL;
+using SCCB.DAL.Entities;
+using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Groups
 {
@@ -13,7 +13,8 @@ namespace SCCB.Repos.Groups
     {
         private readonly SCCBDbContext _dbContext;
 
-        public GroupRepository(SCCBDbContext dbContext) : base(dbContext)
+        public GroupRepository(SCCBDbContext dbContext)
+            : base(dbContext)
         {
             _dbContext = dbContext;
         }

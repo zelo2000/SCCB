@@ -1,11 +1,11 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Extensions.Options;
 using SCCB.Core.DTO;
 using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
-using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.UserService
 {
@@ -15,7 +15,9 @@ namespace SCCB.Services.UserService
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor _passwordProcessor;
 
-        public UserService(IMapper mapper, IUnitOfWork unitOfWork,
+        public UserService(
+            IMapper mapper,
+            IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting)
         {
             _mapper = mapper;
@@ -117,10 +119,10 @@ namespace SCCB.Services.UserService
         }
 
         /// <summary>
-        /// Helper function that checks if user with specified email exists
+        /// Helper function that checks if user with specified email exists.
         /// </summary>
-        /// <param name="id">User's id</param>
-        /// <returns>User if exists</returns>
+        /// <param name="id">User's id.</param>
+        /// <returns>User if exists.</returns>
         private async Task<DAL.Entities.User> FindUserEntity(Guid id)
         {
             var user = await _unitOfWork.Users.FindAsync(id);
@@ -136,10 +138,10 @@ namespace SCCB.Services.UserService
         }
 
         /// <summary>
-        /// Checks if email is not already taken
+        /// Checks if email is not already taken.
         /// </summary>
-        /// <param name="email">Email</param>
-        /// <returns>False if email is already taken, otherwise true</returns>
+        /// <param name="email">Email.</param>
+        /// <returns>False if email is already taken, otherwise true.</returns>
         private async Task<bool> CheckIfEmailAllowed(string email)
         {
             return await _unitOfWork.Users.FindByEmailAsync(email) == null;

@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using SCCB.Core.DTO;
-using SCCB.Repos.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using SCCB.Core.DTO;
+using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.GroupService
 {
@@ -46,10 +46,8 @@ namespace SCCB.Services.GroupService
             group.Name = groupDto.Name;
             group.IsAcademic = groupDto.IsAcademic;
 
-
             _unitOfWork.Groups.Update(group);
             await _unitOfWork.CommitAsync();
-
         }
 
         public async Task<IEnumerable<Group>> GetAll()

@@ -4,7 +4,7 @@ using SCCB.DAL.Entities;
 
 namespace SCCB.DAL.Configuration
 {
-    class ClassroomEntityConfiguration : IEntityTypeConfiguration<Classroom>
+    public class ClassroomEntityConfiguration : IEntityTypeConfiguration<Classroom>
     {
         public void Configure(EntityTypeBuilder<Classroom> builder)
         {

@@ -3,29 +3,39 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SCCB.Core.Attributes
 {
+    /// <summary>
+    /// NotEmptyGuidAttribute.
+    /// </summary>
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter,
         AllowMultiple = false)
     ]
     public class NotEmptyGuidAttribute : ValidationAttribute
     {
-        public new const string ErrorMessage = "The {0} field must not be empty";
+        private new const string ErrorMessage = "The {0} field must not be empty";
 
-        public NotEmptyGuidAttribute() : base(ErrorMessage) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotEmptyGuidAttribute"/> class.
+        /// </summary>
+        public NotEmptyGuidAttribute()
+            : base(ErrorMessage)
+        {
+        }
 
+        /// <summary>
+        /// Check is Guid valid.
+        /// </summary>
+        /// <param name="value">Guid value.</param>
+        /// <returns>True if guid valid.</returns>
         public override bool IsValid(object value)
         {
-            if (value is null)
+            if (value.GetType() == typeof(Guid))
             {
-                return true;
+                return (Guid)value != Guid.Empty;
             }
-
-            switch (value)
+            else
             {
-                case Guid guid:
-                    return guid != Guid.Empty;
-                default:
-                    return true;
+                return false;
             }
         }
     }

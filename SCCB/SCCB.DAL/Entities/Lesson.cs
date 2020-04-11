@@ -1,5 +1,5 @@
-﻿using SCCB.Core.Infrastructure;
-using System;
+﻿using System;
+using SCCB.Core.Infrastructure;
 
 namespace SCCB.DAL.Entities
 {
@@ -10,9 +10,11 @@ namespace SCCB.DAL.Entities
         public string Title { get; set; }
 
         public Guid GroupId { get; set; }
+
         public Group Group { get; set; }
 
         public Guid LectorId { get; set; }
+
         public Lector Lector { get; set; }
 
         public bool IsDenominator { get; set; }
@@ -26,6 +28,7 @@ namespace SCCB.DAL.Entities
         public string LessonNumber { get; set; }
 
         public Guid ClassroomId { get; set; }
+
         public Classroom Classroom { get; set; }
     }
 }

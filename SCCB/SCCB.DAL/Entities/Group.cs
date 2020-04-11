@@ -1,6 +1,6 @@
-﻿using SCCB.Core.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SCCB.Core.Infrastructure;
 
 namespace SCCB.DAL.Entities
 {

@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NUnit.Framework;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Lessons;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Services.LessonService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -46,7 +46,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "1"
+                LessonNumber = "1",
             };
 
             _anotherExistingLesson = new Lesson()
@@ -60,7 +60,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "2"
+                LessonNumber = "2",
             };
 
             _newLesson = new Lesson()
@@ -74,7 +74,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "3"
+                LessonNumber = "3",
             };
 
             #region setup mocks
@@ -86,7 +86,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Lesson)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingLesson.Id)).ReturnsAsync(_existingLesson);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherExistingLesson.Id)).ReturnsAsync(_anotherExistingLesson);
-            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Lesson>())).Returns(Task.FromResult(new Guid()));
+            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Lesson>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_existingLesson));
             _repositoryMock.Setup(repo => repo.Remove(_existingLesson));
             _repositoryMock.Setup(repo => repo.Update(_anotherExistingLesson));
@@ -118,8 +118,7 @@ namespace SCCB.Services.Tests
                 lesson.LectorId == _newLesson.LectorId &&
                 lesson.LessonNumber == _newLesson.LessonNumber &&
                 lesson.Weekday == _newLesson.Weekday &&
-                lesson.ClassroomId == _newLesson.ClassroomId
-            )));
+                lesson.ClassroomId == _newLesson.ClassroomId)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -129,58 +128,70 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.FindLessonsByGroupId(_existingLesson.GroupId);
 
-            Assert.That(result.First().GroupId,
+            Assert.That(
+                result.First().GroupId,
                 Is.EqualTo(_existingLesson.GroupId));
 
-            Assert.That(result.First().Id,
+            Assert.That(
+                result.First().Id,
                 Is.EqualTo(_existingLesson.Id));
 
-            Assert.That(result.Count(),
+            Assert.That(
+                result.Count(),
                 Is.EqualTo(1));
         }
-
 
         [Test]
         public async Task Find_ExistingLesson_ReturnedLesson()
         {
             var result = await _service.Find(_existingLesson.Id);
 
-            Assert.That(result.Id,
+            Assert.That(
+                result.Id,
                 Is.EqualTo(_existingLesson.Id));
 
-            Assert.That(result.Title,
+            Assert.That(
+                result.Title,
                 Is.EqualTo(_existingLesson.Title));
 
-            Assert.That(result.IsDenominator,
+            Assert.That(
+                result.IsDenominator,
                 Is.EqualTo(_existingLesson.IsDenominator));
 
-            Assert.That(result.IsEnumerator,
+            Assert.That(
+                result.IsEnumerator,
                 Is.EqualTo(_existingLesson.IsEnumerator));
 
-            Assert.That(result.Type,
+            Assert.That(
+                result.Type,
                 Is.EqualTo(_existingLesson.Type));
 
-            Assert.That(result.LectorId,
+            Assert.That(
+                result.LectorId,
                 Is.EqualTo(_existingLesson.LectorId));
 
-            Assert.That(result.GroupId,
+            Assert.That(
+                result.GroupId,
                 Is.EqualTo(_existingLesson.GroupId));
 
-            Assert.That(result.ClassroomId,
+            Assert.That(
+                result.ClassroomId,
                 Is.EqualTo(_existingLesson.ClassroomId));
 
-            Assert.That(result.Weekday,
+            Assert.That(
+                result.Weekday,
                 Is.EqualTo(_existingLesson.Weekday));
 
-            Assert.That(result.LessonNumber,
+            Assert.That(
+                result.LessonNumber,
                 Is.EqualTo(_existingLesson.LessonNumber));
-
         }
 
         [Test]
         public void Find_NotExistingLesson_ArgumentException()
         {
-            Assert.That(() => _service.Find(_newLesson.Id),
+            Assert.That(
+                () => _service.Find(_newLesson.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find lesson with id {_newLesson.Id}"));
         }
 
@@ -201,8 +212,7 @@ namespace SCCB.Services.Tests
                 lesson.LectorId == _existingLesson.LectorId &&
                 lesson.LessonNumber == _existingLesson.LessonNumber &&
                 lesson.Weekday == _existingLesson.Weekday &&
-                lesson.ClassroomId == _existingLesson.ClassroomId
-            )));
+                lesson.ClassroomId == _existingLesson.ClassroomId)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -210,7 +220,8 @@ namespace SCCB.Services.Tests
         [Test]
         public void Remove_NotExistingLesson_ArgumentException()
         {
-            Assert.That(() => _service.Remove(_newLesson.Id),
+            Assert.That(
+                () => _service.Remove(_newLesson.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find lesson with id {_newLesson.Id}"));
         }
 
@@ -232,11 +243,9 @@ namespace SCCB.Services.Tests
                 lesson.LectorId == _existingLesson.LectorId &&
                 lesson.LessonNumber == _existingLesson.LessonNumber &&
                 lesson.Weekday == _existingLesson.Weekday &&
-                lesson.ClassroomId == _existingLesson.ClassroomId
-            )));
+                lesson.ClassroomId == _existingLesson.ClassroomId)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
-
     }
 }

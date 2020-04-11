@@ -6,7 +6,6 @@ namespace SCCB.DAL.Extensions
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-
         }
     }
 }

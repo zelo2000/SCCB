@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using SCCB.Core.DTO;
-using SCCB.Repos.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using SCCB.Core.DTO;
+using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.ClassroomService
 {
@@ -48,7 +48,6 @@ namespace SCCB.Services.ClassroomService
 
             _unitOfWork.Classrooms.Update(classroom);
             await _unitOfWork.CommitAsync();
-
         }
 
         public async Task<IEnumerable<Classroom>> GetAll()

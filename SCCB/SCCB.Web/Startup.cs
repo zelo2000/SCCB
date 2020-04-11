@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -15,15 +18,13 @@ using SCCB.Core.Settings;
 using SCCB.DAL;
 using SCCB.Repos;
 using SCCB.Services;
-using System;
-using System.IO;
-using System.Reflection;
 
 namespace SCCB.Web
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
+
         public IContainer ApplicationContainer { get; private set; }
 
         public Startup()
@@ -57,7 +58,6 @@ namespace SCCB.Web
                     options.LoginPath = "/Authentication/LogIn";
                 });
 
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Policies.UserOnly, policy =>
@@ -71,7 +71,8 @@ namespace SCCB.Web
             });
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<SCCBDbContext>(options => options.UseSqlServer(connectionString,
+            services.AddDbContext<SCCBDbContext>(options => options.UseSqlServer(
+                connectionString,
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
 
             services.AddLogging(loggingBuilder =>
@@ -112,6 +113,7 @@ namespace SCCB.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -133,8 +135,7 @@ namespace SCCB.Web
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader()
-            );
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

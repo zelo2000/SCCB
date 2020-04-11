@@ -1,13 +1,15 @@
-﻿using SCCB.Core.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using SCCB.Core.Attributes;
 
 namespace SCCB.Web.Models
 {
     public class LessonModel
     {
         public Guid Id { get; set; }
+
         public LectorModel Lector { get; set; }
+
         public ClassroomModel Classroom { get; set; }
 
         [Required]

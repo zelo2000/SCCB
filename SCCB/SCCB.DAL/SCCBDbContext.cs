@@ -7,24 +7,6 @@ namespace SCCB.DAL
 {
     public class SCCBDbContext : DbContext
     {
-        public SCCBDbContext(DbContextOptions<SCCBDbContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new LectorEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new AdminEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new ClassroomEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new GroupEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new UsersToGroupsEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonEntityConfiguration());
-            modelBuilder.ApplyConfiguration(new BookingEntityConfiguration());
-
-            modelBuilder.Seed();
-        }
         public DbSet<Admin> Admins { get; set; }
 
         public DbSet<Booking> Bookings { get; set; }
@@ -42,6 +24,27 @@ namespace SCCB.DAL
         public DbSet<User> Users { get; set; }
 
         public DbSet<UsersToGroups> UsersToGroups { get; set; }
+
+        public SCCBDbContext(DbContextOptions<SCCBDbContext> options)
+            : base(options)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new UserEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new LectorEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AdminEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassroomEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new GroupEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersToGroupsEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new LessonEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new BookingEntityConfiguration());
+
+            modelBuilder.Seed();
+        }
     }
 }
-

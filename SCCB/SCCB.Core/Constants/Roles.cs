@@ -1,24 +1,27 @@
 ﻿namespace SCCB.Core.Constants
 {
+    /// <summary>
+    /// Constants for roles.
+    /// </summary>
     public static class Roles
     {
         /// <summary>
-        /// Key for NotApprovedUser role
+        /// Key for NotApprovedUser role.
         /// </summary>
         public const string NotApprovedUser = "NotApprovedUser";
 
         /// <summary>
-        /// Key for Student role
+        /// Key for Student role.
         /// </summary>
         public const string Student = "Student";
 
         /// <summary>
-        /// Key for Lector role
+        /// Key for Lector role.
         /// </summary>
         public const string Lector = "Lector";
 
         /// <summary>
-        /// Key for Admin role
+        /// Key for Admin role.
         /// </summary>
         public const string Admin = "Admin";
     }

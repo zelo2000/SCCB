@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,8 +8,6 @@ using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
-using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Web.Controllers
 {
@@ -16,7 +16,7 @@ namespace SCCB.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        readonly ILogger<ProfileController> _log;
+        private readonly ILogger<ProfileController> _log;
 
         public ProfileController(IMapper mapper, IUserService userService, ILogger<ProfileController> log)
         {
@@ -58,6 +58,7 @@ namespace SCCB.Web.Controllers
                     _log.LogInformation(e.Message);
                 }
             }
+
             return View(profileModel);
         }
 
@@ -88,6 +89,7 @@ namespace SCCB.Web.Controllers
                     _log.LogInformation(e.Message);
                 }
             }
+
             return PartialView("_ChangePasswordPartial", passwords);
         }
     }

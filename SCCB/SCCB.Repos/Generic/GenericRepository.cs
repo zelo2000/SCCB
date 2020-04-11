@@ -1,16 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SCCB.Core.Infrastructure;
-using SCCB.DAL;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SCCB.Core.Infrastructure;
+using SCCB.DAL;
 
 namespace SCCB.Repos.Generic
 {
     public abstract class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey>
         where TEntity : class, IIdentifiable<TKey>
     {
-        protected readonly SCCBDbContext Context;
+        public SCCBDbContext Context { get; }
 
         public GenericRepository(SCCBDbContext context)
         {
@@ -84,6 +84,7 @@ namespace SCCB.Repos.Generic
                     query = query.Include(property.Name);
                 }
             }
+
             return query;
         }
     }

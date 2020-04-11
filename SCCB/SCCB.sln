@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Services", "SCCB.Servi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E50D0EC-1A69-487B-B404-8F83A57A7B50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCCB.Services.Tests", "SCCB.Services.Tests\SCCB.Services.Tests.csproj", "{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SCCB.Services.Tests", "SCCB.Services.Tests\SCCB.Services.Tests.csproj", "{6A4DC5E7-1C04-4CB1-AD4D-A56BF5F738A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D228E201-16C3-4272-AED3-B3B320FC561C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Services.GroupService;
 using SCCB.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SCCB.Web.ViewComponents
 {
@@ -26,7 +26,7 @@ namespace SCCB.Web.ViewComponents
             var model = new GroupOptionsModel()
             {
                 GroupId = groupId,
-                Groups = classroomModels
+                Groups = classroomModels,
             };
             return View(model);
         }

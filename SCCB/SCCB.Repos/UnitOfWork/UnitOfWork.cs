@@ -1,11 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using SCCB.DAL;
 using SCCB.Repos.Classrooms;
 using SCCB.Repos.Groups;
 using SCCB.Repos.Lectors;
 using SCCB.Repos.Lessons;
 using SCCB.Repos.Users;
-using System.Threading.Tasks;
 
 namespace SCCB.Repos.UnitOfWork
 {
@@ -26,9 +26,13 @@ namespace SCCB.Repos.UnitOfWork
 
         #region Repositories
         public IUserRepository Users { get; }
+
         public ILessonRepository Lessons { get; }
+
         public IGroupRepository Groups { get; }
+
         public IClassroomRepository Classrooms { get; }
+
         public ILectorRepository Lectors { get; }
         #endregion
 
@@ -57,6 +61,11 @@ namespace SCCB.Repos.UnitOfWork
         }
 
         #region IDisposable Support
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
@@ -65,13 +74,9 @@ namespace SCCB.Repos.UnitOfWork
                 {
                     _dbContext.Dispose();
                 }
+
                 disposedValue = true;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
         }
         #endregion
     }

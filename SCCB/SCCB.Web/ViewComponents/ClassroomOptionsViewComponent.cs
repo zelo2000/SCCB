@@ -1,10 +1,10 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Services.ClassroomService;
 using SCCB.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SCCB.Web.ViewComponents
 {

@@ -1,14 +1,14 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NUnit.Framework;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Groups;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Services.GroupService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -39,21 +39,21 @@ namespace SCCB.Services.Tests
             {
                 Id = Guid.NewGuid(),
                 Name = "PMI33",
-                IsAcademic = false
+                IsAcademic = false,
             };
 
             _anotherExistingGroup = new Group()
             {
                 Id = Guid.NewGuid(),
                 Name = "PMI31",
-                IsAcademic = true
+                IsAcademic = true,
             };
 
             _newGroup = new Group()
             {
                 Id = Guid.NewGuid(),
                 Name = "PMI32",
-                IsAcademic = true
+                IsAcademic = true,
             };
 
             #region setup mocks
@@ -61,7 +61,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Group)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingGroup.Id)).ReturnsAsync(_existingGroup);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherExistingGroup.Id)).ReturnsAsync(_anotherExistingGroup);
-            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Group>())).Returns(Task.FromResult(new Guid()));
+            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Group>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_existingGroup));
             _repositoryMock.Setup(repo => repo.Remove(_existingGroup));
             _repositoryMock.Setup(repo => repo.Update(_anotherExistingGroup));
@@ -90,8 +90,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.AddAsync(It.Is<Group>(group =>
                 group.Id == _newGroup.Id &&
                 group.Name == _newGroup.Name &&
-                group.IsAcademic == _newGroup.IsAcademic
-            )));
+                group.IsAcademic == _newGroup.IsAcademic)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -101,15 +100,17 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.Find(_existingGroup.Id);
 
-            Assert.That(result.Id,
+            Assert.That(
+                result.Id,
                 Is.EqualTo(_existingGroup.Id));
 
-            Assert.That(result.Name,
+            Assert.That(
+                result.Name,
                 Is.EqualTo(_existingGroup.Name));
 
-            Assert.That(result.IsAcademic,
+            Assert.That(
+                result.IsAcademic,
                 Is.EqualTo(_existingGroup.IsAcademic));
-
         }
 
         [Test]
@@ -117,14 +118,17 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.GetAll();
 
-            Assert.That(result.First().Id,
+            Assert.That(
+                result.First().Id,
                 Is.EqualTo(_existingGroup.Id));
 
-            Assert.That(result.Last().Id,
+            Assert.That(
+                result.Last().Id,
                 Is.EqualTo(_anotherExistingGroup.Id));
 
-            Assert.That(result.Count(),
-               Is.EqualTo(2));
+            Assert.That(
+                result.Count(),
+                Is.EqualTo(2));
         }
 
         [Test]
@@ -132,20 +136,24 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.GetAllAcademic();
 
-            Assert.That(result.First().IsAcademic,
+            Assert.That(
+                result.First().IsAcademic,
                 Is.EqualTo(true));
 
-            Assert.That(result.First().Id,
+            Assert.That(
+                result.First().Id,
                 Is.EqualTo(_anotherExistingGroup.Id));
 
-            Assert.That(result.Count(),
+            Assert.That(
+                result.Count(),
                 Is.EqualTo(1));
         }
 
         [Test]
         public void Find_NotExistingGroup_ArgumentException()
         {
-            Assert.That(() => _service.Find(_newGroup.Id),
+            Assert.That(
+                () => _service.Find(_newGroup.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find group with id {_newGroup.Id}"));
         }
 
@@ -159,9 +167,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.Remove(It.Is<Group>(group =>
                 group.Id == _existingGroup.Id &&
                 group.Name == _existingGroup.Name &&
-                group.IsAcademic == _existingGroup.IsAcademic
-
-            )));
+                group.IsAcademic == _existingGroup.IsAcademic)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -169,7 +175,8 @@ namespace SCCB.Services.Tests
         [Test]
         public void Remove_NotExistingGroup_ArgumentException()
         {
-            Assert.That(() => _service.Remove(_newGroup.Id),
+            Assert.That(
+                () => _service.Remove(_newGroup.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find group with id {_newGroup.Id}"));
         }
 
@@ -184,8 +191,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.Update(It.Is<Group>(group =>
                 group.Id == _existingGroup.Id &&
                 group.Name == _existingGroup.Name &&
-                group.IsAcademic == _existingGroup.IsAcademic
-            )));
+                group.IsAcademic == _existingGroup.IsAcademic)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }

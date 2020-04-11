@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Core.Constants;
@@ -7,8 +9,6 @@ using SCCB.Services.GroupService;
 using SCCB.Services.LessonService;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
-using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Web.Controllers
 {
@@ -62,9 +62,9 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditSchedule(Guid? GroupId)
+        public IActionResult EditSchedule(Guid? groupId)
         {
-            var model = new ScheduleEditModel() { GroupId = GroupId };
+            var model = new ScheduleEditModel() { GroupId = groupId };
             return View(model);
         }
 
@@ -80,7 +80,7 @@ namespace SCCB.Web.Controllers
             var model = new LessonModel()
             {
                 GroupId = groupId,
-                Weekday = weekday
+                Weekday = weekday,
             };
             return PartialView("_AddLessonPartial", model);
         }

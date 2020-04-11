@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -8,10 +12,6 @@ using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Services.EmailService;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.AuthenticationService
 {
@@ -22,7 +22,9 @@ namespace SCCB.Services.AuthenticationService
         private readonly PasswordProcessor passwordProcessor;
         private readonly IEmailService _emailService;
 
-        public AuthenticationService(IMapper mapper, IUnitOfWork unitOfWork,
+        public AuthenticationService(
+            IMapper mapper,
+            IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting,
             IEmailService emailService)
         {
@@ -64,7 +66,7 @@ namespace SCCB.Services.AuthenticationService
                     new Claim(ClaimKeys.FirstName, user.FirstName),
                     new Claim(ClaimKeys.LastName, user.LastName),
                     new Claim(ClaimKeys.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(
@@ -93,11 +95,14 @@ namespace SCCB.Services.AuthenticationService
                     _emailService.SendChangePasswordEmail(new EmailWithToken
                     {
                         EmailAddress = email,
-                        Token = resetToken
+                        Token = resetToken,
                     });
                 }
             }
-            catch { }
+            catch
+            {
+                // TODO add logger
+            }
         }
 
         /// <inheritdoc />

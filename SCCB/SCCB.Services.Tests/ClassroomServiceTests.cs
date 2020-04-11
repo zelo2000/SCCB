@@ -1,12 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading.Tasks;
+using AutoMapper;
 using Moq;
 using NUnit.Framework;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Classrooms;
 using SCCB.Repos.UnitOfWork;
 using SCCB.Services.ClassroomService;
-using System;
-using System.Threading.Tasks;
 
 namespace SCCB.Services.Tests
 {
@@ -37,21 +37,21 @@ namespace SCCB.Services.Tests
             {
                 Id = Guid.NewGuid(),
                 Number = "117",
-                Building = "Main"
+                Building = "Main",
             };
 
             _anotherExistingClassroom = new Classroom()
             {
                 Id = Guid.NewGuid(),
                 Number = "439",
-                Building = "Main"
+                Building = "Main",
             };
 
             _newClassroom = new Classroom()
             {
                 Id = Guid.NewGuid(),
                 Number = "14",
-                Building = "Geographic"
+                Building = "Geographic",
             };
 
             #region setup mocks
@@ -59,7 +59,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Classroom)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingClassroom.Id)).ReturnsAsync(_existingClassroom);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherExistingClassroom.Id)).ReturnsAsync(_anotherExistingClassroom);
-            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Classroom>())).Returns(Task.FromResult(new Guid()));
+            _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Classroom>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_existingClassroom));
             _repositoryMock.Setup(repo => repo.Remove(_existingClassroom));
             _repositoryMock.Setup(repo => repo.Update(_anotherExistingClassroom));
@@ -84,9 +84,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.AddAsync(It.Is<Classroom>(classroom =>
                 classroom.Id == _newClassroom.Id &&
                 classroom.Number == _newClassroom.Number &&
-                classroom.Building == _newClassroom.Building
-
-            )));
+                classroom.Building == _newClassroom.Building)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -96,22 +94,24 @@ namespace SCCB.Services.Tests
         {
             var result = await _service.Find(_existingClassroom.Id);
 
-            Assert.That(result.Id,
+            Assert.That(
+                result.Id,
                 Is.EqualTo(_existingClassroom.Id));
 
-            Assert.That(result.Number,
+            Assert.That(
+                result.Number,
                 Is.EqualTo(_existingClassroom.Number));
 
-            Assert.That(result.Building,
+            Assert.That(
+                result.Building,
                 Is.EqualTo(_existingClassroom.Building));
-
-
         }
 
         [Test]
         public void Find_NotExistingClassroom_ArgumentException()
         {
-            Assert.That(() => _service.Find(_newClassroom.Id),
+            Assert.That(
+                () => _service.Find(_newClassroom.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find classroom with id {_newClassroom.Id}"));
         }
 
@@ -125,9 +125,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.Remove(It.Is<Classroom>(classroom =>
                 classroom.Id == _existingClassroom.Id &&
                 classroom.Number == _existingClassroom.Number &&
-                classroom.Building == _existingClassroom.Building
-
-            )));
+                classroom.Building == _existingClassroom.Building)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
@@ -135,7 +133,8 @@ namespace SCCB.Services.Tests
         [Test]
         public void Remove_NotExistingClassroom_ArgumentException()
         {
-            Assert.That(() => _service.Remove(_newClassroom.Id),
+            Assert.That(
+                () => _service.Remove(_newClassroom.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find classroom with id {_newClassroom.Id}"));
         }
 
@@ -150,12 +149,9 @@ namespace SCCB.Services.Tests
             _repositoryMock.Verify(repo => repo.Update(It.Is<Classroom>(classroom =>
                 classroom.Id == _existingClassroom.Id &&
                 classroom.Number == _existingClassroom.Number &&
-                classroom.Building == _existingClassroom.Building
-
-            )));
+                classroom.Building == _existingClassroom.Building)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
         }
-
     }
 }

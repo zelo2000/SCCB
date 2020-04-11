@@ -1,6 +1,6 @@
-﻿using SCCB.DAL.Entities;
+﻿using System;
+using SCCB.DAL.Entities;
 using SCCB.Repos.Generic;
-using System;
 
 namespace SCCB.Repos.Classrooms
 {

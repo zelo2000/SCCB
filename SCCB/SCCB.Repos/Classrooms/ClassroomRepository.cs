@@ -1,17 +1,15 @@
-﻿using SCCB.DAL;
+﻿using System;
+using SCCB.DAL;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Generic;
-using System;
 
 namespace SCCB.Repos.Classrooms
 {
     public class ClassroomRepository : GenericRepository<Classroom, Guid>, IClassroomRepository
     {
-        private readonly SCCBDbContext _dbContext;
-
-        public ClassroomRepository(SCCBDbContext dbContext) : base(dbContext)
+        public ClassroomRepository(SCCBDbContext dbContext)
+            : base(dbContext)
         {
-            _dbContext = dbContext;
         }
     }
 }

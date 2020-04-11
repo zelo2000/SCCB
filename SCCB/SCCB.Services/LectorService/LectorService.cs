@@ -1,12 +1,12 @@
-﻿using AutoMapper;
-using SCCB.Repos.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LectorService
 {
-    class LectorService : ILectorService
+    public class LectorService : ILectorService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
