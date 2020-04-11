@@ -10,6 +10,11 @@ body
     background-size: cover;
 }
 
+input {
+    box-shadow: none !important;
+    outline: none;
+}
+
 a
 {
     cursor: pointer;
@@ -20,9 +25,21 @@ a:hover
     border-bottom: .0625rem solid white;
 }
 
+.field-validation-error {
+    font-size: 0.875rem;
+    color: #ed2121 !important;
+    display: block;
+    font-weight: normal !important;
+    text-align: center;
+    margin-top: 1%;
+}
+
 .img-link img{
     border: 0.09375rem solid white;
     border-radius: 50%;
+}
+img.active {
+    border: 0.09375rem solid rgba(0, 201, 209, .95);
 }
 .img-link:hover {
     border-bottom: 0;

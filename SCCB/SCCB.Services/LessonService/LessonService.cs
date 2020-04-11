@@ -30,11 +30,32 @@ namespace SCCB.Services.LessonService
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid id)
+        public async Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid? id)
         {
-            var lessons = await _unitOfWork.Lessons.FindLessonsByGroupIdAsync(id);
-            var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
-            return lessonsDto;
+            if (id != null)
+            {
+                var lessons = await _unitOfWork.Lessons.FindLessonsByGroupIdAsync((Guid)id);
+                var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
+                return lessonsDto;
+            }
+            else
+            {
+                return new List<Core.DTO.Lesson>();
+            }
+        }
+
+        public async Task<IEnumerable<Lesson>> GetLessonsOrderedByNumber(Guid? groupId, string weekday)
+        {
+            if (groupId != null)
+            {
+                var lessons = await _unitOfWork.Lessons.GetLessonsOrderedbyNumber((Guid)groupId, weekday);
+                var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
+                return lessonsDto;
+            }
+            else
+            {
+                return new List<Core.DTO.Lesson>();
+            }
         }
 
         public async Task<Lesson> Find(Guid id)
@@ -60,6 +81,7 @@ namespace SCCB.Services.LessonService
             lesson.LectorId = lessonDto.LectorId;
             lesson.IsDenominator = lessonDto.IsDenominator;
             lesson.IsEnumerator = lessonDto.IsEnumerator;
+            lesson.Type = lessonDto.Type;
             lesson.Weekday = lessonDto.Weekday;
             lesson.LessonNumber = lessonDto.LessonNumber;
             lesson.ClassroomId = lessonDto.ClassroomId;

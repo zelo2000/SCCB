@@ -45,6 +45,7 @@ namespace SCCB.Services.Tests
                 Title = "Programming",
                 IsDenominator = true,
                 IsEnumerator = false,
+                Type = "практична",
                 Weekday = "Monday",
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
@@ -58,6 +59,7 @@ namespace SCCB.Services.Tests
                 Title = "Algebra",
                 IsDenominator = true,
                 IsEnumerator = false,
+                Type = "лекція",
                 Weekday = "Friday",
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
@@ -71,6 +73,7 @@ namespace SCCB.Services.Tests
                 Title = "3D graphics",
                 IsDenominator = false,
                 IsEnumerator = true,
+                Type = "практична",
                 Weekday = "Tuesday",
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
@@ -114,6 +117,7 @@ namespace SCCB.Services.Tests
                 lesson.Title == _newLesson.Title &&
                 lesson.IsDenominator == _newLesson.IsDenominator &&
                 lesson.IsEnumerator == _newLesson.IsEnumerator &&
+                lesson.Type == _newLesson.Type &&
                 lesson.GroupId == _newLesson.GroupId &&
                 lesson.LectorId == _newLesson.LectorId &&
                 lesson.LessonNumber == _newLesson.LessonNumber &&
@@ -157,6 +161,9 @@ namespace SCCB.Services.Tests
             Assert.That(result.IsEnumerator,
                 Is.EqualTo(_existingLesson.IsEnumerator));
 
+            Assert.That(result.Type,
+                Is.EqualTo(_existingLesson.Type));
+
             Assert.That(result.LectorId,
                 Is.EqualTo(_existingLesson.LectorId));
 
@@ -193,6 +200,7 @@ namespace SCCB.Services.Tests
                 lesson.Title == _existingLesson.Title &&
                 lesson.IsDenominator == _existingLesson.IsDenominator &&
                 lesson.IsEnumerator == _existingLesson.IsEnumerator &&
+                lesson.Type == _existingLesson.Type &&
                 lesson.GroupId == _existingLesson.GroupId &&
                 lesson.LectorId == _existingLesson.LectorId &&
                 lesson.LessonNumber == _existingLesson.LessonNumber &&
@@ -223,6 +231,7 @@ namespace SCCB.Services.Tests
                 lesson.Title == _existingLesson.Title &&
                 lesson.IsDenominator == _existingLesson.IsDenominator &&
                 lesson.IsEnumerator == _existingLesson.IsEnumerator &&
+                lesson.Type == _existingLesson.Type &&
                 lesson.GroupId == _existingLesson.GroupId &&
                 lesson.LectorId == _existingLesson.LectorId &&
                 lesson.LessonNumber == _existingLesson.LessonNumber &&

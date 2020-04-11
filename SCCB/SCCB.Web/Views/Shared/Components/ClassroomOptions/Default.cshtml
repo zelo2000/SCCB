@@ -1,0 +1,22 @@
+﻿@model IEnumerable<ClassroomModel>
+
+@{ 
+    var optgroups = Model.GroupBy(
+        classroom => classroom.Building,
+        classroom => classroom,
+        (building, classrooms) => new
+        {
+            Building = building,
+            Classrooms = classrooms.ToList()
+        });
+}
+
+@foreach (var optgroup in optgroups)
+{
+    <optgroup label="@optgroup.Building">
+        @foreach (var classroom in optgroup.Classrooms)
+        {
+            <option value="@classroom.Id">@classroom.Number</option>
+        }
+    </optgroup>
+}

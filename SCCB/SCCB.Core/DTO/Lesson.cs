@@ -5,6 +5,8 @@ namespace SCCB.Core.DTO
     public class Lesson
     {
         public Guid Id { get; set; }
+        public Lector Lector { get; set; }
+        public Classroom Classroom { get; set; }
 
         public string Title { get; set; }
 
@@ -15,6 +17,8 @@ namespace SCCB.Core.DTO
         public bool IsDenominator { get; set; }
 
         public bool IsEnumerator { get; set; }
+
+        public string Type { get; set; }
 
         public string Weekday { get; set; }
 

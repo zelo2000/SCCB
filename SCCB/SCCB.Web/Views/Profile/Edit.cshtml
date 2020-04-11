@@ -1,4 +1,5 @@
 ﻿@model SCCB.Web.Models.ProfileModel
+@using SCCB.Core.Constants
 
 @section Styles {
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
@@ -25,7 +26,7 @@
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item">
                         <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
-                            <img src="~/img/avatar.png" alt="Profile" width="50" style="border: 0.09375rem solid rgba(0, 201, 209, .95)" />
+                            <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
                         </a>
                         <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
                     </li>
@@ -44,7 +45,7 @@
             <p class="my-2 font-slab font-weight-bold">Ваш профіль</p>
         </div>
         <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 font-slab hover-erase font-weight-bold">
+            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="PersonalBooking">
                 Ваші бронювання
             </a>
         </div>
@@ -60,7 +61,18 @@
                         <h4 class="border-bottom">
                             @Model.FirstName @Model.LastName
                         </h4>
-                        <p class="green">@User.FindFirst("Role").Value</p>
+                        @if (User.IsInRole(Roles.NotApprovedUser))
+                        {
+                            <p class="green">Не підтверджений користувач</p>
+                        }
+                        else if (User.IsInRole(Roles.Student))
+                        {
+                            <p class="green">Студент</p>
+                        }
+                        else if (User.IsInRole(Roles.Lector))
+                        {
+                            <p class="green">Викладач</p>
+                        }
                     </div>
                 </div>
             </div>
@@ -76,12 +88,12 @@
                 <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
                     <label asp-for="FirstName" class="ml-2">Ім'я</label>
                     <input asp-for="FirstName" class="pl-3 py-2 border" />
-                    <span asp-validation-for="Email" class="field-validation-error"></span>
+                    <span asp-validation-for="FirstName" class="field-validation-error"></span>
                 </div>
                 <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
                     <label asp-for="LastName" class="ml-2">Прізвище</label>
                     <input asp-for="LastName" class="pl-3 py-2 border" />
-                    <span asp-validation-for="Email" class="field-validation-error"></span>
+                    <span asp-validation-for="LastName" class="field-validation-error"></span>
                 </div>
                 <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
                     <label asp-for="Email" class="ml-2">Емейл</label>

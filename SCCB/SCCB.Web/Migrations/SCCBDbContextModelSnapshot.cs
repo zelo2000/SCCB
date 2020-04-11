@@ -165,6 +165,11 @@ namespace SCCB.Web.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
+
                     b.Property<string>("Weekday")
                         .IsRequired()
                         .HasColumnType("nvarchar(9)")

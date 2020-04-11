@@ -1,0 +1,30 @@
+﻿:root {
+    --gray: rgba(196, 196, 196, 0.25);
+    --red: rgba(237, 33, 33, 0.9);
+}
+
+.container-personal-booking {
+    min-height: 10rem;
+    background: var(--gray);
+}
+
+.personal-booking-block {
+    color: rgba(0, 201, 209, 0.8);
+}
+
+.cancel-button {
+    outline: none;
+    border: 0.1rem solid var(--red);
+    border-radius: 0.1875rem;
+    background: none;
+    color: var(--red);
+}
+
+.cancel-button:hover {
+    color: white;
+    background: var(--red);
+    opacity: 0.9;
+    -webkit-transition: .35s ease-out;
+    -o-transition: .35s ease-out;
+    transition: .35s ease-out;
+}

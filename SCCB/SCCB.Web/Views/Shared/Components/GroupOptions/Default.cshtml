@@ -1,0 +1,13 @@
+﻿@model GroupOptionsModel
+
+@foreach (var group in Model.Groups)
+{
+    @if (group.Id == Model.GroupId)
+    {
+        <option value="@group.Id" selected>@group.Name</option>
+    }
+    else
+    {
+        <option value="@group.Id">@group.Name</option>
+    }
+}
