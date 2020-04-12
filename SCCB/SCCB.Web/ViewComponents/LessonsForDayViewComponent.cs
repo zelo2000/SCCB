@@ -21,9 +21,8 @@ namespace SCCB.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(Guid groupId, string weekday)
         {
-            var lessonDtos = await _lessonService.GetLessonsOrderedByNumber(groupId, weekday);
-            var lessonModels = _mapper.Map<List<LessonModel>>(lessonDtos);
-            return View(lessonModels);
+            var lessonDtos = await _lessonService.FindByGroupIdAndWeekday(groupId, weekday);
+            return View(lessonDtos);
         }
     }
 }

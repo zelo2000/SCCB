@@ -79,9 +79,9 @@ namespace SCCB.Services.Tests
 
             #region setup mocks
             _repositoryMock = new Mock<ILessonRepository>();
-            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(It.IsAny<Guid>())).ReturnsAsync((List<Lesson>)null);
-            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(_existingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _existingLesson });
-            _repositoryMock.Setup(repo => repo.FindLessonsByGroupIdAsync(_anotherExistingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _anotherExistingLesson });
+            _repositoryMock.Setup(repo => repo.FindByGroupId(It.IsAny<Guid>())).ReturnsAsync((List<Lesson>)null);
+            _repositoryMock.Setup(repo => repo.FindByGroupId(_existingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _existingLesson });
+            _repositoryMock.Setup(repo => repo.FindByGroupId(_anotherExistingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _anotherExistingLesson });
 
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Lesson)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingLesson.Id)).ReturnsAsync(_existingLesson);

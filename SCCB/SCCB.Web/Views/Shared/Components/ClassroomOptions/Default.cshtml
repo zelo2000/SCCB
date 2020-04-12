@@ -1,20 +1,9 @@
-﻿@model IEnumerable<ClassroomModel>
+﻿@model ILookup<string, SCCB.Core.DTO.Classroom>
 
-@{ 
-    var optgroups = Model.GroupBy(
-        classroom => classroom.Building,
-        classroom => classroom,
-        (building, classrooms) => new
-        {
-            Building = building,
-            Classrooms = classrooms.ToList()
-        });
-}
-
-@foreach (var optgroup in optgroups)
+@foreach (var group in Model)
 {
-    <optgroup label="@optgroup.Building">
-        @foreach (var classroom in optgroup.Classrooms)
+    <optgroup label="@group.Key">
+        @foreach (var classroom in group)
         {
             <option value="@classroom.Id">@classroom.Number</option>
         }

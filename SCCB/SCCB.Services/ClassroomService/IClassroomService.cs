@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SCCB.Core.DTO;
 
@@ -40,5 +41,11 @@ namespace SCCB.Services.ClassroomService
         /// </summary>
         /// <returns>IEnumerable of classrooms.</returns>
         Task<IEnumerable<Classroom>> GetAll();
+
+        /// <summary>
+        /// Get all classrooms grouped by building.
+        /// </summary>
+        /// <returns>ILookup of classrooms grouped by building.</returns>
+        Task<ILookup<string, Classroom>> GetAllGroupedByBuilding();
     }
 }

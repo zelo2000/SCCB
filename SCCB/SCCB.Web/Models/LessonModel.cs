@@ -6,12 +6,6 @@ namespace SCCB.Web.Models
 {
     public class LessonModel
     {
-        public Guid Id { get; set; }
-
-        public LectorModel Lector { get; set; }
-
-        public ClassroomModel Classroom { get; set; }
-
         [Required]
         [MaxLength(50)]
         public string Title { get; set; }

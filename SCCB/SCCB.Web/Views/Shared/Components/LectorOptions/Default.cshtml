@@ -1,6 +1,6 @@
-﻿@model IEnumerable<LectorModel>
+﻿@model IEnumerable<SCCB.Core.DTO.Lector>
 
 @foreach (var lector in Model)
 {
-    <option value="@lector.Id">@(lector.FirstName + " " + lector.LastName)</option>
+    <option value="@lector.Id">@(lector.UserFirstName + " " + lector.UserLastName)</option>
 }

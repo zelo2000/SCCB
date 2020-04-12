@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SCCB.Core.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace SCCB.Web.Models
@@ -7,6 +8,6 @@ namespace SCCB.Web.Models
     {
         public Guid? GroupId { get; set; }
 
-        public IEnumerable<GroupModel> Groups { get; set; }
+        public IEnumerable<Group> Groups { get; set; }
     }
 }

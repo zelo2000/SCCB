@@ -21,9 +21,8 @@ namespace SCCB.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var lectorDtos = await _lectorService.GetAllWithUserInfo();
-            var lectorModels = _mapper.Map<IEnumerable<LectorModel>>(lectorDtos);
-            return View(lectorModels);
+            var lectors = await _lectorService.GetAllWithUserInfo();
+            return View(lectors);
         }
     }
 }
