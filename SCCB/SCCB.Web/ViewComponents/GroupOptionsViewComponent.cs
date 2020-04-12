@@ -21,12 +21,11 @@ namespace SCCB.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(Guid? groupId)
         {
-            var classroomDtos = await _groupService.GetAllAcademic();
-            var classroomModels = _mapper.Map<IEnumerable<GroupModel>>(classroomDtos);
+            var groups = await _groupService.GetAllAcademic();
             var model = new GroupOptionsModel()
             {
                 GroupId = groupId,
-                Groups = classroomModels,
+                Groups = groups,
             };
             return View(model);
         }

@@ -19,18 +19,19 @@ namespace SCCB.Repos.Lessons
             _dbContext = dbContext;
         }
 
-        public async Task<List<Lesson>> FindLessonsByGroupIdAsync(Guid id)
+        /// <inheritdoc/>
+        public async Task<List<Lesson>> FindByGroupId(Guid id)
         {
             return await _dbContext.Lessons.Where(x => x.GroupId == id).ToListAsync();
         }
-
-        public async Task<List<Lesson>> GetLessonsOrderedbyNumber(Guid groupId, string weekday)
+        
+        /// <inheritdoc/>
+        public async Task<List<Lesson>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
             return await _dbContext.Lessons.Include(x => x.Lector)
                                                 .ThenInclude(y => y.User)
                                            .Include(x => x.Classroom)
                                            .Where(x => x.GroupId == groupId && x.Weekday == weekday)
-                                           .OrderBy(x => x.LessonNumber)
                                            .ToListAsync();
         }
     }

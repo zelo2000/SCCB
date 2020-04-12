@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SCCB.Core.DTO;
@@ -18,6 +19,7 @@ namespace SCCB.Services.LessonService
             _unitOfWork = unitOfWork;
         }
 
+        /// <inheritdoc/>
         public async Task Add(Lesson lessonDto)
         {
             var lesson = _mapper.Map<DAL.Entities.Lesson>(lessonDto);
@@ -25,11 +27,12 @@ namespace SCCB.Services.LessonService
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid? id)
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Lesson>> FindByGroupId(Guid? id)
         {
             if (id != null)
             {
-                var lessons = await _unitOfWork.Lessons.FindLessonsByGroupIdAsync((Guid)id);
+                var lessons = await _unitOfWork.Lessons.FindByGroupId((Guid)id);
                 var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
                 return lessonsDto;
             }
@@ -39,20 +42,21 @@ namespace SCCB.Services.LessonService
             }
         }
 
-        public async Task<IEnumerable<Lesson>> GetLessonsOrderedByNumber(Guid? groupId, string weekday)
+        /// <inheritdoc/>
+        public async Task<IDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
-            if (groupId != null)
-            {
-                var lessons = await _unitOfWork.Lessons.GetLessonsOrderedbyNumber((Guid)groupId, weekday);
-                var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
-                return lessonsDto;
-            }
-            else
-            {
-                return new List<Core.DTO.Lesson>();
-            }
+            var lessons = await _unitOfWork.Lessons.FindByGroupIdAndWeekday(groupId, weekday);
+            var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
+
+            var lessonGroups = lessonsDto.GroupBy(lesson => lesson.LessonNumber)
+                .Select(entry => new KeyValuePair<string, IEnumerable<Lesson>>(
+                    entry.Key, entry.OrderBy(x => x.IsDenominator)))
+                .ToDictionary(x => x.Key, x => x.Value);
+
+            return lessonGroups;
         }
 
+        /// <inheritdoc/>
         public async Task<Lesson> Find(Guid id)
         {
             var lesson = await FindLessonEntity(id);
@@ -60,6 +64,7 @@ namespace SCCB.Services.LessonService
             return lessonDto;
         }
 
+        /// <inheritdoc/>
         public async Task Remove(Guid id)
         {
             var lesson = await FindLessonEntity(id);
@@ -67,6 +72,7 @@ namespace SCCB.Services.LessonService
             await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc/>
         public async Task Update(Lesson lessonDto)
         {
             var lesson = await FindLessonEntity(lessonDto.Id);

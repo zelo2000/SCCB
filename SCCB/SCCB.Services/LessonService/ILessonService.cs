@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SCCB.Core.DTO;
 
@@ -8,19 +9,21 @@ namespace SCCB.Services.LessonService
     public interface ILessonService
     {
         /// <summary>
-        /// Get lists of lessons by weekday and group, ordered by number.
+        /// Get lessons by group and weekday. They will be ordered by number
+        /// and grouped by it. Each lesson number corresponds to one everyweek lesson
+        /// or list from two lessons (first - numerator, second - denominator).
         /// </summary>
         /// <param name="groupId">Group id.</param>
         /// <param name="weekday">Weekday.</param>
         /// <returns>Lessons list.</returns>
-        Task<IEnumerable<Lesson>> GetLessonsOrderedByNumber(Guid? groupId, string weekday);
+        Task<IDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday);
 
         /// <summary>
         /// Find list of lessons by group id.
         /// </summary>
         /// <param name="id">Group id.</param>
         /// <returns>Lessons list.</returns>
-        Task<IEnumerable<Lesson>> FindLessonsByGroupId(Guid? id);
+        Task<IEnumerable<Lesson>> FindByGroupId(Guid? id);
 
         /// <summary>
         /// Add lesson.

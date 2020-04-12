@@ -21,9 +21,8 @@ namespace SCCB.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var classroomDtos = await _classroomService.GetAll();
-            var classroomModels = _mapper.Map<IEnumerable<ClassroomModel>>(classroomDtos);
-            return View(classroomModels);
+            var classroomsByBuilding = await _classroomService.GetAllGroupedByBuilding();
+            return View(classroomsByBuilding);
         }
     }
 }

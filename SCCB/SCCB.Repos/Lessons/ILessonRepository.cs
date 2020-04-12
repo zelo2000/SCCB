@@ -13,7 +13,7 @@ namespace SCCB.Repos.Lessons
         /// </summary>
         /// <param name="id">Group id.</param>
         /// <returns>Lessons list.</returns>
-        Task<List<Lesson>> FindLessonsByGroupIdAsync(Guid id);
+        Task<List<Lesson>> FindByGroupId(Guid id);
 
         /// <summary>
         /// Get lists of lessons by weekday and group, ordered by number.
@@ -21,6 +21,6 @@ namespace SCCB.Repos.Lessons
         /// <param name="groupId">Group id.</param>
         /// <param name="weekday">Weekday.</param>
         /// <returns>Lessons list.</returns>
-        Task<List<Lesson>> GetLessonsOrderedbyNumber(Guid groupId, string weekday);
+        Task<List<Lesson>> FindByGroupIdAndWeekday(Guid groupId, string weekday);
     }
 }

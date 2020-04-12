@@ -1,6 +1,6 @@
-﻿@model IEnumerable<LessonModel>
+﻿@model IDictionary<string, IEnumerable<SCCB.Core.DTO.Lesson>>
 
-@foreach (var group in Model.GroupBy(x => x.LessonNumber))
+@foreach (var group in Model)
 {
     <div class="mb-4 lesson">
         <div class="lesson-header">
@@ -9,15 +9,15 @@
             </div>
         </div>
         <div class="py-2 lesson-body text-center">
-            @foreach (var lesson in group.OrderBy(item => item.IsEnumerator ? 0 : 1))
+            @foreach (var lesson in group.Value)
             {
-                @if (lesson.IsDenominator && !lesson.IsEnumerator && group.Count() < 2)
+                @if (lesson.IsDenominator && !lesson.IsEnumerator && group.Value.Count() < 2)
                 {
                     <hr class="mb-2 mt-1">
                 }
                 <div class="mb-3">
                     <p class="mb-1 lesson-bold-info">@lesson.Title</p>
-                    <p>@lesson.Lector.Position @lesson.Lector.FirstName @lesson.Lector.LastName</p>
+                    <p>@lesson.Lector.Position @lesson.Lector.UserFirstName @lesson.Lector.UserLastName</p>
                 </div>
                 <div>
                     <p>ауд. @lesson.Classroom.Number (@lesson.Classroom.Building), @lesson.Type.ToLower()</p>
@@ -25,9 +25,9 @@
                 <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
                     @{
                         var routeData = new Dictionary<string, string>
-                                                {
-                                            { "Id", @lesson.Id.ToString() }
-                                        };
+                        {
+                            { "Id", @lesson.Id.ToString() }
+                        };
                     }
                     <button type="button" class="edit-button px-3 py-1 mr-2" data-target="#EditingLesson"
                             data-toggle="ajax-modal-edit" data-url="@Url.Action("EditSchedule", @routeData)">

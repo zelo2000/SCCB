@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SCCB.Core.DTO;
@@ -18,6 +19,7 @@ namespace SCCB.Services.ClassroomService
             _unitOfWork = unitOfWork;
         }
 
+        /// <inheritdoc/>
         public async Task Add(Classroom сlassroomDto)
         {
             var сlassroom = _mapper.Map<DAL.Entities.Classroom>(сlassroomDto);
@@ -25,6 +27,7 @@ namespace SCCB.Services.ClassroomService
             await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Classroom> Find(Guid id)
         {
             var classroom = await FindClassroomEntity(id);
@@ -32,6 +35,7 @@ namespace SCCB.Services.ClassroomService
             return classroomDto;
         }
 
+        /// <inheritdoc/>
         public async Task Remove(Guid id)
         {
             var classroom = await FindClassroomEntity(id);
@@ -39,6 +43,7 @@ namespace SCCB.Services.ClassroomService
             await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc/>
         public async Task Update(Classroom classroomDto)
         {
             var classroom = await FindClassroomEntity(classroomDto.Id);
@@ -50,11 +55,21 @@ namespace SCCB.Services.ClassroomService
             await _unitOfWork.CommitAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Classroom>> GetAll()
         {
             var classrooms = await _unitOfWork.Classrooms.GetAllAsync();
             var classroomDtos = _mapper.Map<IEnumerable<Classroom>>(classrooms);
             return classroomDtos;
+        }
+
+        /// <inheritdoc/>
+        public async Task<ILookup<string, Classroom>> GetAllGroupedByBuilding()
+        {
+            var classrooms = await _unitOfWork.Classrooms.GetAllAsync();
+            var classroomDtos = _mapper.Map<IEnumerable<Classroom>>(classrooms);
+            var classroomsByBuilding = classroomDtos.ToLookup(classroom => classroom.Building);
+            return classroomsByBuilding;
         }
 
         private async Task<DAL.Entities.Classroom> FindClassroomEntity(Guid id)
