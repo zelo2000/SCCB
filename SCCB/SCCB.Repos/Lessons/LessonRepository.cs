@@ -32,6 +32,7 @@ namespace SCCB.Repos.Lessons
                                                 .ThenInclude(y => y.User)
                                            .Include(x => x.Classroom)
                                            .Where(x => x.GroupId == groupId && x.Weekday == weekday)
+                                           .OrderBy(x => x.LessonNumber)
                                            .ToListAsync();
         }
     }

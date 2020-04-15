@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SCCB.Web.Models;
@@ -11,9 +12,10 @@ namespace SCCB.Web.Controllers
         {
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Guid? groupId)
         {
-            return View();
+            var model = new HomeModel() { GroupId = groupId };
+            return View(model);
         }
 
         public IActionResult Privacy()
