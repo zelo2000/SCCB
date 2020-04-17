@@ -1,7 +1,4 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-body
+﻿body
 {
     color: white;
     background: linear-gradient(to bottom, rgba(27, 29, 34, .8), rgba(27, 29, 34, .8)), url('../img/LNU (blurred).png');

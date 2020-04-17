@@ -1,0 +1,32 @@
+﻿@model IDictionary<string, IEnumerable<SCCB.Core.DTO.Lesson>>
+
+@foreach (var group in Model)
+{
+    <div class="mb-4 lesson">
+        <div class="lesson-header">
+            <div class="py-2">
+                <p class="px-4 mb-0"><span class="lesson-bold-info mr-1">@group.Key</span> <b>пара</b></p>
+            </div>
+        </div>
+        <div class="py-2 lesson-body text-center">
+            @foreach (var lesson in group.Value)
+            {
+                @if (lesson.IsDenominator && !lesson.IsEnumerator && group.Value.Count() < 2)
+                {
+                    <hr class="mb-2 mt-1">
+                }
+                <div class="mb-3">
+                    <p class="mb-1 lesson-bold-info">@lesson.Title</p>
+                    <p>@lesson.Lector.Position @lesson.Lector.UserFirstName @lesson.Lector.UserLastName</p>
+                </div>
+                <div>
+                    <p>ауд. @lesson.Classroom.Number (@lesson.Classroom.Building), @lesson.Type.ToLower()</p>
+                </div>
+                @if (lesson.IsEnumerator && !lesson.IsDenominator)
+                {
+                    <hr class="mt-2">
+                }
+            }
+        </div>
+    </div>
+}

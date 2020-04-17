@@ -1,11 +1,17 @@
 ﻿@using SCCB.Core.Constants
+@model SCCB.Web.Models.ScheduleViewModel
+
+@section Styles {
+    <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/home.css")" rel="stylesheet" type="text/css" />
+}
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 @section Header {
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
         <div class="container-fluid ml-4 mr-4">
             <a class="nav-link active text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -56,8 +62,67 @@
             </div>
         </div>
     </nav>
+    <div class="info-block d-flex align-items-center justify-content-center pb-5">
+        <div class="text-center py-4">
+            <h2 class="mb-3">Schedule creation and classroom booking</h2>
+            <p class="px-4 py-2">Використовуйте наведені нижче фільтри для отримання потрібного розкладу</p>
+        </div>
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="main-content py-5 d-flex justify-content-center">
+    <div class="schedule-filter-container mx-lg-3 mx-0">
+        <div class="d-flex flex-row mx-lg-0 mx-3">
+            <div class="filter-label mr-4 py-2 px-4">
+                <span>Фільтри</span>
+            </div>
+            <button class="clear-all py-2 px-3">Очистити все</button>
+        </div>
+        <div class="schedule-bg w-100 mt-5 py-5 px-5">
+            <div class="row">
+                <form method="get" class="col-2">
+                    <select asp-for="GroupId" class="selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="btn-light py-2 px-4">
+                        <option disabled selected>-- Оберіть групу --</option>
+                        @await Component.InvokeAsync("GroupOptions", new { groupId = Model.GroupId })
+                    </select>
+                </form>
+            </div>
+            @if (Model.GroupId != null)
+            {
+                <div class="wrapper mt-5 mb-3">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                        @{
+                            string[] days = { "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця" };
+                        }
+                        @for (int i = 0; i < days.Length; i++)
+                        {
+                            <div class="panel panel-default mb-3">
+                                <div class="panel-heading" role="tab" id="@("heading" + i)">
+                                    <h4 class="panel-title">
+                                        <a class="p-3" role="button" data-toggle="collapse" data-parent="#accordion" href="@("#collapse" + i)"
+                                            aria-expanded="true" aria-controls="@("collapse" + i)">
+                                            @days[i]
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="@("collapse" + i)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="@("heading" + i)">
+                                    <div class="panel-body py-3">
+                                        <div id="@("lessonsFor" + i)">
+                                            @await Component.InvokeAsync("LessonsForDay", new { groupId = Model.GroupId, weekday = days[i] })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/Accordion.js" asp-append-version="true"></script>
+}

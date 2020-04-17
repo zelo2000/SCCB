@@ -126,7 +126,7 @@ namespace SCCB.Services.Tests
         [Test]
         public async Task FindLessonsByGroupId_GroupId_ReturnedListOfLessons()
         {
-            var result = await _service.FindLessonsByGroupId(_existingLesson.GroupId);
+            var result = await _service.FindByGroupId(_existingLesson.GroupId);
 
             Assert.That(
                 result.First().GroupId,

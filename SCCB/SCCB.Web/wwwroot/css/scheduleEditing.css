@@ -1,16 +1,35 @@
 ﻿:root {
     --gray: rgba(196, 196, 196, 0.25);
     --black: rgba(27, 29, 34, 0.9);
+    --second_font: 'Roboto Slab', serif;
 }
 
-.edit-bg {
-    max-width: 70rem;
-    margin: 0 auto;
+header {
+    background: linear-gradient(to bottom, rgba(27, 29, 34, .85), rgba(27, 29, 34, .85)), url('../img/LNU (blurred).png');
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    background-size: cover;
+}
+
+.info-block h2 {
+    font-family: var(--second_font);
+    font-weight: bold;
+}
+
+.main-content {
+    background: white;
+}
+
+.schedule-filter-container {
+    width: 65rem;
+    max-width: 65rem;
     margin-bottom: 6.25rem;
-    background: rgba(27, 29, 34, 0.7);
-    box-shadow: 0rem 0.25rem 6.25rem rgba(0, 201, 209, 0.07);
+}
+
+.schedule-bg {
+    min-height: 15.625rem;
+    background: rgba(27, 29, 34, 0.85);
     border-radius: 0.2rem;
-    border-left: 0.2rem solid rgba(0, 201, 209, 0.95);
 }
 
 .modal-header button, .edit-delete-buttons button {
@@ -22,28 +41,31 @@
     outline: none !important;
 }
 
+.btn-light {
+    color: black;
+    background: white;
+    font-weight: bold;
+}
+
 .btn-light, .btn-light:focus {
     box-shadow: none !important;
 }
 
 .wrapper {
-    width: 90%;
-}
-.wrapper a {
-    border: .05rem solid white;
-    border-radius: .2rem;
-    color: white;
+    width: 100%;
 }
 
-@media(max-width:992px) {
-    .wrapper {
-        width: 100%;
-    }
+.wrapper a {
+    border: .05rem solid rgba(27, 29, 34, .85);
+    border-radius: .2rem;
+    color: white;
 }
 
 .panel-heading {
     padding: 0;
     border: 0;
+    background: rgba(27, 29, 34, .85);
+    border-radius: 0.1875rem;
 }
 
 .panel-title > a, .panel-title > a:active {
@@ -131,4 +153,35 @@ hr {
 
 .close-button:hover, .edit-button:hover {
     background: rgba(17, 17, 17, 0.9);
+}
+
+.filter-label {
+    background: rgba(27, 29, 34, .85);
+    border-radius: 0.1875rem;
+    font-weight: bold;
+    font-size: 0.9375rem;
+}
+
+.clear-all {
+    background: white;
+    border: 0.09375rem solid black;
+    border-radius: 0.1875rem;
+    font-weight: bold;
+    font-size: 0.9375rem;
+}
+
+.clear-all:hover {
+    -webkit-transition: .3s ease-in-out;
+    -o-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    background: rgba(27, 29, 34, .85);
+    color: white;
+}
+
+.clear-all:focus {
+    outline: none;
+}
+
+footer {
+    background: black;
 }
