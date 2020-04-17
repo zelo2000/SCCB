@@ -3,9 +3,9 @@
 namespace SCCB.Web.Models
 {
     /// <summary>
-    /// Model for schedule on the admin page.
+    /// Model for schedule on the main page.
     /// </summary>
-    public class ScheduleEditModel
+    public class ScheduleViewModel
     {
         /// <summary>
         /// Gets or sets group identifier.
