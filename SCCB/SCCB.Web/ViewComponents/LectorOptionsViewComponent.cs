@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SCCB.Core.DTO;
 using SCCB.Services.LectorService;
 using SCCB.Web.Models;
 
@@ -19,9 +20,9 @@ namespace SCCB.Web.ViewComponents
             _lectorService = lectorService ?? throw new ArgumentException(nameof(lectorService));
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(LessonTime time)
         {
-            var lectors = await _lectorService.GetAllWithUserInfo();
+            var lectors = await _lectorService.FindFreeLectors(time);
             return View(lectors);
         }
     }

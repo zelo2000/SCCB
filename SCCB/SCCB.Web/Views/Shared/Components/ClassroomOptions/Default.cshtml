@@ -1,9 +1,9 @@
-﻿@model ILookup<string, SCCB.Core.DTO.Classroom>
+﻿@model IReadOnlyDictionary<string, IEnumerable<SCCB.Core.DTO.Classroom>>
 
 @foreach (var group in Model)
 {
     <optgroup label="@group.Key">
-        @foreach (var classroom in group)
+        @foreach (var classroom in group.Value)
         {
             <option value="@classroom.Id">@classroom.Number</option>
         }

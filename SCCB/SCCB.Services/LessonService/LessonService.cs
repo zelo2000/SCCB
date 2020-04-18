@@ -22,9 +22,20 @@ namespace SCCB.Services.LessonService
         /// <inheritdoc/>
         public async Task Add(Lesson lessonDto)
         {
-            var lesson = _mapper.Map<DAL.Entities.Lesson>(lessonDto);
-            await _unitOfWork.Lessons.AddAsync(lesson);
-            await _unitOfWork.CommitAsync();
+            var lessonTime = _mapper.Map<LessonTime>(lessonDto);
+            var conflictingLesson = await _unitOfWork.Lessons.FindByGroupIdAndTime(lessonDto.GroupId, lessonTime);
+
+            if (conflictingLesson == null)
+            {
+                var lesson = _mapper.Map<DAL.Entities.Lesson>(lessonDto);
+                await _unitOfWork.Lessons.AddAsync(lesson);
+                await _unitOfWork.CommitAsync();
+            }
+            else
+            {
+                var group = await _unitOfWork.Groups.FindAsync(lessonDto.GroupId);
+                throw new ArgumentException($"Група {group.Name} вже має пару в цей час");
+            }
         }
 
         /// <inheritdoc/>
@@ -38,12 +49,12 @@ namespace SCCB.Services.LessonService
             }
             else
             {
-                return new List<Core.DTO.Lesson>();
+                return new List<Lesson>();
             }
         }
 
         /// <inheritdoc/>
-        public async Task<IDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
+        public async Task<IReadOnlyDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
             var lessons = await _unitOfWork.Lessons.FindByGroupIdAndWeekday(groupId, weekday);
             var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);

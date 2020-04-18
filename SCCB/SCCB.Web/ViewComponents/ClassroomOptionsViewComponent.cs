@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SCCB.Core.DTO;
 using SCCB.Services.ClassroomService;
 using SCCB.Web.Models;
 
@@ -19,9 +20,9 @@ namespace SCCB.Web.ViewComponents
             _classroomService = classroomService ?? throw new ArgumentException(nameof(classroomService));
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(LessonTime time)
         {
-            var classroomsByBuilding = await _classroomService.GetAllGroupedByBuilding();
+            var classroomsByBuilding = await _classroomService.FindFreeClassroomsGroupedByBuilding(time);
             return View(classroomsByBuilding);
         }
     }
