@@ -30,10 +30,11 @@
                         };
                     }
                     <button type="button" class="edit-button px-3 py-1 mr-2" data-target="#EditingLesson"
-                            data-toggle="ajax-modal-edit" data-url="@Url.Action("EditSchedule", @routeData)">
+                            data-toggle="ajax-modal" data-url="@Url.Action("EditLesson", @routeData)">
                         Редагувати
                     </button>
-                    <button type="button" class="close-button px-3 py-1" data-url="@Url.Action("RemoveLesson", @routeData)">
+                    <button type="button" class="close-button px-3 py-1 remove-lesson" 
+                            data-url="@Url.Action("RemoveLesson", @routeData)" data-group-id="@lesson.GroupId" data-weekday="@lesson.Weekday">
                         Видалити
                     </button>
                 </div>

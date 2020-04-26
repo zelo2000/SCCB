@@ -2,11 +2,11 @@
     var placeholderElement = $('#AddLessonPlaceholder');
     var placeholderElementEdit = $('#EditLessonPlaceholder');
     // TODO Try to find solution
-    var weekdays = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"];
+    const weekdays = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"];
 
-    var refreshLessonsUrl = '/Admin/LessonsForDay';
-    var refreshClassroomsUrl = '/Admin/FreeClassrooms';
-    var refreshLectorsUrl = '/Admin/FreeLectors';
+    const refreshLessonsUrl = '/Admin/LessonsForDay';
+    const refreshClassroomsUrl = '/Admin/FreeClassrooms';
+    const refreshLectorsUrl = '/Admin/FreeLectors';
 
     function refreshLessonsList(url, groupId, weekday) {
         $.get(url,
@@ -15,8 +15,8 @@
                 weekday: weekday
             },
             function (data) {
-                var index = weekdays.indexOf(weekday);
-                var lessonsList = $('#lessonsFor' + index);
+                const index = weekdays.indexOf(weekday);
+                let lessonsList = $('#lessonsFor' + index);
                 lessonsList.html(data);
             }
         );
@@ -32,7 +32,7 @@
                 isDenominator: isDenominator
             },
             function (data) {
-                var classroomSelect = placeholderElement.find('#classroomId');
+                let classroomSelect = placeholderElement.find('#classroomId');
                 classroomSelect.html(data);
                 classroomSelect.prop('disabled', false);
                 classroomSelect.selectpicker({ title: '-- Оберіть аудиторію --' });
@@ -51,7 +51,7 @@
                 isDenominator: isDenominator
             },
             function (data) {
-                var lectorSelect = placeholderElement.find('#lectorId');
+                let lectorSelect = placeholderElement.find('#lectorId');
                 lectorSelect.html(data);
                 lectorSelect.prop('disabled', false);
                 lectorSelect.selectpicker({ title: '-- Оберіть викладача --' });
@@ -60,11 +60,12 @@
         );
     }
 
-    $('button[data-toggle="ajax-modal"]').click(function (event) {
-        var url = $(this).data('url');
+    $('[data-toggle="ajax-modal"]').click(function (event) {
+        const url = $(this).data('url');
 
         $.get(url)
             .done(function (data) {
+                placeholderElement.empty()
                 placeholderElement.html(data);
                 placeholderElement.find('.modal').modal('show');
                 $('.selectpicker').selectpicker('render');
@@ -77,9 +78,9 @@
     placeholderElement.on('click', '#AddLessonSubmit', function (event) {
         event.preventDefault();
 
-        var form = $(this).parents('.modal').find('form');
-        var actionUrl = form.attr('action');
-        var dataToSend = form.serialize();
+        let form = $(this).parents('.modal').find('form');
+        const actionUrl = form.attr('action');
+        const dataToSend = form.serialize();
 
         $.post(actionUrl, dataToSend)
             .done(function (data) {
@@ -87,21 +88,21 @@
 
                 placeholderElement.find('.modal-body').replaceWith(newBody);
                 $('.selectpicker').selectpicker('render');
-                var isValid = newBody.find('[name="IsValid"]').val() == 'True';
+                const isValid = newBody.find('[name="IsValid"]').val() == 'True';
 
                 if (isValid) {
                     placeholderElement.find('.modal').modal('hide');
 
-                    var groupId = newBody.find('[name="GroupId"]').val();
-                    var weekday = newBody.find('[name="Weekday"]').val();
+                    const groupId = newBody.find('[name="GroupId"]').val();
+                    const weekday = newBody.find('[name="Weekday"]').val();
 
                     refreshLessonsList(refreshLessonsUrl, groupId, weekday);
                 }
                 else {
-                    var weekday = placeholderElement.find('#weekday').val();
-                    var number = placeholderElement.find('#lessonNumber').val();
-                    var isNumerator = placeholderElement.find('#isNumerator').is(':checked');
-                    var isDenominator = placeholderElement.find('#isDenominator').is(':checked');
+                    const weekday = placeholderElement.find('#weekday').val();
+                    const number = placeholderElement.find('#lessonNumber').val();
+                    const isNumerator = placeholderElement.find('#isNumerator').is(':checked');
+                    const isDenominator = placeholderElement.find('#isDenominator').is(':checked');
 
                     refreshClassroomOptions(refreshClassroomsUrl, weekday, number, isNumerator, isDenominator);
                     refreshLectorOptions(refreshLectorsUrl, weekday, number, isNumerator, isDenominator);
@@ -112,11 +113,28 @@
             });
     });
 
+    $('#accordion').on('click', '.remove-lesson', function () {
+        const url = $(this).data('url');
+        const groupId = $(this).data('group-id');
+        const weekday = $(this).data('weekday');
+
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function () {
+                refreshLessonsList(refreshLessonsUrl, groupId, weekday)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText)
+            }
+        });
+    });
+
     placeholderElement.on("change", '[data-type="lesson-date"]', function () {
-        var weekday = placeholderElement.find('#weekday').val();
-        var number = placeholderElement.find('#lessonNumber').val();
-        var isNumerator = placeholderElement.find('#isNumerator').is(':checked');
-        var isDenominator = placeholderElement.find('#isDenominator').is(':checked');
+        const weekday = placeholderElement.find('#weekday').val();
+        const number = placeholderElement.find('#lessonNumber').val();
+        const isNumerator = placeholderElement.find('#isNumerator').is(':checked');
+        const isDenominator = placeholderElement.find('#isDenominator').is(':checked');
 
         refreshClassroomOptions(refreshClassroomsUrl, weekday, number, isNumerator, isDenominator);
         refreshLectorOptions(refreshLectorsUrl, weekday, number, isNumerator, isDenominator);
