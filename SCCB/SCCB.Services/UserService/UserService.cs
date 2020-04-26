@@ -9,12 +9,21 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.UserService
 {
+    /// <summary>
+    /// User service.
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor _passwordProcessor;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
+        /// <param name="hashGenerationSetting">HashGenerationSetting instance.</param>
         public UserService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
@@ -26,7 +35,7 @@ namespace SCCB.Services.UserService
         }
 
         /// <inheritdoc />
-        public async Task Add(Core.DTO.User userDto)
+        public async Task Add(User userDto)
         {
             var user = await _unitOfWork.Users.FindByEmailAsync(userDto.Email);
 
@@ -44,7 +53,7 @@ namespace SCCB.Services.UserService
         }
 
         /// <inheritdoc />
-        public async Task<Core.DTO.User> Find(Guid id)
+        public async Task<User> Find(Guid id)
         {
             var user = await FindUserEntity(id);
             var userDto = _mapper.Map<Core.DTO.User>(user);
@@ -82,7 +91,7 @@ namespace SCCB.Services.UserService
         }
 
         /// <inheritdoc />
-        public async Task UpdateProfile(Core.DTO.UserProfile userDto)
+        public async Task UpdateProfile(UserProfile userDto)
         {
             var user = await FindUserEntity(userDto.Id);
 

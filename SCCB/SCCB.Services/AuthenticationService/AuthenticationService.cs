@@ -15,6 +15,9 @@ using SCCB.Services.EmailService;
 
 namespace SCCB.Services.AuthenticationService
 {
+    /// <summary>
+    /// Authentication service.
+    /// </summary>
     public class AuthenticationService : IAuthenticationService
     {
         private readonly IMapper _mapper;
@@ -22,6 +25,13 @@ namespace SCCB.Services.AuthenticationService
         private readonly PasswordProcessor passwordProcessor;
         private readonly IEmailService _emailService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
+        /// <param name="hashGenerationSetting">HashGenerationSetting instance.</param>
+        /// <param name="emailService">EmailService instance.</param>
         public AuthenticationService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
@@ -108,9 +118,7 @@ namespace SCCB.Services.AuthenticationService
         /// <inheritdoc />
         public async Task ChangeForgottenPassword(string token, string password)
         {
-            var user = await _unitOfWork.Users
-                .GetQuery()
-                .FirstOrDefaultAsync(x => x.ChangePasswordToken == token &&
+            var user = await _unitOfWork.Users.GetAsync(x => x.ChangePasswordToken == token &&
                                           x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow);
 
             if (user == null)

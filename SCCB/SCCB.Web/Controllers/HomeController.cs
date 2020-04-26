@@ -6,23 +6,49 @@ using SCCB.Web.Models;
 
 namespace SCCB.Web.Controllers
 {
+    /// <summary>
+    /// Home Controller.
+    /// </summary>
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly ILogger<HomeController> _log;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// </summary>
+        /// <param name="log">Logger.</param>
+        public HomeController(
+            ILogger<HomeController> log)
         {
+            _log = log;
         }
 
+        /// <summary>
+        /// Get method for calling home page.
+        /// </summary>
+        /// <param name="groupId">Group identifier.</param>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
         public IActionResult Index(Guid? groupId)
         {
-            var model = new HomeModel() { GroupId = groupId };
+            var model = new ScheduleViewModel() { GroupId = groupId };
             return View(model);
         }
 
+        /// <summary>
+        /// Get method for calling privacy policy page.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        /// <summary>
+        /// Error method.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
