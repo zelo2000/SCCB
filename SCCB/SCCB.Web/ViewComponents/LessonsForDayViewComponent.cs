@@ -1,24 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Services.LessonService;
-using SCCB.Web.Models;
 
 namespace SCCB.Web.ViewComponents
 {
+    /// <summary>
+    /// View component for lessons list.
+    /// </summary>
     public class LessonsForDayViewComponent : ViewComponent
     {
-        private readonly IMapper _mapper;
         private readonly ILessonService _lessonService;
 
-        public LessonsForDayViewComponent(IMapper mapper, ILessonService lessonService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LessonsForDayViewComponent"/> class.
+        /// </summary>
+        /// <param name="lessonService">Lesson service.</param>
+        public LessonsForDayViewComponent(ILessonService lessonService)
         {
-            _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lessonService = lessonService ?? throw new ArgumentException(nameof(lessonService));
         }
 
+        /// <summary>
+        /// Method for calling partial view.
+        /// </summary>
+        /// <param name="groupId">Group identifier.</param>
+        /// <param name="weekday">Weekday.</param>
+        /// <returns>IViewComponentResult.</returns>
         public async Task<IViewComponentResult> InvokeAsync(Guid groupId, string weekday)
         {
             var lessonDtos = await _lessonService.FindByGroupIdAndWeekday(groupId, weekday);

@@ -4,6 +4,9 @@ using SCCB.Core.DTO;
 
 namespace SCCB.Services.AuthenticationService
 {
+    /// <summary>
+    /// Authentication service interface.
+    /// </summary>
     public interface IAuthenticationService
     {
         /// <summary>

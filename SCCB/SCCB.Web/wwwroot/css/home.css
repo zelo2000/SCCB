@@ -1,0 +1,15 @@
+﻿:root {
+    --block_info_fill: rgba(0, 201, 209, 0.75);
+}
+
+.info-block p {
+    background: var(--block_info_fill);
+    max-width: 28rem;
+    margin: 0 auto;
+    border-radius: 0.1875rem;
+    font-size: 1rem;
+}
+
+.filter-label {
+    border-left: 0.4375rem solid var(--block_info_fill);
+}
