@@ -8,5 +8,10 @@ namespace SCCB.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult LessonBooking()
+        {
+            return View();
+        }
     }
 }
