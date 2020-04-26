@@ -22,15 +22,6 @@
                 <div>
                     <p>ауд. @lesson.Classroom.Number (@lesson.Classroom.Building), @lesson.Type.ToLower()</p>
                 </div>
-                <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
-                    @{
-                        var routeData = new Dictionary<string, string>
-                            {
-                            { "Id", @lesson.Id.ToString() }
-                        };
-                    }
-                    
-                </div>
                 @if (lesson.IsEnumerator && !lesson.IsDenominator)
                 {
                     <hr class="mt-2">
@@ -39,6 +30,3 @@
         </div>
     </div>
 }
-
-<!-- Modal -->
-<div id="EditLessonPlaceholder"></div>

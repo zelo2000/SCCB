@@ -4,6 +4,9 @@ using SCCB.Core.DTO;
 
 namespace SCCB.Services.UserService
 {
+    /// <summary>
+    /// User service interface.
+    /// </summary>
     public interface IUserService
     {
         /// <summary>

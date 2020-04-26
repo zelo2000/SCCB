@@ -1,12 +1,14 @@
-﻿using System;
+﻿/// <summary>
+/// Currenty not in use, but may be useful in the future.
+/// </summary>
+
+/*using System;
 
 namespace SCCB.Web.Models
 {
+
     public class LectorModel
     {
-        /// <summary>
-        /// Currenty not in use, but may be useful in the future.
-        /// </summary>
         public Guid Id { get; set; }
 
         public string FirstName { get; set; }
@@ -15,4 +17,4 @@ namespace SCCB.Web.Models
 
         public string Position { get; set; }
     }
-}
+}*/
