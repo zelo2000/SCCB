@@ -1,15 +1,19 @@
 ﻿@using SCCB.Core.Constants
 
 @section Styles {
+    <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/home.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/lessonBooking.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
 }
+
 
 @{
     ViewData["Title"] = "Lesson Booking";
 }
 
 @section Header {
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
         <div class="container-fluid ml-4 mr-4">
             <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -61,16 +65,66 @@
         </div>
     </nav>
 
-    <div>
-        <p>Schedule creation and classroom booking</p>
+    <div class="info-block d-flex align-items-center justify-content-center pb-5">
+        <div class="text-center py-4">
+            <h2 class="mb-3">Schedule creation and classroom booking</h2>
+            <p class="px-4 py-2">Використовуйте наведені нижче фільтри для отримання потрібного розкладу</p>
+        </div>
     </div>
 }
 
-<div class="container bg-white p-3 my-3">
-    <div class="row">
-        <div class="col">
-
+<div class="main-content py-5 d-flex justify-content-center">
+    <div class="schedule-filter-container mx-lg-3 mx-0">
+        <div class="d-flex flex-row mx-lg-0 mx-3">
+            <div class="filter-label mr-4 py-2 px-4">
+                <span>Фільтри</span>
+            </div>
+            <button class="clear-all py-2 px-3">Очистити все</button>
         </div>
-    </div>
+        <div class="lessons-booking-bg w-100 mt-5 py-5 px-5">
+            <div class="row">
+                <form class="col-4 ">
+                    <select class="selectpicker select-buttons" required="required" data-live-search="true" onchange="this.form.submit()" data-style="  py-2 px-4">
+                        <option disabled selected>Оберіть дату</option>
+                    </select>
+                </form>
+                <form class="col-4 ">
+                    <select class="selectpicker select-buttons" required="required" data-live-search="true" onchange="this.form.submit()" data-style="  py-2 px-4">
+                        <option disabled selected>Оберіть номер пари</option>
+                    </select>
+                </form>
+                <form class="col-4">
+                    <select class="selectpicker select-buttons" required="required" data-live-search="true" onchange="this.form.submit()" data-style="  py-2 px-4">
+                        <option disabled selected>Оберіть аудиторію</option>
+                    </select>
+                </form>
+            </div>
+            
+            
+            <div class="container-lessons-booking">
+                <div class="px-4 py-4">
+                    <div class="lessons-booking-block font-weight-bold d-flex flex-column flex-md-row">
+                        <div class="col-4-sm">
+                            <span class="mr-4">6 пара</span>
+                        </div>
+                        <div class="col-4-sm">
+                            <span class="mr-4">ауд. 439</span>
+                        </div>
+                        <div class="col-4-sm ">
+                            <span>16:10 - 18:00</span>
+                        </div>
+                    </div>
+                    <div class="text-white font-weight-bold my-4">
+                        <p>Додайте коментар</p>
+                    </div>
+                    <div class="text-center text-sm-right font-weight-bold ">
+                        <button class="book-button px-2 py-1 btn-outline-light text-white">
+                            Забронювати
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
 </div>
