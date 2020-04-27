@@ -18,6 +18,7 @@ using SCCB.Core.Settings;
 using SCCB.DAL;
 using SCCB.Repos;
 using SCCB.Services;
+using Serilog;
 
 namespace SCCB.Web
 {
@@ -126,6 +127,8 @@ namespace SCCB.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
