@@ -9,6 +9,7 @@ using SCCB.Services.GroupService;
 using SCCB.Services.LessonService;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
+using SCCB.Web.ViewComponents;
 
 namespace SCCB.Web.Controllers
 {
@@ -75,6 +76,34 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult FreeClassrooms(string weekday, string number, bool isNumerator, bool isDenominator)
+        {
+            return ViewComponent(
+                typeof(ClassroomOptionsViewComponent),
+                new LessonTime
+                {
+                    Weekday = weekday,
+                    LessonNumber = number,
+                    IsNumerator = isNumerator,
+                    IsDenominator = isDenominator,
+                });
+        }
+
+        [HttpGet]
+        public IActionResult FreeLectors(string weekday, string number, bool isNumerator, bool isDenominator)
+        {
+            return ViewComponent(
+                typeof(LectorOptionsViewComponent),
+                new LessonTime
+                {
+                    Weekday = weekday,
+                    LessonNumber = number,
+                    IsNumerator = isNumerator,
+                    IsDenominator = isDenominator,
+                });
+        }
+
+        [HttpGet]
         public IActionResult AddLesson(Guid groupId, string weekday)
         {
             var model = new LessonModel()
@@ -90,9 +119,17 @@ namespace SCCB.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var lessonDto = _mapper.Map<Lesson>(model);
-                await _lessonService.Add(lessonDto);
-                return PartialView("_AddLessonPartial");
+                try
+                {
+                    var lessonDto = _mapper.Map<Lesson>(model);
+                    await _lessonService.Add(lessonDto);
+                    return PartialView("_AddLessonPartial");
+                }
+                catch (ArgumentException e)
+                {
+                    ModelState.AddModelError(string.Empty, e.Message);
+                    return PartialView("_AddLessonPartial", model);
+                }
             }
             else
             {
@@ -104,7 +141,7 @@ namespace SCCB.Web.Controllers
         public async Task<IActionResult> EditLesson(Guid id)
         {
             var lessonDto = await _lessonService.Find(id);
-            var lessonModel = _mapper.Map<ProfileModel>(lessonDto);
+            var lessonModel = _mapper.Map<LessonModel>(lessonDto);
             return PartialView("_EditLessonPartial", lessonModel);
         }
 
@@ -115,7 +152,7 @@ namespace SCCB.Web.Controllers
             {
                 var lessonDto = _mapper.Map<Lesson>(model);
                 await _lessonService.Update(lessonDto);
-                return PartialView("_EditLessonPartial");
+                return PartialView("_EditLessonPartial", model);
             }
             else
             {

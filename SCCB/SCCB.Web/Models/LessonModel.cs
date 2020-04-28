@@ -9,6 +9,8 @@ namespace SCCB.Web.Models
     /// </summary>
     public class LessonModel
     {
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Gets or sets title.
         /// </summary>

@@ -46,6 +46,13 @@ namespace SCCB.Services.ClassroomService
         /// Get all classrooms grouped by building.
         /// </summary>
         /// <returns>ILookup of classrooms grouped by building.</returns>
-        Task<ILookup<string, Classroom>> GetAllGroupedByBuilding();
+        Task<IReadOnlyDictionary<string, IEnumerable<Classroom>>> GetAllGroupedByBuilding();
+
+        /// <summary>
+        /// Find free classrooms for given time.
+        /// </summary>
+        /// <param name="time">Lesson time for which to find classrooms.</param>
+        /// <returns>IReadOnlyDictionary of free classrooms grouped by building. If weekday or lesson number is null or empty returns empty dictionary.</returns>
+        Task<IReadOnlyDictionary<string, IEnumerable<Classroom>>> FindFreeClassroomsGroupedByBuilding(LessonTime time);
     }
 }
