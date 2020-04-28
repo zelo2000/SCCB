@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SCCB.DAL;
@@ -22,6 +24,12 @@ namespace SCCB.Repos.Users
         {
             return await _dbContext.Users
                 .FirstOrDefaultAsync(user => user.Email.Equals(email));
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRole(string role)
+        {
+            return await _dbContext.Users.Where(x => x.Role == role).ToListAsync();
         }
     }
 }

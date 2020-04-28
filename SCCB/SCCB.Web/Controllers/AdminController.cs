@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -127,6 +128,14 @@ namespace SCCB.Web.Controllers
         public async Task RemoveLesson(Guid id)
         {
             await _lessonService.Remove(id);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUsers(string role)
+        { 
+            var users = await _userService.FindByRole(role);
+            var model = new EditUsersModel() { Role = role, Users = users };
+            return View(model);
         }
     }
 }

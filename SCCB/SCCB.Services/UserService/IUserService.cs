@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SCCB.Core.DTO;
 
@@ -52,5 +53,12 @@ namespace SCCB.Services.UserService
         /// <param name="id">User's id.</param>
         /// <returns>User.</returns>
         Task<User> Find(Guid id);
+
+        /// <summary>
+        /// Find users by role.
+        /// </summary>
+        /// <param name="role">User's role.</param>
+        /// <returns>List of users.</returns>
+        Task<IEnumerable<User>> FindByRole(string role);
     }
 }

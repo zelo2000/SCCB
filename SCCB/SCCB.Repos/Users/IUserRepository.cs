@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SCCB.DAL.Entities;
 using SCCB.Repos.Generic;
@@ -13,5 +14,12 @@ namespace SCCB.Repos.Users
         /// <param name="email">Email address.</param>
         /// <returns>User.</returns>
         Task<User> FindByEmailAsync(string email);
+
+        /// <summary>
+        /// Find list of users by role.
+        /// </summary>
+        /// <param name="role">User role.</param>
+        /// <returns>Users list.</returns>
+        Task<IEnumerable<User>> FindByRole(string role);
     }
 }

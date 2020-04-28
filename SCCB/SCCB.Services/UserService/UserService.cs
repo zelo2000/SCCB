@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
@@ -58,6 +59,21 @@ namespace SCCB.Services.UserService
             var user = await FindUserEntity(id);
             var userDto = _mapper.Map<Core.DTO.User>(user);
             return userDto;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRole(string role)
+        {
+            if (role != null)
+            {
+                var users = await _unitOfWork.Users.FindByRole(role);
+                var usersDto = _mapper.Map<IEnumerable<Core.DTO.User>>(users);
+                return usersDto;
+            }
+            else
+            {
+                return new List<Core.DTO.User>();
+            }
         }
 
         /// <inheritdoc />
