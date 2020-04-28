@@ -17,6 +17,7 @@ namespace SCCB.Web
             CreateMap<LectorModel, Lector>()
                 .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.LastName));
+            CreateMap<BookingModel, Booking>();
 
             // DTO -> Model
             CreateMap<UserProfile, ProfileModel>();
@@ -27,6 +28,7 @@ namespace SCCB.Web
             CreateMap<Lector, LectorModel>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.UserFirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.UserLastName));
+            CreateMap<Booking, BookingModel>();
         }
     }
 }
