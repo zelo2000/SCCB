@@ -1,1 +1,45 @@
-﻿
+﻿:root {
+    --block_info_fill: rgba(0, 201, 209, 0.75);
+}
+
+.lessons-booking-bg {
+    min-height: 15.625rem;
+    background: white;
+    border-radius: 0.2rem;
+}
+
+.select-buttons {
+    background: white;
+    border: 0.09375rem solid black;
+    border-radius: 0.1875rem;
+    font-size: 0.9375rem;
+}
+
+.container-lessons-booking {
+    min-height: 10rem;
+    height: auto;
+    background: rgba(12, 11, 11, 0.80);
+    margin: 5%;
+}
+
+.lessons-booking-block {
+    color: white;
+    background: rgba(128, 128, 128, 0.9);
+    padding: 1%;
+}
+
+.book-button {
+    background: var(--block_info_fill);
+    border: white;
+    border-radius: 0.1875rem;
+    font-weight: bold;
+    font-size: 0.9375rem;
+}
+
+.book-button:hover {
+    -webkit-transition: .3s ease-in-out;
+    -o-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    background: rgba(82, 80, 80, 0.8);
+}

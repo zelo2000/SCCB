@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SCCB.Core.Infrastructure;
@@ -7,11 +9,23 @@ using SCCB.DAL;
 
 namespace SCCB.Repos.Generic
 {
+    /// <summary>
+    /// Generic repository.
+    /// </summary>
+    /// <typeparam name="TEntity">Type for entity.</typeparam>
+    /// <typeparam name="TKey">Type for client.</typeparam>
     public abstract class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey>
         where TEntity : class, IIdentifiable<TKey>
     {
+        /// <summary>
+        /// Gets db context instance.
+        /// </summary>
         public SCCBDbContext Context { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GenericRepository{TEntity, TKey}"/> class.
+        /// </summary>
+        /// <param name="context"> Db context instance.</param>
         public GenericRepository(SCCBDbContext context)
         {
             Context = context;
@@ -86,6 +100,13 @@ namespace SCCB.Repos.Generic
             }
 
             return query;
+        }
+
+        /// <inheritdoc />
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> whereExp)
+        {
+            var models = await Context.Set<TEntity>().Where(whereExp).SingleOrDefaultAsync();
+            return models;
         }
     }
 }

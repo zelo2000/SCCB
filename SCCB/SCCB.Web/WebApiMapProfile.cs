@@ -4,8 +4,14 @@ using SCCB.Web.Models;
 
 namespace SCCB.Web
 {
+    /// <summary>
+    /// Web API map profile.
+    /// </summary>
     public class WebApiMapProfile : Profile
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebApiMapProfile"/> class.
+        /// </summary>
         public WebApiMapProfile()
         {
             // Model -> DTO

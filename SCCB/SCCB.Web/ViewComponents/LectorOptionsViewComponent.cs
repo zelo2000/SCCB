@@ -1,24 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Services.LectorService;
-using SCCB.Web.Models;
 
 namespace SCCB.Web.ViewComponents
 {
+    /// <summary>
+    /// View component for lectors list.
+    /// </summary>
     public class LectorOptionsViewComponent : ViewComponent
     {
-        private readonly IMapper _mapper;
         private readonly ILectorService _lectorService;
 
-        public LectorOptionsViewComponent(IMapper mapper, ILectorService lectorService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LectorOptionsViewComponent"/> class.
+        /// </summary>
+        /// <param name="lectorService">Lector service.</param>
+        public LectorOptionsViewComponent(ILectorService lectorService)
         {
-            _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lectorService = lectorService ?? throw new ArgumentException(nameof(lectorService));
         }
 
+        /// <summary>
+        /// Method for calling partial view.
+        /// </summary>
+        /// <returns>IViewComponentResult.</returns>
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var lectors = await _lectorService.GetAllWithUserInfo();
