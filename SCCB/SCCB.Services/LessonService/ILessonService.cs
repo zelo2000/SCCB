@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SCCB.Core.DTO;
 
@@ -16,7 +15,7 @@ namespace SCCB.Services.LessonService
         /// <param name="groupId">Group id.</param>
         /// <param name="weekday">Weekday.</param>
         /// <returns>Lessons list.</returns>
-        Task<IDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday);
+        Task<IReadOnlyDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday);
 
         /// <summary>
         /// Find list of lessons by group id.

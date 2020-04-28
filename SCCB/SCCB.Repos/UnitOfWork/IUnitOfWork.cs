@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using SCCB.Repos.Bookings;
 using SCCB.Repos.Classrooms;
 using SCCB.Repos.Groups;
 using SCCB.Repos.Lectors;
@@ -19,6 +20,8 @@ namespace SCCB.Repos.UnitOfWork
         public IClassroomRepository Classrooms { get; }
 
         public ILectorRepository Lectors { get; }
+
+        public IBookingRepository Bookings { get; }
         #endregion
 
         /// <summary>

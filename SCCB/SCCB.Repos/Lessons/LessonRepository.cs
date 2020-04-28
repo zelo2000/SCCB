@@ -27,13 +27,13 @@ namespace SCCB.Repos.Lessons
         }
 
         /// <inheritdoc/>
-        public async Task<List<Lesson>> FindByGroupId(Guid id)
+        public async Task<IEnumerable<Lesson>> FindByGroupId(Guid id)
         {
             return await _dbContext.Lessons.Where(x => x.GroupId == id).ToListAsync();
         }
 
         /// <inheritdoc/>
-        public async Task<List<Lesson>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
+        public async Task<IEnumerable<Lesson>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
             return await _dbContext.Lessons.Include(x => x.Lector)
                                                 .ThenInclude(y => y.User)
@@ -41,6 +41,18 @@ namespace SCCB.Repos.Lessons
                                            .Where(x => x.GroupId == groupId && x.Weekday == weekday)
                                            .OrderBy(x => x.LessonNumber)
                                            .ToListAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<Lesson> FindByGroupIdAndTime(Guid groupId, Core.DTO.LessonTime time)
+        {
+            return await _dbContext.Lessons
+                .Where(lesson => lesson.GroupId == groupId
+                    && lesson.Weekday == time.Weekday
+                    && lesson.LessonNumber == time.LessonNumber
+                    && ((time.IsNumerator == time.IsDenominator)
+                        || (lesson.IsEnumerator == time.IsNumerator && lesson.IsDenominator == time.IsDenominator)))
+                .SingleOrDefaultAsync();
         }
     }
 }
