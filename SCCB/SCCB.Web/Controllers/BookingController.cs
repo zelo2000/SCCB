@@ -2,14 +2,27 @@
 
 namespace SCCB.Web.Controllers
 {
+    /// <summary>
+    /// Booking Controller.
+    /// </summary>
     public class BookingController : Controller
     {
-        public IActionResult PersonalBooking()
+        /// <summary>
+        /// Get method for calling personal booking page.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public IActionResult Personal()
         {
             return View();
         }
 
-        public IActionResult LessonBooking()
+        /// <summary>
+        /// Get method for calling booking create page.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
