@@ -19,7 +19,7 @@
             <div class="navbar-collapse collapse justify-content-between flex-sm-row">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end">
@@ -40,21 +40,16 @@
 
 <div class="container-fluid container-profile px-5 mt-5">
     <div class="d-flex justify-content-md-between flex-md-row flex-column mb-4">
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold"  asp-area="" asp-controller="Admin" asp-action="EditSchedule">
-                Редагування розкладу
-            </a>
-        </div>
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold"  asp-area="" asp-controller="Admin" asp-action="EditUsers">
-                Редагування користувачів
-            </a>
-        </div>
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold">
-                Підтвердження букінгу
-            </a>
-        </div>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold"
+           asp-area="" asp-controller="Admin" asp-action="EditSchedule">
+            Редагування розкладу
+        </a>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold">
+            Редагування користувачів
+        </a>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold">
+            Підтвердження букінгу
+        </a>
     </div>   
     <div class="d-flex justify-content-between">
         <div class="profile-button d-flex justify-content-center align-items-center">

@@ -35,20 +35,6 @@ namespace SCCB.Web.Controllers
             return View(model);
         }
 
-        /// <summary>
-        /// Get method for calling privacy policy page.
-        /// </summary>
-        /// <returns>IActionResult.</returns>
-        [HttpGet]
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Error method.
-        /// </summary>
-        /// <returns>IActionResult.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

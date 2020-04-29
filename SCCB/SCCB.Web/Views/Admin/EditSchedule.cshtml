@@ -19,7 +19,7 @@
             <div class="navbar-collapse collapse justify-content-between flex-sm-row">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end">
@@ -54,7 +54,8 @@
         <div class="schedule-bg w-100 mt-5 py-5 px-5">
             <div class="row">
                 <form asp-action="EditSchedule" method="get" class="col-2">
-                    <select asp-for="GroupId" class="selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="btn-light py-2 px-4">
+                    <select asp-for="GroupId" class="selectpicker" data-live-search="true" onchange="this.form.submit()" 
+                            data-style="btn-light main-selectors py-2 px-4">
                         <option disabled selected>-- Оберіть групу --</option>
                         @await Component.InvokeAsync("GroupOptions", new { groupId = Model.GroupId })
                     </select>
