@@ -23,7 +23,7 @@ namespace SCCB.Repos.Users
         public async Task<User> FindByEmailAsync(string email)
         {
             return await _dbContext.Users
-                .FirstOrDefaultAsync(user => user.Email.Equals(email));
+                .SingleOrDefaultAsync(user => user.Email.Equals(email));
         }
 
         /// <inheritdoc/>
