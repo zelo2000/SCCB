@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using SCCB.Core.DTO;
 using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LectorService
@@ -17,11 +18,27 @@ namespace SCCB.Services.LectorService
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
         }
 
-        public async Task<IEnumerable<Core.DTO.Lector>> GetAllWithUserInfo()
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Lector>> GetAllWithUserInfo()
         {
             var lectors = await _unitOfWork.Lectors.GetAllWithUserInfoAsync();
             var lectorDtos = _mapper.Map<IEnumerable<Core.DTO.Lector>>(lectors);
             return lectorDtos;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Lector>> FindFreeLectors(LessonTime time)
+        {
+            if (!string.IsNullOrEmpty(time.Weekday) && !string.IsNullOrEmpty(time.LessonNumber))
+            {
+                var lectors = await _unitOfWork.Lectors.FindFreeLectors(time);
+                var lectorDtos = _mapper.Map<IEnumerable<Lector>>(lectors);
+                return lectorDtos;
+            }
+            else
+            {
+                return new List<Lector>();
+            }
         }
     }
 }

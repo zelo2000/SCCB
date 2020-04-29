@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SCCB.Core.DTO;
 using SCCB.Services.LectorService;
 
 namespace SCCB.Web.ViewComponents
@@ -24,10 +25,11 @@ namespace SCCB.Web.ViewComponents
         /// <summary>
         /// Method for calling partial view.
         /// </summary>
+        /// <param name="time">Lesson time.</param>
         /// <returns>IViewComponentResult.</returns>
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(LessonTime time)
         {
-            var lectors = await _lectorService.GetAllWithUserInfo();
+            var lectors = await _lectorService.FindFreeLectors(time);
             return View(lectors);
         }
     }

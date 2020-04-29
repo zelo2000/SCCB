@@ -64,12 +64,32 @@ namespace SCCB.Services.ClassroomService
         }
 
         /// <inheritdoc/>
-        public async Task<ILookup<string, Classroom>> GetAllGroupedByBuilding()
+        public async Task<IReadOnlyDictionary<string, IEnumerable<Classroom>>> GetAllGroupedByBuilding()
         {
             var classrooms = await _unitOfWork.Classrooms.GetAllAsync();
             var classroomDtos = _mapper.Map<IEnumerable<Classroom>>(classrooms);
-            var classroomsByBuilding = classroomDtos.ToLookup(classroom => classroom.Building);
+            var classroomsByBuilding = classroomDtos
+                .GroupBy(classroom => classroom.Building)
+                .ToDictionary(group => group.Key, group => group.AsEnumerable());
             return classroomsByBuilding;
+        }
+
+        /// <inheritdoc/>
+        public async Task<IReadOnlyDictionary<string, IEnumerable<Classroom>>> FindFreeClassroomsGroupedByBuilding(LessonTime time)
+        {
+            if (!string.IsNullOrEmpty(time.Weekday) && !string.IsNullOrEmpty(time.LessonNumber))
+            {
+                var classrooms = await _unitOfWork.Classrooms.FindFreeClassrooms(time);
+                var classroomDtos = _mapper.Map<IEnumerable<Classroom>>(classrooms);
+                var classroomsByBuilding = classroomDtos
+                    .GroupBy(classroom => classroom.Building)
+                    .ToDictionary(group => group.Key, group => group.AsEnumerable());
+                return classroomsByBuilding;
+            }
+            else
+            {
+                return new Dictionary<string, IEnumerable<Classroom>>();
+            }
         }
 
         private async Task<DAL.Entities.Classroom> FindClassroomEntity(Guid id)
