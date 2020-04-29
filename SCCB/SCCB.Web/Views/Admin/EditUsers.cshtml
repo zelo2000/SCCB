@@ -8,8 +8,6 @@
     ViewData["Title"] = "EditUsers";
 }
 
-<h1>EditUsers</h1>
-
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark pb-3">
         <div class="container-fluid ml-4 mr-4">
@@ -67,11 +65,16 @@
                         <p>@user.FirstName @user.LastName @user.Email </p>
                     </div>
                     <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
-                        <button type="button" class="edit-button px-3 py-1 mr-2"
-                                data-toggle="ajax-modal-edit" >
+                        @{
+                            var routeData = new Dictionary<string, string>
+                                                {
+                            { "Id", user.Id.ToString() }
+                        };
+                        }
+                        <button type="button" class="edit-button px-3 py-1 mr-2" data-url="@Url.Action("EditUser", @routeData)">
                             Редагувати
                         </button>
-                        <button type="button" class="close-button px-3 py-1" >
+                        <button type="button" class="delete-button px-3 py-1" data-url="@Url.Action("RemoveUser", @routeData)">
                             Видалити
                         </button>
                     </div>
@@ -81,3 +84,9 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div id="EditUserPlaceholder"></div>
+
+@section Scripts {
+    <script src="~/js/EditUsers.js" asp-append-version="true"></script>
+}

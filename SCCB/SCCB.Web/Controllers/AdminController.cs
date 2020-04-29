@@ -169,10 +169,39 @@ namespace SCCB.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> EditUsers(string role)
-        { 
+        {
             var users = await _userService.FindByRole(role);
             var model = new EditUsersModel() { Role = role, Users = users };
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(Guid id)
+        {
+            var userDto = await _userService.Find(id);
+            var userModel = _mapper.Map<UserModel>(userDto);
+            return PartialView("_EditUserPartial", userModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(UserModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userDto = _mapper.Map<User>(model);
+                await _userService.Update(userDto);
+                return PartialView("_EditUserPartial", model);
+            }
+            else
+            {
+                return PartialView("_EditUserPartial", model);
+            }
+        }
+
+        [HttpDelete]
+        public async Task RemoveUser(Guid id)
+        {
+            await _userService.Remove(id);
         }
     }
 }

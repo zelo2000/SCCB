@@ -95,7 +95,6 @@ namespace SCCB.Services.UserService
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
                 user.Role = userDto.Role;
-                user.PasswordHash = _passwordProcessor.GetPasswordHash(userDto.Password);
 
                 _unitOfWork.Users.Update(user);
                 await _unitOfWork.CommitAsync();
