@@ -49,7 +49,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LessonBooking(BookingModel model)
+        public async Task<IActionResult> Create(BookingModel model)
         {
             if (ModelState.IsValid)
             {
