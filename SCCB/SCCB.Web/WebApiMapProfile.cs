@@ -18,12 +18,14 @@ namespace SCCB.Web
             CreateMap<SignUpModel, User>();
             CreateMap<ProfileModel, UserProfile>();
             CreateMap<LessonModel, Lesson>();
+            CreateMap<BookingModel, Booking>();
             CreateMap<UserModel, User>();
 
             // DTO -> Model
             CreateMap<UserProfile, ProfileModel>();
             CreateMap<User, ProfileModel>();
             CreateMap<Lesson, LessonModel>();
+            CreateMap<Booking, BookingModel>();
             CreateMap<User, UserModel>();
         }
     }
