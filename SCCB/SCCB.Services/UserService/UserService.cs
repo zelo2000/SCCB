@@ -62,11 +62,11 @@ namespace SCCB.Services.UserService
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<User>> FindByRole(string role)
+        public async Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id)
         {
             if (role != null)
             {
-                var users = await _unitOfWork.Users.FindByRole(role);
+                var users = await _unitOfWork.Users.FindByRoleWithoutOwnData(role, id);
                 var usersDto = _mapper.Map<IEnumerable<Core.DTO.User>>(users);
                 return usersDto;
             }

@@ -168,9 +168,10 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUsers(string role)
-        { 
-            var users = await _userService.FindByRole(role);
+        public async Task<IActionResult> EditUsers(string role = "NotApprovedUser")
+        {
+            var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+            var users = await _userService.FindByRoleWithoutOwnData(role, id);
             var model = new EditUsersModel() { Role = role, Users = users };
             return View(model);
         }

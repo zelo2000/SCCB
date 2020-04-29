@@ -2,13 +2,12 @@
 
 @section Styles {
     <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/usersEditing.css")" rel="stylesheet" type="text/css" />
 }
 
 @{
-    ViewData["Title"] = "EditUsers";
+    ViewData["Title"] = "Users Editing";
 }
-
-<h1>EditUsers</h1>
 
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark pb-3">
@@ -21,7 +20,7 @@
             <div class="navbar-collapse collapse justify-content-between flex-sm-row">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end">
@@ -46,11 +45,12 @@
 }
 
 <div class="main-content py-5 d-flex justify-content-center">
-    <div class="schedule-filter-container mx-lg-3 mx-0">
-        <div class="schedule-bg w-100 mt-5 py-5 px-5">
-            <div class="row">
-                <form asp-action="EditUsers" method="get" class="col-2">
-                    <select asp-for="Role" class="selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="btn-light py-2 px-4">
+    <div class="users-list-bg py-4 px-5">
+        <div class="users-list-block">
+            <div class="mb-4">
+                <form asp-action="EditUsers" method="get" class="col-2 p-0">
+                    <select asp-for="Role" class="selectpicker" onchange="this.form.submit()"
+                            data-style="btn-light main-selectors py-2 px-4">
                         <option disabled selected>-- Оберіть роль --</option>
                         <option>Student</option>
                         <option>Lector</option>
@@ -61,19 +61,27 @@
             </div>
             @if (Model.Role != null)
             {
+                <div class="mb-4">
+                    <form id="live-search" action="" method="post">
+                        <div>
+                            <input class="pl-3" type="text" id="filter" placeholder="Пошук ..." />
+                            <p class="text-right" id="filter-count"></p>
+                        </div>
+                    </form>
+                </div>
                 @foreach (var user in Model.Users)
                 {
-                    <div class="mb-3">
-                        <p>@user.FirstName @user.LastName @user.Email </p>
-                    </div>
-                    <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
-                        <button type="button" class="edit-button px-3 py-1 mr-2"
-                                data-toggle="ajax-modal-edit" >
-                            Редагувати
-                        </button>
-                        <button type="button" class="close-button px-3 py-1" >
-                            Видалити
-                        </button>
+                    <div class="liveSearchItem mb-3 pb-3">
+                        <p class="py-2 px-3 mb-0 text-center"><span>@user.LastName @user.FirstName</span> <br />Електронна пошта: @user.Email</p>
+                        <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
+                            <button type="button" class="edit-button px-3 py-1 mr-2"
+                                    data-toggle="ajax-modal-edit">
+                                Редагувати
+                            </button>
+                            <button type="button" class="close-button px-3 py-1">
+                                Видалити
+                            </button>
+                        </div>
                     </div>
                 }
             }
@@ -81,3 +89,6 @@
     </div>
 </div>
 
+@section Scripts {
+    <script src="~/js/liveSearch.js" asp-append-version="true"></script>
+}

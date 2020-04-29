@@ -20,6 +20,6 @@ namespace SCCB.Repos.Users
         /// </summary>
         /// <param name="role">User role.</param>
         /// <returns>Users list.</returns>
-        Task<IEnumerable<User>> FindByRole(string role);
+        Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id);
     }
 }
