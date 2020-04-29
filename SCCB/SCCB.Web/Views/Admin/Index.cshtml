@@ -48,7 +48,8 @@
            asp-area="" asp-controller="Admin" asp-action="EditUsers">
             Редагування користувачів
         </a>
-        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold">
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold"
+           asp-area="" asp-controller="Admin" asp-action="ApproveBooking">
             Підтвердження букінгу
         </a>
     </div>   
@@ -57,7 +58,7 @@
             <p class="my-2 font-slab font-weight-bold">Ваш профіль</p>
         </div>
         <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="PersonalBooking">
+            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="Personal">
                 Ваші бронювання
             </a>
         </div>
