@@ -26,6 +26,14 @@ namespace SCCB.Repos.Users
                 .SingleOrDefaultAsync(user => user.Email.Equals(email));
         }
 
+        /// <inheritdoc />
+        public async Task<User> FindWithLectorInfoById(Guid id)
+        {
+            return await _dbContext.Users.Include(x => x.Lector)
+                                         .Where(x => x.Id == id)
+                                         .SingleOrDefaultAsync();
+        }
+
         /// <inheritdoc/>
         public async Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id)
         {

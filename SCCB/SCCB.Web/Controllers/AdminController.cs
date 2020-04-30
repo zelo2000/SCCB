@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Services.GroupService;
+using SCCB.Services.LectorService;
 using SCCB.Services.LessonService;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
@@ -21,13 +21,19 @@ namespace SCCB.Web.Controllers
         private readonly ILessonService _lessonService;
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
+        private readonly ILectorService _lectorService;
 
-        public AdminController(IMapper mapper, ILessonService lessonService, IGroupService groupService, IUserService userService)
+        public AdminController(IMapper mapper,
+                               ILessonService lessonService,
+                               IGroupService groupService,
+                               IUserService userService,
+                               ILectorService lectorService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lessonService = lessonService ?? throw new ArgumentException(nameof(lessonService));
             _groupService = groupService ?? throw new ArgumentException(nameof(groupService));
             _userService = userService ?? throw new ArgumentException(nameof(userService));
+            _lectorService = lectorService ?? throw new ArgumentException(nameof(lectorService));
         }
 
         [HttpGet]
@@ -179,8 +185,9 @@ namespace SCCB.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUser(Guid id)
         {
-            var userDto = await _userService.Find(id);
+            var userDto = await _userService.FindWithLectorInfoById(id);
             var userModel = _mapper.Map<UserModel>(userDto);
+
             return PartialView("_EditUserPartial", userModel);
         }
 

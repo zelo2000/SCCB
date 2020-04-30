@@ -16,6 +16,13 @@ namespace SCCB.Repos.Users
         Task<User> FindByEmailAsync(string email);
 
         /// <summary>
+        /// Find user with lector info by id.
+        /// </summary>
+        /// <param name="id">User identifier.</param>
+        /// <returns>User.</returns>
+        Task<User> FindWithLectorInfoById(Guid id);
+
+        /// <summary>
         /// Find list of users by role.
         /// </summary>
         /// <param name="role">User role.</param>

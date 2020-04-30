@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SCCB.Core.Attributes;
 
 namespace SCCB.Web.Models
 {
@@ -38,5 +37,10 @@ namespace SCCB.Web.Models
         [Required]
         [MaxLength(15)]
         public string Role { get; set; }
+
+        /// <summary>
+        /// Gets or sets Lector Position.
+        /// </summary>
+        public string Position { get; set; }
     }
 }

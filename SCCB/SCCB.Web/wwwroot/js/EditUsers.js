@@ -9,7 +9,22 @@
                 placeholderElement.empty()
                 placeholderElement.html(data);
                 placeholderElement.find('.modal').modal('show');
+                if ($('#role').find("option:selected").text() == "Lector") {
+                    $('#position-hidden').fadeIn();
+                }
+                else {
+                    $('#position-hidden').hide();
+                }
                 $('.selectpicker').selectpicker('render');
+
+                $('#role').change(function () {
+                    if ($(this).find("option:selected").text() == "Lector") {
+                        $('#position-hidden').fadeIn();
+                    }
+                    else {
+                        $('#position-hidden').fadeOut();
+                    }
+                });
             })
             .fail(function (xhr, status, error) {
                 console.log(xhr.responseText);
@@ -41,7 +56,7 @@
             });
     });
 
-    $('.delete-button').click(function (event) {
+    $('.close-button').click(function (event) {
         const url = $(this).data('url');
 
         $.ajax({

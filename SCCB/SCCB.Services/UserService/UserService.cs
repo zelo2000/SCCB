@@ -76,6 +76,20 @@ namespace SCCB.Services.UserService
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<User> FindWithLectorInfoById(Guid id)
+        {
+            var user = await _unitOfWork.Users.FindWithLectorInfoById(id);
+            var userDto = _mapper.Map<Core.DTO.User>(user);
+
+            if (userDto.Role == "Lector")
+            {
+                userDto.Position = user.Lector.Position;
+            }
+
+            return userDto;
+        }
+
         /// <inheritdoc />
         public async Task Remove(Guid id)
         {
@@ -95,6 +109,11 @@ namespace SCCB.Services.UserService
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
                 user.Role = userDto.Role;
+
+                if (userDto.Role == "Lector")
+                {
+                    user.Lector.Position = userDto.Position;
+                }
 
                 _unitOfWork.Users.Update(user);
                 await _unitOfWork.CommitAsync();
@@ -143,13 +162,13 @@ namespace SCCB.Services.UserService
         }
 
         /// <summary>
-        /// Helper function that checks if user with specified email exists.
+        /// Helper function that checks if user with specified id exists.
         /// </summary>
         /// <param name="id">User's id.</param>
         /// <returns>User if exists.</returns>
         private async Task<DAL.Entities.User> FindUserEntity(Guid id)
         {
-            var user = await _unitOfWork.Users.FindAsync(id);
+            var user = await _unitOfWork.Users.FindWithLectorInfoById(id);
 
             if (user != null)
             {

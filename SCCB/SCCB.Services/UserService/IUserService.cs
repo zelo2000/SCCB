@@ -61,5 +61,12 @@ namespace SCCB.Services.UserService
         /// <param name="id">User's id.</param>
         /// <returns>List of users.</returns>
         Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id);
+
+        /// <summary>
+        /// Find user with lector info by id.
+        /// </summary>
+        /// <param name="id">User identifier.</param>
+        /// <returns>User.</returns>
+        Task<User> FindWithLectorInfoById(Guid id);
     }
 }
