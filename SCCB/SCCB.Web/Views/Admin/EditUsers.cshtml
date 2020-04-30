@@ -74,21 +74,31 @@
                     <div class="liveSearchItem mb-3 pb-3">
                         <p class="py-2 px-3 mb-0 text-center"><span>@user.LastName @user.FirstName</span> <br />Електронна пошта: @user.Email</p>
                         <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
-                            <button type="button" class="edit-button px-3 py-1 mr-2"
-                                    data-toggle="ajax-modal-edit">
+                            @{
+                                var routeData = new Dictionary<string, string>
+                                                    {
+                                { "Id", user.Id.ToString() }
+                            };
+                            }
+                            <button type="button" class="edit-button px-3 py-1 mr-2" data-url="@Url.Action("EditUser", @routeData)">
                                 Редагувати
                             </button>
-                            <button type="button" class="close-button px-3 py-1">
+                            <button type="button" class="delete-button px-3 py-1" data-url="@Url.Action("RemoveUser", @routeData)">
                                 Видалити
                             </button>
+                            </div>
                         </div>
-                    </div>
+                     </div>
                 }
             }
         </div>
     </div>
 </div>
 
+<!-- Modal -->
+<div id="EditUserPlaceholder"></div>
+
 @section Scripts {
+    <script src="~/js/EditUsers.js" asp-append-version="true"></script>
     <script src="~/js/liveSearch.js" asp-append-version="true"></script>
 }
