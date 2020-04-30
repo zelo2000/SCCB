@@ -92,5 +92,15 @@ namespace SCCB.Web.Controllers
 
             return PartialView("_ChangePasswordPartial", passwords);
         }
+
+        /// <summary>
+        /// Get method for calling list of groups.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public IActionResult Groups()
+        {
+            return View();
+        }
     }
 }
