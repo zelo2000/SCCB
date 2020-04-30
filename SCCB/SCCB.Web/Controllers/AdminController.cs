@@ -174,5 +174,15 @@ namespace SCCB.Web.Controllers
             var model = new EditUsersModel() { Role = role, Users = users };
             return View(model);
         }
+
+        /// <summary>
+        /// Get method for calling booking approve page.
+        /// </summary>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public IActionResult ApproveBooking()
+        {
+            return View();
+        }
     }
 }
