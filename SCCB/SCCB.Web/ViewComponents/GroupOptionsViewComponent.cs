@@ -26,10 +26,11 @@ namespace SCCB.Web.ViewComponents
         /// Method for calling partial view.
         /// </summary>
         /// <param name="groupId">Group identifier.</param>
+        /// <param name="option">Which groups to select. Possible options <see cref="Core.Constants.GroupOptions"/>.</param>
         /// <returns>IViewComponentResult.</returns>
-        public async Task<IViewComponentResult> InvokeAsync(Guid? groupId)
+        public async Task<IViewComponentResult> InvokeAsync(Guid? groupId, string option)
         {
-            var groups = await _groupService.GetAllAcademic();
+            var groups = await _groupService.FindByOption(option);
             var model = new GroupOptionsModel()
             {
                 GroupId = groupId,

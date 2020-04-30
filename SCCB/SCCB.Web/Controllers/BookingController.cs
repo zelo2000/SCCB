@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Services.BookingService;
 using SCCB.Web.Models;
+using SCCB.Web.ViewComponents;
 using System;
 using System.Threading.Tasks;
 
@@ -48,6 +50,11 @@ namespace SCCB.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Post method for calling booking create page.
+        /// </summary>
+        /// <param name="model">Booking model.</param>
+        /// <returns>IActionResult.</returns>
         [HttpPost]
         public async Task<IActionResult> Create(BookingModel model)
         {
@@ -56,12 +63,26 @@ namespace SCCB.Web.Controllers
                 var modelDto = _mapper.Map<Booking>(model);
                 modelDto.UserId = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
                 await _bookingService.Add(modelDto);
-                return View();
+                return RedirectToAction("Create");
             }
             else
             {
                 return View(model);
             }
+        }
+
+        /// <summary>
+        /// Get method for acquiring free classrooms for specified date and lesson number.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <param name="lessonNumber">Lesson number.</param>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public IActionResult FreeClassrooms(DateTime? date, int? lessonNumber)
+        {
+            return ViewComponent(
+                typeof(ClassroomOptionsForBookingViewComponent),
+                new { date, lessonNumber });
         }
     }
 }

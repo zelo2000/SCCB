@@ -13,24 +13,24 @@ namespace SCCB.Web.Models
         /// Gets or sets booking description.
         /// </summary>
         [Required]
+        [MaxLength(256)]
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets booking date.
         /// </summary>
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         /// <summary>
         /// Gets or sets booking lesson number.
         /// </summary>
         [Required]
-        public int LessonNumber { get; set; }
+        public int? LessonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets unique identifier of user who created the booking.
         /// </summary>
-        [NotEmptyGuid]
         public Guid UserId { get; set; }
 
         /// <summary>

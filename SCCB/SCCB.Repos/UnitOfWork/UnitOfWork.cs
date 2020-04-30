@@ -23,6 +23,7 @@ namespace SCCB.Repos.UnitOfWork
             Groups = new GroupRepository(_dbContext);
             Classrooms = new ClassroomRepository(_dbContext);
             Lectors = new LectorRepository(_dbContext);
+            Bookings = new BookingRepository(_dbContext);
         }
 
         #region Repositories
