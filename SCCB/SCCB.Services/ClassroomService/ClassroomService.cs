@@ -81,7 +81,7 @@ namespace SCCB.Services.ClassroomService
         /// <inheritdoc/>
         public async Task<IReadOnlyDictionary<string, IEnumerable<Classroom>>> FindFreeClassroomsGroupedByBuilding(LessonTime time)
         {
-            if (!string.IsNullOrEmpty(time.Weekday) && !string.IsNullOrEmpty(time.LessonNumber))
+            if (!string.IsNullOrEmpty(time.Weekday) && time.LessonNumber != null)
             {
                 var classrooms = await _unitOfWork.Classrooms.GetAllAsync();
                 var assignedForLesson = await _unitOfWork.Classrooms.FindClassroomsAssignedForLesson(time);
@@ -108,7 +108,7 @@ namespace SCCB.Services.ClassroomService
                 var time = new LessonTime
                 {
                     Weekday = Formatter.WeekdayUkrainian((DateTime)date),
-                    LessonNumber = lessonNumber.ToString(),
+                    LessonNumber = lessonNumber,
                 };
 
                 int weeksPassed = (int)((DateTime)date - TermSettings.FirstDay).TotalDays / 7;

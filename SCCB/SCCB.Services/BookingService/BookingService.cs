@@ -23,6 +23,7 @@ namespace SCCB.Services.BookingService
         public async Task Add(Booking bookingDto)
         {
             var booking = _mapper.Map<DAL.Entities.Booking>(bookingDto);
+            booking.IsApproved = false;
             await _unitOfWork.Bookings.AddAsync(booking);
             await _unitOfWork.CommitAsync();
         }

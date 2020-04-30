@@ -77,7 +77,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult FreeClassrooms(string weekday, string number, bool isNumerator, bool isDenominator)
+        public IActionResult FreeClassrooms(string weekday, int? number, bool isNumerator, bool isDenominator)
         {
             return ViewComponent(
                 typeof(ClassroomOptionsViewComponent),
@@ -91,7 +91,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult FreeLectors(string weekday, string number, bool isNumerator, bool isDenominator)
+        public IActionResult FreeLectors(string weekday, int? number, bool isNumerator, bool isDenominator)
         {
             return ViewComponent(
                 typeof(LectorOptionsViewComponent),
