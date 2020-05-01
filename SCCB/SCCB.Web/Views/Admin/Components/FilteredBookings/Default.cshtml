@@ -31,10 +31,10 @@
                     {
                         { "Id", @booking.Id.ToString() }
                     };
-                    <button type="button" class="approve-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Approve", @routeData)">
+                    <button type="button" class="approve-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Approve", @routeData)" data-user="@booking.UserId">
                         Підтвердити
                     </button>
-                    <button type="button" class="reject-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Reject", @routeData)">
+                    <button type="button" class="reject-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Reject", @routeData)" data-user="@booking.UserId">
                         Відхилити
                     </button>
                 }
