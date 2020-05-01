@@ -90,7 +90,7 @@
                                 col-lg-5">
                         <label asp-for="LessonNumber" class="ml-2">Вкажіть номер пари</label>
                         <select asp-for="LessonNumber" id="LessonNumber" class="w-100 selectpicker" title="-- Виберіть номер пари --">
-                            @for (int i = 1; i <= 8; i++)
+                            @for (int i = 1; i <= TermSettings.MaxLessons; i++)
                             {
                                 <option value="@i">@i</option>
                             }
@@ -119,7 +119,7 @@
                         <select asp-for="GroupId" class="w-100 selectpicker" title="-- Виберіть назву групи --">
                             @await Component.InvokeAsync(
                                 typeof(SCCB.Web.ViewComponents.GroupOptionsViewComponent),
-                                new { groupId = Model?.GroupId, option = SCCB.Core.Constants.GroupOptions.All })
+                                new { groupId = Model?.GroupId, option = GroupOptions.All })
                         </select>
                         <span asp-validation-for="GroupId" class="field-validation-error"></span>
                     </div>

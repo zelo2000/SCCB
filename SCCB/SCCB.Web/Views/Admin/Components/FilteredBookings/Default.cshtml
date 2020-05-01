@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SCCB.Core.DTO.BookingWithIncludedInfo>
+@using SCCB.Core.Constants
+
+@foreach (var booking in Model)
+{
+    <div class="approval-block mx-4 my-4 px-4 py-4">
+        <div class="items-block px-2 py-2 mb-2 font-weight-bold d-flex flex-column flex-md-row">
+            <div class="col-4-sm">
+                <span class="mr-4">@booking.LessonNumber пара</span>
+            </div>
+            <div class="col-4-sm">
+                <span class="mr-4">ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
+            </div>
+            <div class="col-4-sm">
+                <span>@TermSettings.BeginTimes[booking.LessonNumber] - @TermSettings.EndTimes[booking.LessonNumber]</span>
+            </div>
+        </div>
+        <div class="font-weight-bold d-flex flex-column flex-md-row">
+            <div class="col-8 comment-block text-white font-weight-bold mb-0 ml-0">
+                <p>@booking.Description</p>
+            </div>
+
+            <div class="col-4 text-center text-sm-right font-weight-bold ">
+                @if (booking.IsApproved)
+                {
+                    <p>Підтверджено</p>
+                }
+                else
+                {
+                    var routeData = new Dictionary<string, string>
+                    {
+                        { "Id", @booking.Id.ToString() }
+                    };
+                    <button type="button" class="approve-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Approve", @routeData)">
+                        Підтвердити
+                    </button>
+                    <button type="button" class="reject-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg" data-url="@Url.Action("Reject", @routeData)">
+                        Відхилити
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+}
