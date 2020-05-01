@@ -5,12 +5,15 @@ using SCCB.Core.DTO;
 
 namespace SCCB.Services.BookingService
 {
+    /// <summary>
+    /// Booking service.
+    /// </summary>
     public interface IBookingService
     {
         /// <summary>
         /// Add new booking.
         /// </summary>
-        /// <param name="booking">Booking.</param>
+        /// <param name="bookingDto">Booking.</param>
         /// <returns>Task.</returns>
         Task Add(Booking bookingDto);
 
@@ -22,5 +25,19 @@ namespace SCCB.Services.BookingService
         /// <param name="classroomId">Classroom id.</param>
         /// <returns>IEnumerable of bookings with user, classroom and group included.</returns>
         Task<IEnumerable<BookingWithIncludedInfo>> FindBookingsWithIncludedInfo(DateTime? date, int? lessonNumber, Guid? classroomId);
+
+        /// <summary>
+        /// Sets IsApproved property of Booking with specified id to true.
+        /// </summary>
+        /// <param name="id">Id.</param>
+        /// <returns>Task.</returns>
+        Task Approve(Guid id);
+
+        /// <summary>
+        /// Removes Booking with specified id.
+        /// </summary>
+        /// <param name="id">Id.</param>
+        /// <returns>Task.</returns>
+        Task Remove(Guid id);
     }
 }

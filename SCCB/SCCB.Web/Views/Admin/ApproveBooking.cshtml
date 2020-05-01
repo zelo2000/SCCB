@@ -1,4 +1,8 @@
-﻿@section Styles {
+﻿@model BookingFilter
+@using SCCB.Core.Constants
+@using SCCB.Web.ViewComponents
+
+@section Styles {
     <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/bookingApprove.css")" rel="stylesheet" type="text/css" />
 }
@@ -53,85 +57,44 @@
 
         <div class="approval-container w-100 mt-5 py-5 px-5">
             <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
-                <form class="col-4">
-                    <select class="w-100 selectpicker " data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4">
-                        <option disabled selected>--Оберіть дату--</option>
+                <form asp-action="ApproveBooking" method="get">
+                    <input asp-for="Date" type="date" class="col-4 w-100" onchange="this.form.submit()" />
+                    <select asp-for="LessonNumber" class="col-4 w-100 selectpicker " data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4"
+                            title="--Оберіть номер пари--">
+                        @for (int i = 1; i <= TermSettings.MaxLessons; i++)
+                        {
+                            if (i == Model.LessonNumber)
+                            {
+                                <option selected value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
                     </select>
-                </form>
-                <form class="col-4">
-                    <select class="w-100 selectpicker " data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4">
-                        <option disabled selected>--Оберіть номер пари--</option>
-                    </select>
-                </form>
-                <form class="col-4">
-                    <select class="w-100 selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4">
-                        <option disabled selected>--Оберіть аудиторію--</option>
+                    <select asp-for="ClassroomId" asp-items="Model.Classrooms"
+                            class="col-4 w-100 selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4" title="--Оберіть аудиторію--">
                     </select>
                 </form>
             </div>
 
-
-            <div class="schedule-bg pt-1">
-                <div class="approval-block mx-4 my-4 px-4 py-4">
-                    <div class="items-block px-2 py-2 mb-2 font-weight-bold d-flex flex-column flex-md-row">
-                        <div class="col-4-sm">
-                            <span class="mr-4">6 пара</span>
-                        </div>
-                        <div class="col-4-sm">
-                            <span class="mr-4">ауд. 439</span>
-                        </div>
-                        <div class="col-4-sm">
-                            <span>16:10 - 18:00</span>
-                        </div>
-                    </div>
-                    <div class="font-weight-bold d-flex flex-column flex-md-row">
-                        <div class="col-8 comment-block text-white font-weight-bold mb-0 ml-0">
-                            <p>Додайте коментар</p>
-                        </div>
-
-                        <div class="col-4 text-center text-sm-right font-weight-bold ">
-                            <button class="approve-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg">
-                                Підтвердити
-                            </button>
-                            <button class="reject-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg">
-                                Відхилити
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="approval-block mx-4 my-4 px-4 py-4">
-                    <div class="items-block px-2 py-2 mb-2 font-weight-bold d-flex flex-column flex-md-row">
-                        <div class="col-4-sm">
-                            <span class="mr-4">6 пара</span>
-                        </div>
-                        <div class="col-4-sm">
-                            <span class="mr-4">ауд. 439</span>
-                        </div>
-                        <div class="col-4-sm">
-                            <span>16:10 - 18:00</span>
-                        </div>
-                    </div>
-                    <div class="font-weight-bold d-flex flex-column flex-md-row">
-                        <div class="col-8 comment-block text-white font-weight-bold mb-0 ml-0">
-                            <p>Додайте коментар</p>
-                        </div>
-
-                        <div class="col-4 text-center text-sm-right font-weight-bold ">
-                            <button class="approve-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg">
-                                Підтвердити
-                            </button>
-                            <button class="reject-btn mx-2 my-2 px-2 py-1 text-white font-weight-bold btn-lg">
-                                Відхилити
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
+            <div id="Bookings" class="schedule-bg pt-1">
+                @await Component.InvokeAsync(
+                    typeof(FilteredBookingsViewComponent),
+                    new
+                    {
+                        date = Model.Date,
+                        lessonNumber = Model.LessonNumber,
+                        classroomId = Model.ClassroomId
+                    })
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/ApproveBooking.js" asp-append-version="true"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/js/BookingMessages.js" asp-append-version="true"></script>
+}

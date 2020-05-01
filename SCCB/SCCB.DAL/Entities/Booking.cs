@@ -13,6 +13,8 @@ namespace SCCB.DAL.Entities
 
         public int LessonNumber { get; set; }
 
+        public bool IsApproved { get; set; }
+
         public Guid UserId { get; set; }
 
         public User User { get; set; }

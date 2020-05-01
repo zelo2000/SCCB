@@ -9,10 +9,18 @@ namespace SCCB.Repos.Classrooms
     public interface IClassroomRepository : IGenericRepository<Classroom, Guid>
     {
         /// <summary>
-        /// Find free classrooms for given time.
+        /// Find classrooms that are assigned for any lesson at given time.
         /// </summary>
         /// <param name="time">Lesson time for which to find classrooms.</param>
         /// <returns>IEnumerable of free classrooms.</returns>
-        Task<IEnumerable<Classroom>> FindFreeClassrooms(Core.DTO.LessonTime time);
+        Task<IEnumerable<Classroom>> FindClassroomsAssignedForLesson(Core.DTO.LessonTime time);
+
+        /// <summary>
+        /// Find classrooms that are booked at given time.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <param name="lessonNumber">Lesson number.</param>
+        /// <returns>IEnumerable of free classrooms.</returns>
+        Task<IEnumerable<Classroom>> FindBookedClassrooms(DateTime date, int lessonNumber);
     }
 }

@@ -25,6 +25,11 @@ namespace SCCB.Core.DTO
         public int LessonNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether booking is approved by admin.
+        /// </summary>
+        public bool IsApproved { get; set; }
+
+        /// <summary>
         /// Gets or sets unique identifier of user who created the booking.
         /// </summary>
         public Guid UserId { get; set; }

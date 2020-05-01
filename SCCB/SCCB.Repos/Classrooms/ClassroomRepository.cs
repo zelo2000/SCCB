@@ -20,23 +20,25 @@ namespace SCCB.Repos.Classrooms
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<Classroom>> FindFreeClassrooms(Core.DTO.LessonTime time)
+        public async Task<IEnumerable<Classroom>> FindClassroomsAssignedForLesson(Core.DTO.LessonTime time)
         {
-            var classroomsInUse = _dbContext.Lessons
+            return await _dbContext.Lessons
                 .Where(lesson => lesson.Weekday == time.Weekday
                     && lesson.LessonNumber == time.LessonNumber
                     && ((lesson.IsEnumerator == lesson.IsDenominator)
                         || (lesson.IsEnumerator == time.IsNumerator && lesson.IsDenominator == time.IsDenominator)))
-                .Select(lesson => lesson.ClassroomId);
-
-            var freeClassrooms = await _dbContext.Classrooms
-                .Where(x => _dbContext.Classrooms
-                    .Select(classroom => classroom.Id)
-                    .Except(classroomsInUse)
-                    .Contains(x.Id))
+                .Select(lesson => lesson.Classroom)
                 .ToListAsync();
+        }
 
-            return freeClassrooms;
+        /// <inheritdoc/>
+        public async Task<IEnumerable<Classroom>> FindBookedClassrooms(DateTime date, int lessonNumber)
+        {
+            return await _dbContext.Bookings
+                .Where(booking => booking.Date == date
+                    && booking.LessonNumber == booking.LessonNumber)
+                .Select(lesson => lesson.Classroom)
+                .ToListAsync();
         }
     }
 }
