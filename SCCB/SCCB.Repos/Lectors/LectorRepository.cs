@@ -20,6 +20,14 @@ namespace SCCB.Repos.Lectors
         }
 
         /// <inheritdoc/>
+        public async Task<Lector> FindLectorByUserId(Guid userId)
+        {
+            return await _dbContext.Lectors.Include(x => x.User)
+                                           .Where(x => x.UserId == userId)
+                                           .FirstOrDefaultAsync();
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<Lector>> GetAllWithUserInfoAsync()
         {
             return await _dbContext.Lectors.Include(lector => lector.User).ToListAsync();

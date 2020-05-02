@@ -27,9 +27,10 @@ namespace SCCB.Repos.Users
         }
 
         /// <inheritdoc />
-        public async Task<User> FindWithLectorInfoById(Guid id)
+        public async Task<User> FindWithLectorAndStudentInfoById(Guid id)
         {
             return await _dbContext.Users.Include(x => x.Lector)
+                                         .Include(x => x.Student)
                                          .Where(x => x.Id == id)
                                          .SingleOrDefaultAsync();
         }

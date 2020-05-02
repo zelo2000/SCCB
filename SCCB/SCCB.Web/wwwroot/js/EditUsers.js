@@ -1,4 +1,13 @@
-﻿$(document).ready(function () {
+﻿function selectAdder(selectValue, inputId) {
+    if ($('#role').find("option:selected").text() == selectValue) {
+        $(inputId).fadeIn();
+    }
+    else {
+        $(inputId).hide();
+    }
+}
+
+$(document).ready(function () {
     var placeholderElement = $('#EditUserPlaceholder');
 
     $('.edit-button').click(function (event) {
@@ -9,21 +18,13 @@
                 placeholderElement.empty()
                 placeholderElement.html(data);
                 placeholderElement.find('.modal').modal('show');
-                if ($('#role').find("option:selected").text() == "Lector") {
-                    $('#position-hidden').fadeIn();
-                }
-                else {
-                    $('#position-hidden').hide();
-                }
+                selectAdder("Lector", "#position-hidden");
+                selectAdder("Student", "#studentId-hidden");
                 $('.selectpicker').selectpicker('render');
 
                 $('#role').change(function () {
-                    if ($(this).find("option:selected").text() == "Lector") {
-                        $('#position-hidden').fadeIn();
-                    }
-                    else {
-                        $('#position-hidden').fadeOut();
-                    }
+                    selectAdder("Lector", "#position-hidden");
+                    selectAdder("Student", "#studentId-hidden");
                 });
             })
             .fail(function (xhr, status, error) {
@@ -43,6 +44,8 @@
                 var newBody = $('.modal-body', data);
 
                 placeholderElement.find('.modal-body').replaceWith(newBody);
+                selectAdder("Lector", "#position-hidden");
+                selectAdder("Student", "#studentId-hidden");
                 $('.selectpicker').selectpicker('render');
                 const isValid = newBody.find('[name="IsValid"]').val() == 'True';
 

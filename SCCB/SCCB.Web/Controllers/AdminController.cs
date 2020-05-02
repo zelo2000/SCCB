@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Services.GroupService;
-using SCCB.Services.LectorService;
 using SCCB.Services.LessonService;
 using SCCB.Services.UserService;
 using SCCB.Web.Models;
@@ -21,19 +20,16 @@ namespace SCCB.Web.Controllers
         private readonly ILessonService _lessonService;
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
-        private readonly ILectorService _lectorService;
 
         public AdminController(IMapper mapper,
                                ILessonService lessonService,
                                IGroupService groupService,
-                               IUserService userService,
-                               ILectorService lectorService)
+                               IUserService userService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lessonService = lessonService ?? throw new ArgumentException(nameof(lessonService));
             _groupService = groupService ?? throw new ArgumentException(nameof(groupService));
             _userService = userService ?? throw new ArgumentException(nameof(userService));
-            _lectorService = lectorService ?? throw new ArgumentException(nameof(lectorService));
         }
 
         [HttpGet]
@@ -185,7 +181,7 @@ namespace SCCB.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUser(Guid id)
         {
-            var userDto = await _userService.FindWithLectorInfoById(id);
+            var userDto = await _userService.FindWithLectorAndStudentInfoById(id);
             var userModel = _mapper.Map<UserModel>(userDto);
 
             return PartialView("_EditUserPartial", userModel);
@@ -194,6 +190,17 @@ namespace SCCB.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUser(UserModel model)
         {
+            if (model.Position == null && model.Role == "Lector")
+            {
+                ModelState.AddModelError("Position", "Lector position is required");
+                return PartialView("_EditUserPartial", model);
+            }
+            else if (model.StudentId == null && model.Role == "Student")
+            {
+                ModelState.AddModelError("StudentId", "Student Id is required");
+                return PartialView("_EditUserPartial", model);
+            }
+
             if (ModelState.IsValid)
             {
                 var userDto = _mapper.Map<User>(model);

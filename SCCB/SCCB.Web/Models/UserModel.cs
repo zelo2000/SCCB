@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SCCB.Core.Attributes;
+using SCCB.Core.Constants;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SCCB.Web.Models
@@ -9,6 +11,11 @@ namespace SCCB.Web.Models
     public class UserModel
     {
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets Student identifier.
+        /// </summary>
+        public string StudentId { get; set; }
 
         /// <summary>
         /// Gets or sets First Name.

@@ -54,6 +54,12 @@
                         <input asp-for="Position" class="pl-3 py-2 w-100 border" />
                         <span asp-validation-for="Position" class="field-validation-error"></span>
                     </div>
+
+                    <div id="studentId-hidden" class="mb-4">
+                        <label asp-for="StudentId" class="ml-2">Вкажіть номер заліковки студента</label>
+                        <input asp-for="StudentId" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="StudentId" class="field-validation-error"></span>
+                    </div>
                 </form>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="green-bg px-3 py-2 mt-3 mb-3" id="EditUserSubmit">

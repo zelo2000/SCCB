@@ -32,6 +32,6 @@
     font-size: 1.1rem;
 }
 
-#position-hidden {
+#position-hidden, #studentId-hidden {
     display: none;
 }
