@@ -54,13 +54,13 @@ namespace SCCB.Services.LessonService
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
+        public async Task<IReadOnlyDictionary<int, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
             var lessons = await _unitOfWork.Lessons.FindByGroupIdAndWeekday(groupId, weekday);
             var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
 
             var lessonGroups = lessonsDto.GroupBy(lesson => lesson.LessonNumber)
-                .Select(entry => new KeyValuePair<string, IEnumerable<Lesson>>(
+                .Select(entry => new KeyValuePair<int, IEnumerable<Lesson>>(
                     entry.Key, entry.OrderBy(x => x.IsDenominator)))
                 .ToDictionary(x => x.Key, x => x.Value);
 

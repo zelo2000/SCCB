@@ -57,7 +57,7 @@
                     <select asp-for="GroupId" class="selectpicker" data-live-search="true" onchange="this.form.submit()" 
                             data-style="btn-light main-selectors py-2 px-4">
                         <option disabled selected>-- Оберіть групу --</option>
-                        @await Component.InvokeAsync("GroupOptions", new { groupId = Model.GroupId })
+                        @await Component.InvokeAsync("GroupOptions", new { groupId = Model.GroupId, option = SCCB.Core.Constants.GroupOptions.Academic })
                     </select>
                 </form>
             </div>

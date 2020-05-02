@@ -23,7 +23,7 @@ namespace SCCB.Web.ViewComponents
         }
 
         /// <summary>
-        /// Method for calling partial view.
+        /// Method for calling partial view. Finds free classrooms for specified lesson time.
         /// </summary>
         /// <param name="time">Lesson time.</param>
         /// <returns>IViewComponentResult.</returns>

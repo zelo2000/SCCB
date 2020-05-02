@@ -27,6 +27,7 @@ namespace SCCB.Repos.UnitOfWork
             Lectors = new LectorRepository(_dbContext);
             Admins = new AdminRepository(_dbContext);
             Students = new StudentRepository(_dbContext);
+            Bookings = new BookingRepository(_dbContext);
         }
 
         #region Repositories

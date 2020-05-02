@@ -46,5 +46,12 @@ namespace SCCB.Services.GroupService
         /// </summary>
         /// <returns>Group.</returns>
         Task<IEnumerable<Group>> GetAllAcademic();
+
+        /// <summary>
+        /// Find groups by option.
+        /// </summary>
+        /// <param name="option">Which groups to select. Possible options <see cref="SCCB.Core.Constants.GroupOptions"/>.</param>
+        /// <returns>IEnumerable of groups.</returns>
+        Task<IEnumerable<Group>> FindByOption(string option);
     }
 }
