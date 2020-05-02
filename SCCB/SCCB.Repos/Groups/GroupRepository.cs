@@ -23,5 +23,10 @@ namespace SCCB.Repos.Groups
         {
             return await _dbContext.Groups.Where(x => x.IsAcademic == isAcademic).ToListAsync();
         }
+
+        public Task<IEnumerable<Group>> FindNotAcademicByUserId(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SCCB.DAL;
 
 namespace SCCB.Web.Migrations
 {
     [DbContext(typeof(SCCBDbContext))]
-    partial class SCCBDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200502210229_GroupsUpdate")]
+    partial class GroupsUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -353,6 +355,7 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.User", "User")
                         .WithOne("Student")
                         .HasForeignKey("SCCB.DAL.Entities.Student", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

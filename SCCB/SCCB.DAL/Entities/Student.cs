@@ -10,5 +10,9 @@ namespace SCCB.DAL.Entities
         public Guid UserId { get; set; }
 
         public User User { get; set; }
+
+        public Guid AcademicGroupId { get; set; }
+
+        public Group AcademicGroup { get; set; }
     }
 }
