@@ -16,21 +16,16 @@ namespace SCCB.DAL.Configuration
 
             builder.HasMany(x => x.Bookings)
                 .WithOne(x => x.Group)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(x => x.Lessons)
                 .WithOne(x => x.Group)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasOne(x => x.Owner)
-                .WithMany(x => x.OwnedGroups)
-                .HasForeignKey(x => x.OwnerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             builder.HasMany(x => x.Students)
                 .WithOne(x => x.AcademicGroup)
                 .HasForeignKey(x => x.AcademicGroupId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

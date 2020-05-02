@@ -111,12 +111,7 @@ namespace SCCB.Web.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Groups");
                 });
@@ -262,6 +257,9 @@ namespace SCCB.Web.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsUserOwner")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -294,20 +292,11 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.Group", "Group")
                         .WithMany("Bookings")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("SCCB.DAL.Entities.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SCCB.DAL.Entities.Group", b =>
-                {
-                    b.HasOne("SCCB.DAL.Entities.User", "Owner")
-                        .WithMany("OwnedGroups")
-                        .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -332,7 +321,7 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.Group", "Group")
                         .WithMany("Lessons")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("SCCB.DAL.Entities.Lector", "Lector")
@@ -347,7 +336,7 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.Group", "AcademicGroup")
                         .WithMany("Students")
                         .HasForeignKey("AcademicGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("SCCB.DAL.Entities.User", "User")

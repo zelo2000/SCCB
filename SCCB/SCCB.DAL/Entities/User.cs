@@ -28,8 +28,6 @@ namespace SCCB.DAL.Entities
 
         public Admin Admin { get; set; }
 
-        public ICollection<Group> OwnedGroups { get; set; }
-
         public ICollection<Booking> Bookings { get; set; }
 
         public ICollection<UsersToGroups> UsersToGroups { get; set; }
