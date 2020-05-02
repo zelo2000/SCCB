@@ -174,6 +174,11 @@ namespace SCCB.Web.Controllers
             await _lessonService.Remove(id);
         }
 
+        /// <summary>
+        /// Get method for calling users edit page.
+        /// </summary>
+        /// <param name="role">User role.</param>
+        /// <returns>IActionResult.</returns>
         [HttpGet]
         public async Task<IActionResult> EditUsers(string role = "NotApprovedUser")
         {
@@ -239,6 +244,11 @@ namespace SCCB.Web.Controllers
             await _bookingService.Remove(id);
         }
 
+        /// <summary>
+        /// Get method for calling user edit modal page.
+        /// </summary>
+        /// <param name="id">User Identifier.</param>
+        /// <returns>IActionResult.</returns>
         [HttpGet]
         public async Task<IActionResult> EditUser(Guid id)
         {
@@ -248,6 +258,11 @@ namespace SCCB.Web.Controllers
             return PartialView("_EditUserPartial", userModel);
         }
 
+        /// <summary>
+        /// Post method for user edit.
+        /// </summary>
+        /// <param name="model">UserModel.</param>
+        /// <returns>IActionResult.</returns>
         [HttpPost]
         public async Task<IActionResult> EditUser(UserModel model)
         {
@@ -264,9 +279,17 @@ namespace SCCB.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                var userDto = _mapper.Map<User>(model);
-                await _userService.Update(userDto);
-                return PartialView("_EditUserPartial", model);
+                try
+                {
+                    var userDto = _mapper.Map<User>(model);
+                    await _userService.Update(userDto);
+                    return PartialView("_EditUserPartial", model);
+                }
+                catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return PartialView("_EditUserPartial", model);
+                }
             }
             else
             {
@@ -274,6 +297,11 @@ namespace SCCB.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete user method.
+        /// </summary>
+        /// <param name="id">User Identifier.</param>
+        /// <returns>Task.</returns>
         [HttpDelete]
         public async Task RemoveUser(Guid id)
         {

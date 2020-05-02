@@ -30,8 +30,10 @@ namespace SCCB.Web.Controllers
         public async Task<IActionResult> Edit()
         {
             var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
-            var user = await _userService.Find(id);
+            var user = await _userService.FindWithLectorAndStudentInfoById(id);
             var profileModel = _mapper.Map<ProfileModel>(user);
+            profileModel.StudentId = user.StudentId;
+            profileModel.LectorPosition = user.Position;
             return View(profileModel);
         }
 
