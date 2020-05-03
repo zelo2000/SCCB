@@ -47,20 +47,22 @@
 }
 
 <div class="main-content py-5 d-flex justify-content-center">
-    <div class="schedule-filter-container mx-lg-3 mx-0">
-        <div class="d-flex flex-row mx-lg-0 mx-3">
-            <div class="filter-label mr-4 py-2 px-4">
-                <span>Фільтри</span>
+    <div class="schedule-filter-container schedule-bg mt-5 py-5 px-5">
+            <div class="d-flex flex-row mb-4">
+                <div class="filter-label mr-4 py-2 px-4 d-flex align-items-center">
+                    <span>Фільтри</span>
+                </div>
+                <button class="clear-all py-2 px-3">Очистити все</button>
             </div>
-            <button class="clear-all py-2 px-3">Очистити все</button>
-        </div>
-
-        <div class="approval-container w-100 mt-5 py-5 px-5">
-            <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
-                <form asp-action="ApproveBooking" method="get">
-                    <input asp-for="Date" type="date" class="col-4 w-100" onchange="this.form.submit()" />
-                    <select asp-for="LessonNumber" class="col-4 w-100 selectpicker " data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4"
-                            title="--Оберіть номер пари--">
+            <form asp-action="ApproveBooking" method="get">
+                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
+                    <input asp-for="Date" type="date"
+                           class="col-12 col-sm-10 col-md-4 pl-3 py-2 border"
+                           onchange="this.form.submit()" />
+                    <select asp-for="LessonNumber"
+                            class="col-12 col-sm-10 col-md-4 my-3 my-md-0 p-0 p-md-3 selectpicker"
+                            data-live-search="true" title="--Оберіть номер пари--">
+                        onchange="this.form.submit()" data-style="btn-light py-2 px-4"
                         @for (int i = 1; i <= TermSettings.MaxLessons; i++)
                         {
                             if (i == Model.LessonNumber)
@@ -74,12 +76,14 @@
                         }
                     </select>
                     <select asp-for="ClassroomId" asp-items="Model.Classrooms"
-                            class="col-4 w-100 selectpicker" data-live-search="true" onchange="this.form.submit()" data-style="filter-btn py-2 px-4" title="--Оберіть аудиторію--">
+                            class="col-12 col-sm-10 col-md-4  selectpicker p-0"
+                            data-live-search="true" title="--Оберіть аудиторію--">
+                        onchange="this.form.submit()" data-style="btn-light py-2 px-4"
                     </select>
-                </form>
-            </div>
+                </div>
+            </form>
 
-            <div id="Bookings" class="schedule-bg pt-1">
+            <div id="Bookings" class="pt-1">
                 @await Component.InvokeAsync(
                     typeof(FilteredBookingsViewComponent),
                     new
@@ -89,7 +93,6 @@
                         classroomId = Model.ClassroomId
                     })
             </div>
-        </div>
     </div>
 </div>
 

@@ -1,65 +1,59 @@
 ﻿:root {
     --block_info_fill: rgba(0, 201, 209, 0.75);
+    --red: rgba(237, 33, 33, 0.8);
+    --gray: rgba(196, 196, 196, 0.18);
 }
 
-.approval-container {
-    width: 65rem;
-    max-width: 65rem;
-    margin-bottom: 6.25rem;
-    
+.modal-header button, .edit-delete-buttons button {
+    outline: none;
 }
 
-.approval-block {
-    background: rgba(169, 171, 173, 0.2);
+.bootstrap-select .dropdown-toggle:focus {
+    outline: none !important;
+}
+
+.btn-light {
+    color: black;
+    background: white;
+}
+
+.schedule-bg {
+    min-height: 17.5rem;
+}
+
+.approve-btn, .reject-btn {
+    border: none;
     border-radius: 0.2rem;
 }
 
-.filter-btn {
-    color: black;
-    background: white;
-    border: 0.1rem solid black;
-}
-
-.filter-btn:hover {
-    -webkit-transition: .3s ease-in-out;
-    -o-transition: .3s ease-in-out;
-    transition: .3s ease-in-out;
-    border: 0.15rem solid var(--block_info_fill);
+.approve-btn:focus, .reject-btn:focus {
+    outline: none;
 }
 
 .approve-btn {
-    color: white;
-    background: rgba(0, 201, 209, 0.75);
-    border-radius: 0.2rem;
-    border: rgba(0, 201, 209, 0.75);
-    width: 200px;
-    height: 50px;
+    border: 0.1rem solid var(--block_info_fill);
+    background-color: transparent;
+}
+
+.approve-btn:hover {
+    -webkit-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+
+    background: var(--block_info_fill);
 }
 
 .reject-btn {
-    color: white;
-    background: red;
-    border-radius: 0.2rem;
-    border: red;
-    width: 200px;
-    height: 50px;
-}
-
-.approve-btn:hover, .reject-btn:hover {
-    -webkit-transition: .1s ease-in-out;
-    -o-transition: .1s ease-in-out;
-    transition: .1s ease-in-out;
-    border-radius: 0.7rem;
-    border: 0.1rem solid white;
-}
-
-.comment-block {
-    background: rgba(150, 171, 173, 0.1);
-    border-radius: 0.2rem;
+    background: var(--red);
 }
 
 .items-block {
-    background: rgba(150, 171, 173, 0.1);
+    background: var(--gray);
+    border-radius: 0.2rem;
+}
+
+.items-block:nth-child(1), .approval-label {
+    color: var(--block_info_fill);
 }
 
 .filter-label {

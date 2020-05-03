@@ -26,6 +26,10 @@ textarea {
     font-size: 0.9375rem;
 }
 
+input {
+    font-size: 0.9375rem;
+}
+
 .book-button {
     border: none;
     outline: none;

@@ -24,11 +24,11 @@ header {
 .schedule-filter-container {
     width: 65rem;
     max-width: 65rem;
-    margin-bottom: 6.25rem;
+    margin-bottom: 6.875rem;
 }
 
 .schedule-bg {
-    min-height: 15.625rem;
+    min-height: 19rem;
     background: rgba(27, 29, 34, 0.85);
     border-radius: 0.2rem;
     border-bottom: 0.5rem solid var(--block_info_fill);
