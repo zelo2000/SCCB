@@ -85,30 +85,30 @@
                     <button class="clear-all py-2 px-3">Очистити все</button>
                 </div>
             </div>
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" name="main-form">
                 <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
                     <div class="col-12
                                 col-sm-10
                                 col-md-6
                                 col-lg-5 mb-4 mb-md-0">
-                                <label asp-for="Date" class="ml-2">Вкажіть дату проведення пари</label>
-                                <input asp-for="Date" type="date" id="Date" class="w-100 pl-3 py-2 border" />
-                            <span asp-validation-for="Date" class="field-validation-error"></span>
-                        </div>
-                        <div class="col-12
+                        <label asp-for="Date" class="ml-2">Вкажіть дату проведення пари</label>
+                        <input asp-for="Date" type="date" id="Date" class="w-100 pl-3 py-2 border" />
+                        <span asp-validation-for="Date" class="field-validation-error"></span>
+                    </div>
+                    <div class="col-12
                                 col-sm-10
                                 col-md-6
                                 col-lg-5">
-                                <label asp-for="LessonNumber" class="ml-2">Вкажіть номер пари</label>
-                                <select asp-for="LessonNumber" id="LessonNumber" class="w-100 selectpicker" title="-- Виберіть номер пари --">
-                                    @for (int i = 1; i <= TermSettings.MaxLessons; i++)
-                                    {
-                                        <option value="@i">@i</option>
-                                    }
-                                </select>
-                            <span asp-validation-for="LessonNumber" class="field-validation-error"></span>
-                        </div>
+                        <label asp-for="LessonNumber" class="ml-2">Вкажіть номер пари</label>
+                        <select asp-for="LessonNumber" id="LessonNumber" class="w-100 selectpicker" title="-- Виберіть номер пари --">
+                            @for (int i = 1; i <= TermSettings.MaxLessons; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                        <span asp-validation-for="LessonNumber" class="field-validation-error"></span>
                     </div>
+                </div>
                 <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
                     <div class="col-12
                                 col-sm-10
@@ -155,9 +155,11 @@
                 </div>
             </form>
         </div>
-        </div>
+    </div>
 </div>
 
 @section Scripts {
     <script src="~/js/Booking.js" asp-append-version="true"></script>
+    <script src="~/js/EditSchedule.js" asp-append-version="true"></script>
+    <script src="~/js/ResetButton.js" asp-append-version="true"></script>
 }
