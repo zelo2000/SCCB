@@ -67,7 +67,7 @@ namespace SCCB.Web
                     policy.RequireRole(Roles.NotApprovedUser, Roles.Student, Roles.Lector));
 
                 options.AddPolicy(Policies.ApprovedUserOnly, policy =>
-                    policy.RequireRole(Roles.Student, Roles.Lector));
+                    policy.RequireRole(Roles.Student, Roles.Lector, Roles.Admin));
 
                 options.AddPolicy(Policies.AdminOnly, policy =>
                     policy.RequireRole(Roles.Admin));

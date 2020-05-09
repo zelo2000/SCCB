@@ -21,5 +21,12 @@ namespace SCCB.Repos.Users
         /// <param name="role">User role.</param>
         /// <returns>Users list.</returns>
         Task<IEnumerable<User>> FindByRole(string role);
+
+        /// <summary>
+        /// Find users that are memebers of group with <paramref name="groupId"/>.
+        /// </summary>
+        /// <param name="groupId">Group id.</param>
+        /// <returns>IEnumerable of <see cref="User"/>.</returns>
+        Task<IEnumerable<User>> FindByGroupId(Guid groupId);
     }
 }

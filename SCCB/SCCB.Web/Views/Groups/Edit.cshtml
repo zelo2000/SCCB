@@ -1,5 +1,6 @@
-﻿@model GroupsModel
+﻿@model GroupModel
 @using SCCB.Core.Constants
+@using SCCB.Web.ViewComponents
 
 @section Styles {
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
@@ -8,7 +9,7 @@
 }
 
 @{
-    ViewData["Title"] = "Your Groups Page";
+    ViewData["Title"] = "Edit group";
 }
 
 @section Header {
@@ -59,52 +60,36 @@
 }
 
 <div class="container-fluid container-profile px-5 mt-5">
-    <div class="d-flex justify-content-between">
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            @if (User.Identity.IsAuthenticated)
-            {
-                @if (User.IsInRole(Roles.Admin))
-                {
-                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Admin" asp-action="Index">Ваш профіль</a>
-                }
-                else
-                {
-                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Edit">Ваш профіль</a>
-                }
-            }
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center">
-            <p class="my-2 font-slab font-weight-bold">Ваші групи</p>
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="Personal">
-                Ваші бронювання
-            </a>
-        </div>
+    <form asp-action="Edit" method="post">
+        <input asp-for="Id" type="hidden" />
+        <label asp-for="Name">Змінити назву:</label>
+        <input asp-for="Name" />
+        <button type="submit">Зберегти</button>
+    </form>
+
+    <div id="Members">
+        <h3>Члени групи:</h3>
+        @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
+            new { groupId = Model.Id, areMembers = true })
+    </div>
+    <div id="AddMembers">
+        <h3>Додати користувачів:</h3>
+        @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
+            new { groupId = Model.Id, areMembers = false })
     </div>
 
-    <div class="profile-info-block my-4 py-5 px-5">
-        @foreach (var group in Model.OwnedGroups)
-        {
-            <div class="container-groups px-1 py-2 my-4">
-                <div class="title-size text-white font-weight-bold my-1 mx-1">
-                    <p>@group.Name</p>
-                </div>
-                <div class="text-center text-sm-right font-weight-bold mx-2">
-                    <a asp-action="Edit" asp-route-id="@group.Id" class="edit-button px-2 py-1">
-                        Редагувати
-                    </a>
-                </div>
-            </div>
+    <div>
+        @{
+            var routeData = new Dictionary<string, string>
+            {
+                { "id", Model.Id.ToString() }
+            }; 
         }
-        @foreach (var group in Model.MemberGroups)
-        {
-            <div class="container-groups px-1 py-2 my-4">
-                <div class="title-size text-white font-weight-bold my-1 mx-1">
-                    <p>Назва групи</p>
-                </div>
-            </div>
-        }
-        <a asp-action="Create">Створити нову групу</a>
+        <button id="Remove" type="button" data-url=@Url.Action("Remove", "Groups", routeData)>Видалити групу</button>
+        <a asp-controller="Groups" asp-action="Index">Назад до моїх груп</a>
     </div>
 </div>
+
+@section scripts {
+        <script src="~/js/GroupEdit.js" asp-append-version="true"></script>
+}
