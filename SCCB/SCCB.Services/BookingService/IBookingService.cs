@@ -39,5 +39,12 @@ namespace SCCB.Services.BookingService
         /// <param name="id">Id.</param>
         /// <returns>Task.</returns>
         Task Remove(Guid id);
+
+        /// <summary>
+        /// Find bookings of user with <paramref name="userId"/> and his groups.
+        /// </summary>
+        /// <param name="userId">User id.</param>
+        /// <returns><see cref="PersonalBookings"/> object.</returns>
+        Task<PersonalBookings> FindPersonalBookings(Guid userId);
     }
 }

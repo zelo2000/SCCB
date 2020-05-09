@@ -36,7 +36,7 @@ namespace SCCB.Repos.Classrooms
         {
             return await _dbContext.Bookings
                 .Where(booking => booking.Date == date
-                    && booking.LessonNumber == booking.LessonNumber)
+                    && booking.LessonNumber == lessonNumber)
                 .Select(lesson => lesson.Classroom)
                 .ToListAsync();
         }

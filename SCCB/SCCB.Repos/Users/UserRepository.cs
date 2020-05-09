@@ -27,6 +27,16 @@ namespace SCCB.Repos.Users
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<User>> FindByGroupId(Guid groupId)
+        {
+            return await _dbContext.UsersToGroups
+                .Include(x => x.User)
+                .Where(x => x.GroupId == groupId)
+                .Select(x => x.User)
+                .ToListAsync();
+        }
+
+        /// <inheritdoc />
         public async Task<User> FindWithLectorAndStudentInfoById(Guid id)
         {
             return await _dbContext.Users.Include(x => x.Lector)
