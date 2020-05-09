@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Moq;
@@ -19,6 +21,7 @@ namespace SCCB.Services.Tests
         private Mock<IUnitOfWork> _unitOfWorkMock;
 
         private Classroom _newClassroom;
+        private Core.DTO.LessonTime _existingLessonTime;
         private Classroom _existingClassroom;
         private Classroom _anotherExistingClassroom;
 
@@ -54,6 +57,14 @@ namespace SCCB.Services.Tests
                 Building = "Geographic",
             };
 
+            _existingLessonTime = new Core.DTO.LessonTime()
+            {
+               Weekday = "Monday",
+               LessonNumber = "1",
+               IsDenominator = false,
+               IsNumerator = true,
+            };
+
             #region setup mocks
             _repositoryMock = new Mock<IClassroomRepository>();
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Classroom)null);
@@ -64,7 +75,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.Remove(_existingClassroom));
             _repositoryMock.Setup(repo => repo.Update(_anotherExistingClassroom));
             _repositoryMock.Setup(repo => repo.Remove(_anotherExistingClassroom));
-
+            _repositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(new List<Classroom> { _existingClassroom, _anotherExistingClassroom });
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Classrooms).Returns(_repositoryMock.Object);
             _unitOfWorkMock.Setup(uow => uow.CommitAsync());
@@ -152,6 +163,105 @@ namespace SCCB.Services.Tests
                 classroom.Building == _existingClassroom.Building)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public async Task GetAll_ExistingClassrooms_ReturnedClassrooms()
+        {
+            var result = await _service.GetAll();
+
+            Assert.That(
+                result.First().Id,
+                Is.EqualTo(_existingClassroom.Id));
+
+            Assert.That(
+                result.Last().Id,
+                Is.EqualTo(_anotherExistingClassroom.Id));
+
+            Assert.That(
+                result.Count(),
+                Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task GetAllGroupedByBuilding_ExistingClassrooms_ReturnedListOfClassrooms()
+        {
+            var result = await _service.GetAllGroupedByBuilding();
+
+            Assert.That(
+              result.Keys.Count(),
+              Is.EqualTo(1));
+
+            Assert.That(
+              result.Values.Count(),
+              Is.EqualTo(1));
+
+            Assert.That(
+              result.Values.First().Count,
+              Is.EqualTo(2));
+
+            Assert.That(
+                result.Keys.First(),
+                Is.EqualTo(_existingClassroom.Building));
+
+            Assert.That(
+                result.Values.First().First().Id,
+                Is.EqualTo(_existingClassroom.Id));
+
+            Assert.That(
+                result.Keys.Last(),
+                Is.EqualTo(_existingClassroom.Building));
+
+            Assert.That(
+                result.Values.Last().First().Id,
+                Is.EqualTo(_existingClassroom.Id));
+
+            Assert.That(
+                result.Keys.First(),
+                Is.EqualTo(_anotherExistingClassroom.Building));
+
+            Assert.That(
+                result.Values.First().Last().Id,
+                Is.EqualTo(_anotherExistingClassroom.Id));
+
+            Assert.That(
+                result.Keys.Last(),
+                Is.EqualTo(_anotherExistingClassroom.Building));
+
+            Assert.That(
+                result.Values.Last().Last().Id,
+                Is.EqualTo(_anotherExistingClassroom.Id));
+        }
+
+        [Test]
+        public async Task FindFreeClassrooms_GroupedByBuilding_ExistingClassrooms_ReturnedClassrooms()
+        {
+            var result = await _service.FindFreeClassroomsGroupedByBuilding(_existingLessonTime);
+
+            Assert.That(
+                result.FirstOrDefault,
+                Is.EqualTo(_existingLessonTime.Weekday));
+
+
+
+        }
+
+        [Test]
+        public async Task Find_ClassroomEntity_ReturnedClassroom()
+        {
+            var result = await _service.Find(_existingClassroom.Id);
+
+            Assert.That(
+                result.Id,
+                Is.EqualTo(_existingClassroom.Id));
+
+            Assert.That(
+                result.Number,
+                Is.EqualTo(_existingClassroom.Number));
+
+            Assert.That(
+                result.Building,
+                Is.EqualTo(_existingClassroom.Building));
         }
     }
 }
