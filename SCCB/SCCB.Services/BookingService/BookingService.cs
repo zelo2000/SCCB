@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -57,6 +58,22 @@ namespace SCCB.Services.BookingService
             var bookings = await _unitOfWork.Bookings.FindBookingsWithIncludedInfo(date, lessonNumber, classroomId);
             var bookingDtos = _mapper.Map<IEnumerable<BookingWithIncludedInfo>>(bookings);
             return bookingDtos;
+        }
+
+        /// <inheritdoc/>
+        public async Task<PersonalBookings> FindPersonalBookings(Guid userId)
+        {
+            var myBookings = await _unitOfWork.Bookings.FindBookingsByCreator(userId);
+            var myGroupsBookings = await _unitOfWork.Bookings.FindBookingsByMember(userId);
+            myGroupsBookings = myGroupsBookings.Except(myBookings);
+
+            var personalBookings = new PersonalBookings
+            {
+                MyBookings = _mapper.Map<IEnumerable<BookingWithIncludedInfo>>(myBookings),
+                MyGroupsBookings = _mapper.Map<IEnumerable<BookingWithIncludedInfo>>(myGroupsBookings),
+            };
+
+            return personalBookings;
         }
     }
 }

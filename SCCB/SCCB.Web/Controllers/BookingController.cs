@@ -14,6 +14,7 @@ namespace SCCB.Web.Controllers
     /// <summary>
     /// Booking controller.
     /// </summary>
+    [Authorize(Policy = Policies.ApprovedUserOnly)]
     public class BookingController : Controller
     {
         private readonly IMapper _mapper;
@@ -35,9 +36,11 @@ namespace SCCB.Web.Controllers
         /// </summary>
         /// <returns>IActionResult.</returns>
         [HttpGet]
-        public IActionResult Personal()
+        public async Task<IActionResult> Personal()
         {
-            return View();
+            var userId = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+            var personalBookings = await _bookingService.FindPersonalBookings(userId);
+            return View(personalBookings);
         }
 
         /// <summary>
@@ -83,6 +86,17 @@ namespace SCCB.Web.Controllers
             return ViewComponent(
                 typeof(ClassroomOptionsForBookingViewComponent),
                 new { date, lessonNumber });
+        }
+
+        /// <summary>
+        /// Remove booking.
+        /// </summary>
+        /// <param name="id">Booking Id.</param>
+        /// <returns>Task.</returns>
+        [HttpDelete]
+        public async Task Cancel(Guid id)
+        {
+            await _bookingService.Remove(id);
         }
     }
 }

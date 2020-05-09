@@ -16,5 +16,19 @@ namespace SCCB.Repos.Bookings
         /// <param name="classroomId">Classroom id.</param>
         /// <returns>IEnumerable of bookings with user, classroom and group included.</returns>
         Task<IEnumerable<Booking>> FindBookingsWithIncludedInfo(DateTime? date, int? lessonNumber, Guid? classroomId);
+
+        /// <summary>
+        /// Find bookings created by user with <paramref name="userId"/>.
+        /// </summary>
+        /// <param name="userId">User Id.</param>
+        /// <returns>IEnumerable of bookings with user, classroom and group included.</returns>
+        Task<IEnumerable<Booking>> FindBookingsByCreator(Guid userId);
+
+        /// <summary>
+        /// Find bookings for group where user with <paramref name="userId"/> is member.
+        /// </summary>
+        /// <param name="userId">User Id.</param>
+        /// <returns>IEnumerable of bookings with user, classroom and group included ordered by group.</returns>
+        Task<IEnumerable<Booking>> FindBookingsByMember(Guid userId);
     }
 }
