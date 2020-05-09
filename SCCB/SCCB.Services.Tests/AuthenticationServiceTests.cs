@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
@@ -30,6 +31,7 @@ namespace SCCB.Services.Tests
         private Mock<IUserRepository> _repositoryMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEmailService> _emailServiceMock;
+        private Mock<ILogger<AuthenticationService.AuthenticationService>> _logMock;
 
         private User _registeredUser;
         private User _newUser;
@@ -53,6 +55,7 @@ namespace SCCB.Services.Tests
                 IterationCount = 10000,
                 BytesNumber = 32,
             });
+
             var passwordProcessor = new PasswordProcessor(_hashGenerationSetting.Value);
 
             _registeredUser = new User()
@@ -82,6 +85,8 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.Empty));
+            _repositoryMock.Setup(repo => repo.GetAsync(x => x.ChangePasswordToken == _validToken &&
+                                          x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow));
             _repositoryMock.Setup(repo => repo.GetAsync(x => x.ChangePasswordToken == _invalidToken &&
                                           x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow))
                 .ThrowsAsync(new AccessViolationException("Token not found or expired"));
@@ -94,10 +99,14 @@ namespace SCCB.Services.Tests
 
             _emailServiceMock = new Mock<IEmailService>();
             _emailServiceMock.Setup(service => service.SendChangePasswordEmail(It.IsAny<Core.DTO.EmailWithToken>()));
+
+            _logMock = new Mock<ILogger<AuthenticationService.AuthenticationService>>();
+            _logMock.Setup(log => log.LogError(It.IsAny<string>()));
+
             #endregion
 
             _service = new AuthenticationService.AuthenticationService(
-                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting, _emailServiceMock.Object);
+                _mapper, _unitOfWorkMock.Object, _hashGenerationSetting, _emailServiceMock.Object, _logMock.Object);
         }
 
         [Test]
@@ -188,5 +197,21 @@ namespace SCCB.Services.Tests
                 () => _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword),
                 Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
+
+        [Test]
+        public void ChangeForgottenPassword_ValidToken_ChangedPassword()
+        {
+            _registeredUser.ChangePasswordToken = _validToken;
+            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(24);
+
+            _service.ChangeForgottenPassword(_validToken, _newUserPassword);
+
+            _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
+                user.Id == _registeredUser.Id &&
+                user.PasswordHash == _newUser.PasswordHash)));
+
+            _unitOfWorkMock.Verify(uow => uow.CommitAsync());
+        }
+
     }
 }
