@@ -35,7 +35,7 @@
                             { "Id", @lesson.Id.ToString() }
                         };
                     }
-                    <button type="button" class="edit-button px-3 py-1 mr-2" data-target="#EditingLesson"
+                    <button type="button" class="edit-button px-3 py-1 mr-2"
                             data-toggle="ajax-modal" data-url="@Url.Action("EditLesson", @routeData)">
                         Редагувати
                     </button>
@@ -52,6 +52,3 @@
         </div>
     </div>
 }
-
-<!-- Modal -->
-<div id="EditLessonPlaceholder"></div>
