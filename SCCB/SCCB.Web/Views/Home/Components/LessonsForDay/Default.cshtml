@@ -1,11 +1,17 @@
 ﻿@model IDictionary<int, IEnumerable<SCCB.Core.DTO.Lesson>>
+@using SCCB.Core.Constants
 
 @foreach (var group in Model)
 {
     <div class="mb-4 lesson">
         <div class="lesson-header">
             <div class="py-2">
-                <p class="px-4 mb-0"><span class="lesson-bold-info mr-1">@group.Key</span> <b>пара</b></p>
+                <p class="px-4 mb-0">
+                    <span class="lesson-bold-info mr-1">@group.Key</span>
+                    <b>
+                        <span class="mr-2">пара</span><span>(@TermSettings.BeginTimes[group.Key - 1].ToString("hh\\:mm") - @TermSettings.EndTimes[group.Key - 1].ToString("hh\\:mm"))</span>
+                    </b>
+                </p>
             </div>
         </div>
         <div class="py-2 lesson-body text-center">

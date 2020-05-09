@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -175,10 +174,16 @@ namespace SCCB.Web.Controllers
             await _lessonService.Remove(id);
         }
 
+        /// <summary>
+        /// Get method for calling users edit page.
+        /// </summary>
+        /// <param name="role">User role.</param>
+        /// <returns>IActionResult.</returns>
         [HttpGet]
-        public async Task<IActionResult> EditUsers(string role)
-        { 
-            var users = await _userService.FindByRole(role);
+        public async Task<IActionResult> EditUsers(string role = "NotApprovedUser")
+        {
+            var id = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+            var users = await _userService.FindByRoleWithoutOwnData(role, id);
             var model = new EditUsersModel() { Role = role, Users = users };
             return View(model);
         }
@@ -237,6 +242,70 @@ namespace SCCB.Web.Controllers
         public async Task Reject(Guid id)
         {
             await _bookingService.Remove(id);
+        }
+
+        /// <summary>
+        /// Get method for calling user edit modal page.
+        /// </summary>
+        /// <param name="id">User Identifier.</param>
+        /// <returns>IActionResult.</returns>
+        [HttpGet]
+        public async Task<IActionResult> EditUser(Guid id)
+        {
+            var userDto = await _userService.FindWithLectorAndStudentInfoById(id);
+            var userModel = _mapper.Map<UserModel>(userDto);
+
+            return PartialView("_EditUserPartial", userModel);
+        }
+
+        /// <summary>
+        /// Post method for user edit.
+        /// </summary>
+        /// <param name="model">UserModel.</param>
+        /// <returns>IActionResult.</returns>
+        [HttpPost]
+        public async Task<IActionResult> EditUser(UserModel model)
+        {
+            if (model.Position == null && model.Role == "Lector")
+            {
+                ModelState.AddModelError("Position", "Lector position is required");
+                return PartialView("_EditUserPartial", model);
+            }
+            else if (model.StudentId == null && model.Role == "Student")
+            {
+                ModelState.AddModelError("StudentId", "Student Id is required");
+                return PartialView("_EditUserPartial", model);
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userDto = _mapper.Map<User>(model);
+                    await _userService.Update(userDto);
+                    return PartialView("_EditUserPartial", model);
+                }
+                catch (ArgumentException e)
+                {
+                    ViewBag.Error = e.Message;
+                    return PartialView("_EditUserPartial", model);
+                }
+            }
+            else
+            {
+                return PartialView("_EditUserPartial", model);
+            }
+        }
+
+        /// <summary>
+        /// Delete user method.
+        /// </summary>
+        /// <param name="id">User Identifier.</param>
+        /// <returns>Task.</returns>
+        [HttpDelete]
+        public async Task RemoveUser(Guid id)
+        {
+            await _userService.Remove(id);
         }
     }
 }

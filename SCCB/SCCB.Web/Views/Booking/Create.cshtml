@@ -74,14 +74,25 @@
 <div class="main-content py-5 d-flex justify-content-center">
     <div class="lessons-booking-bg py-5 px-5">
         <div class="px-3">
-            <form asp-action="Create" method="post">
+            <div class="row d-flex justify-content-end">
+                <div class="col-12
+                            col-sm-11
+                            col-md-12
+                            col-lg-11 d-flex flex-row mb-5">
+                    <div class="filter-label mr-4 py-2 px-4">
+                        <span>Фільтри</span>
+                    </div>
+                    <button class="clear-all py-2 px-3">Очистити все</button>
+                </div>
+            </div>
+            <form asp-action="Create" method="post" name="main-form">
                 <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
                     <div class="col-12
                                 col-sm-10
                                 col-md-6
                                 col-lg-5 mb-4 mb-md-0">
                         <label asp-for="Date" class="ml-2">Вкажіть дату проведення пари</label>
-                        <input asp-for="Date" type="date" id="Date" class="w-100" />
+                        <input asp-for="Date" type="date" id="Date" class="w-100 pl-3 py-2 border" />
                         <span asp-validation-for="Date" class="field-validation-error"></span>
                     </div>
                     <div class="col-12
@@ -124,7 +135,7 @@
                         <span asp-validation-for="GroupId" class="field-validation-error"></span>
                     </div>
                 </div>
-                <div class="row d-flex justify-content-center align-items-center mt-5 mb-2">
+                <div class="row d-flex justify-content-center align-items-center mt-4 mb-2">
                     <div class="col-12
                             col-sm-10
                             col-md-12
@@ -149,4 +160,5 @@
 
 @section Scripts {
     <script src="~/js/Booking.js" asp-append-version="true"></script>
+    <script src="~/js/ResetButton.js" asp-append-version="true"></script>
 }

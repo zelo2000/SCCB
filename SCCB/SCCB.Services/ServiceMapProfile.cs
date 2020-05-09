@@ -25,11 +25,11 @@ namespace SCCB.Services
             CreateMap<DAL.Entities.Group, Core.DTO.Group>();
             CreateMap<DAL.Entities.Classroom, Core.DTO.Classroom>();
             CreateMap<DAL.Entities.Lector, Core.DTO.Lector>();
+            CreateMap<DAL.Entities.Booking, Core.DTO.Booking>();
+            CreateMap<DAL.Entities.Booking, Core.DTO.BookingWithIncludedInfo>();
 
             // DTO.Lesson -> DTO.LessonTime
             CreateMap<Core.DTO.Lesson, Core.DTO.LessonTime>();
-            CreateMap<DAL.Entities.Booking, Core.DTO.Booking>();
-            CreateMap<DAL.Entities.Booking, Core.DTO.BookingWithIncludedInfo>();
         }
     }
 }

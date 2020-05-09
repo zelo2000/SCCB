@@ -112,6 +112,14 @@ a.hover-erase:hover {
 	outline: none;
 }
 
+.student-label p {
+	font-size: 0.9375rem;
+}
+
+.student-label span {
+	font-weight: bold;
+}
+
 @media (max-width: 576px) {
 	.profile-button {
 		width: 45%;

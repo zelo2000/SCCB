@@ -19,6 +19,7 @@ namespace SCCB.Web
             CreateMap<ProfileModel, UserProfile>();
             CreateMap<LessonModel, Lesson>();
             CreateMap<BookingModel, Booking>();
+            CreateMap<UserModel, User>();
             CreateMap<GroupModel, Group>();
 
             // DTO -> Model
@@ -26,6 +27,7 @@ namespace SCCB.Web
             CreateMap<User, ProfileModel>();
             CreateMap<Lesson, LessonModel>();
             CreateMap<Booking, BookingModel>();
+            CreateMap<User, UserModel>();
             CreateMap<Group, GroupModel>();
         }
     }

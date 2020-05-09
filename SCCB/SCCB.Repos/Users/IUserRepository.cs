@@ -16,6 +16,13 @@ namespace SCCB.Repos.Users
         Task<User> FindByEmailAsync(string email);
 
         /// <summary>
+        /// Find user with lector and student info by id.
+        /// </summary>
+        /// <param name="id">User identifier.</param>
+        /// <returns>User.</returns>
+        Task<User> FindWithLectorAndStudentInfoById(Guid id);
+
+        /// <summary>
         /// Find list of users by role.
         /// </summary>
         /// <param name="role">User role.</param>
@@ -28,5 +35,7 @@ namespace SCCB.Repos.Users
         /// <param name="groupId">Group id.</param>
         /// <returns>IEnumerable of <see cref="User"/>.</returns>
         Task<IEnumerable<User>> FindByGroupId(Guid groupId);
+
+        Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id);
     }
 }

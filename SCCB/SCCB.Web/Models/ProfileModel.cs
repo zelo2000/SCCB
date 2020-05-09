@@ -7,6 +7,10 @@ namespace SCCB.Web.Models
     /// </summary>
     public class ProfileModel
     {
+        public string StudentId { get; set; }
+
+        public string LectorPosition { get; set; }
+
         /// <summary>
         /// Gets or sets email address.
         /// </summary>

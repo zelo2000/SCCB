@@ -2,6 +2,10 @@
     --block_info_fill: rgba(0, 201, 209, 0.75);
 }
 
+.schedule-bg {
+    min-height: 15.625rem;
+}
+
 .info-block p {
     background: var(--block_info_fill);
     max-width: 28rem;
