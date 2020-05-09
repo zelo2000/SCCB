@@ -14,6 +14,7 @@ namespace SCCB.Web.Controllers
     /// <summary>
     /// Booking controller.
     /// </summary>
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly IMapper _mapper;

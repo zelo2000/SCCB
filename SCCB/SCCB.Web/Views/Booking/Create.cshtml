@@ -86,6 +86,7 @@
                 </div>
             </div>
             <form asp-action="Create" method="post" name="main-form">
+                <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
                 <div class="row d-flex flex-column flex-md-row justify-content-center align-items-center mb-4">
                     <div class="col-12
                                 col-sm-10
@@ -149,7 +150,7 @@
                         col-sm-11
                         col-md-12
                         col-lg-11 d-flex justify-content-sm-end justify-content-center p-0">
-                    <button type="submit" class="book-button px-4 py-2 mt-4">
+                    <button class="book-button px-4 py-2 mt-4">
                         Забронювати
                     </button>
                 </div>

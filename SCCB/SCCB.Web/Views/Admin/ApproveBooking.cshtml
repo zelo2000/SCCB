@@ -61,8 +61,8 @@
                            onchange="this.form.submit()" />
                     <select asp-for="LessonNumber"
                             class="col-12 col-sm-10 col-md-4 my-3 my-md-0 p-0 p-md-3 selectpicker"
-                            data-live-search="true" title="--Оберіть номер пари--">
-                        onchange="this.form.submit()" data-style="btn-light py-2 px-4"
+                            data-live-search="true" title="--Оберіть номер пари--"
+                            onchange="this.form.submit()" data-style="btn-light py-2 px-4">
                         @for (int i = 1; i <= TermSettings.MaxLessons; i++)
                         {
                             if (i == Model.LessonNumber)
@@ -77,8 +77,8 @@
                     </select>
                     <select asp-for="ClassroomId" asp-items="Model.Classrooms"
                             class="col-12 col-sm-10 col-md-4  selectpicker p-0"
-                            data-live-search="true" title="--Оберіть аудиторію--">
-                        onchange="this.form.submit()" data-style="btn-light py-2 px-4"
+                            data-live-search="true" title="--Оберіть аудиторію--"
+                            onchange="this.form.submit()" data-style="btn-light py-2 px-4">
                     </select>
                 </div>
             </form>
@@ -98,7 +98,5 @@
 
 @section Scripts {
     <script src="~/js/ApproveBooking.js" asp-append-version="true"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
-    <script src="~/js/BookingMessages.js" asp-append-version="true"></script>
     <script src="~/js/ResetButton.js" asp-append-version="true"></script>
 }
