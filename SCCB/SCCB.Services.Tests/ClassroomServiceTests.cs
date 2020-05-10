@@ -24,6 +24,7 @@ namespace SCCB.Services.Tests
         private Core.DTO.LessonTime _existingLessonTime;
         private Classroom _existingClassroom;
         private Classroom _anotherExistingClassroom;
+        private DateTime dateTime = DateTime.Parse("12.12.20");
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -60,7 +61,7 @@ namespace SCCB.Services.Tests
             _existingLessonTime = new Core.DTO.LessonTime()
             {
                Weekday = "Monday",
-               LessonNumber = "1",
+               LessonNumber = 1,
                IsDenominator = false,
                IsNumerator = true,
             };
@@ -70,6 +71,8 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Classroom)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingClassroom.Id)).ReturnsAsync(_existingClassroom);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherExistingClassroom.Id)).ReturnsAsync(_anotherExistingClassroom);
+            _repositoryMock.Setup(repo => repo.FindClassroomsAssignedForLesson(_existingLessonTime)).ReturnsAsync(new List<Classroom> { _existingClassroom });
+            _repositoryMock.Setup(repo => repo.FindBookedClassrooms(dateTime, _existingLessonTime.LessonNumber.Value)).ReturnsAsync(new List<Classroom> { _anotherExistingClassroom });
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Classroom>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_existingClassroom));
             _repositoryMock.Setup(repo => repo.Remove(_existingClassroom));
@@ -239,11 +242,34 @@ namespace SCCB.Services.Tests
             var result = await _service.FindFreeClassroomsGroupedByBuilding(_existingLessonTime);
 
             Assert.That(
-                result.FirstOrDefault,
-                Is.EqualTo(_existingLessonTime.Weekday));
+                result.Keys.First(),
+                Is.EqualTo(_anotherExistingClassroom.Building));
 
+            Assert.That(
+                result.Values.First().First().Number,
+                Is.EqualTo(_anotherExistingClassroom.Number));
 
+            Assert.That(
+                result.Values.First().First().Id,
+                Is.EqualTo(_anotherExistingClassroom.Id));
+        }
 
+        [Test]
+        public async Task FindFreeClassrooms_GroupedByBuilding_ExistingClassrooms_ReturnedClassrooms_2()
+        {
+            var result = await _service.FindFreeClassroomsGroupedByBuilding(dateTime, _existingLessonTime.LessonNumber.Value);
+
+            Assert.That(
+                result.Keys.First(),
+                Is.EqualTo(_anotherExistingClassroom.Building));
+
+            Assert.That(
+                result.Values.First().First().Number,
+                Is.EqualTo(_existingClassroom.Number));
+
+            Assert.That(
+                result.Values.First().First().Id,
+                Is.EqualTo(_existingClassroom.Id));
         }
 
         [Test]
