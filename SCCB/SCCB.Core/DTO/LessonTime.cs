@@ -17,7 +17,7 @@ namespace SCCB.Core.DTO
         /// <summary>
         /// Gets or sets lesson number.
         /// </summary>
-        public string LessonNumber { get; set; }
+        public int? LessonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether lesson takes place by numerator weeks.

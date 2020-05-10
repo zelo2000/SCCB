@@ -1,0 +1,61 @@
+﻿:root {
+    --block_info_fill: rgba(0, 201, 209, 0.75);
+    --red: rgba(237, 33, 33, 0.8);
+    --gray: rgba(196, 196, 196, 0.18);
+}
+
+.modal-header button, .edit-delete-buttons button {
+    outline: none;
+}
+
+.bootstrap-select .dropdown-toggle:focus {
+    outline: none !important;
+}
+
+.btn-light {
+    color: black;
+    background: white;
+}
+
+.schedule-bg {
+    min-height: 17.5rem;
+}
+
+.approve-btn, .reject-btn {
+    border: none;
+    border-radius: 0.2rem;
+}
+
+.approve-btn:focus, .reject-btn:focus {
+    outline: none;
+}
+
+.approve-btn {
+    border: 0.1rem solid var(--block_info_fill);
+    background-color: transparent;
+}
+
+.approve-btn:hover {
+    -webkit-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+
+    background: var(--block_info_fill);
+}
+
+.reject-btn {
+    background: var(--red);
+}
+
+.items-block {
+    background: var(--gray);
+    border-radius: 0.2rem;
+}
+
+.items-block:nth-child(1), .approval-label {
+    color: var(--block_info_fill);
+}
+
+.filter-label {
+    border-left: 0.4375rem solid var(--block_info_fill);
+}

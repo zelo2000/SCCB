@@ -9,6 +9,13 @@ namespace SCCB.Repos.Lectors
     public interface ILectorRepository : IGenericRepository<Lector, Guid>
     {
         /// <summary>
+        /// Find lector by user identifier.
+        /// </summary>
+        /// <param name="userId">User identifier.</param>
+        /// <returns>Lector.</returns>
+        Task<Lector> FindLectorByUserId(Guid userId);
+
+        /// <summary>
         /// Get all lectors with info about user.
         /// </summary>
         /// <returns>IEnumerable of lectors.</returns>

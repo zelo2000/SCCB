@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     var placeholderElement = $('#AddLessonPlaceholder');
-    var placeholderElementEdit = $('#EditLessonPlaceholder');
-    // TODO Try to find solution
+
     const weekdays = ["Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця"];
 
     const refreshLessonsUrl = '/Admin/LessonsForDay';

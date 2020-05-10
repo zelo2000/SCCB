@@ -25,7 +25,7 @@ namespace SCCB.DAL.Entities
 
         public string Weekday { get; set; }
 
-        public string LessonNumber { get; set; }
+        public int LessonNumber { get; set; }
 
         public Guid ClassroomId { get; set; }
 

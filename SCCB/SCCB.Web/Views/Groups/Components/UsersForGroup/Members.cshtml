@@ -1,0 +1,21 @@
+﻿@model UsersForGroupModel
+@using SCCB.Core.Constants
+
+@foreach (var user in Model.Users)
+{
+    <div>
+        <span>@user.FirstName @user.LastName</span>
+        @if (user.Id != Guid.Parse(User.FindFirst(ClaimKeys.Id).Value))
+        {
+            var routeData = new Dictionary<string, string>
+            {
+                { "userId", user.Id.ToString() },
+                { "groupId", Model.GroupId.ToString() },
+            };
+            <button class="remove-btn" type="button" data-url=@Url.Action("RemoveUser", "Groups", routeData)>
+                Видалити
+            </button>
+        }
+
+    </div>
+}

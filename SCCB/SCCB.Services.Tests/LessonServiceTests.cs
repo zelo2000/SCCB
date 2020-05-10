@@ -46,7 +46,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "1",
+                LessonNumber = 1,
             };
 
             _anotherExistingLesson = new Lesson()
@@ -60,7 +60,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "2",
+                LessonNumber = 2,
             };
 
             _newLesson = new Lesson()
@@ -74,7 +74,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "3",
+                LessonNumber = 3,
             };
 
             #region setup mocks

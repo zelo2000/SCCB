@@ -1,0 +1,31 @@
+﻿:root {
+    --gray: rgba(196, 196, 196, 0.25);
+    --block_info_fill: rgba(0, 201, 209, 0.75);
+}
+
+.edit-button {
+    outline: none;
+    border: 0.1rem solid var(--block_info_fill);
+    border-radius: 0.1875rem;
+    background: none;
+    color: var(--block_info_fill);
+}
+
+.edit-button:hover {
+    color: white;
+    background: var(--block_info_fill);
+    opacity: 0.9;
+    -webkit-transition: .35s ease-out;
+    -o-transition: .35s ease-out;
+    transition: .35s ease-out;
+}
+
+.container-groups {
+    min-height: 3.5rem;
+    background: var(--gray);
+    border-left: 0.5rem solid var(--block_info_fill);
+}
+
+.title-size {
+    font-size: 2rem;
+}

@@ -1,9 +1,15 @@
-﻿@using SCCB.Core.Constants
+﻿@model SCCB.Core.DTO.Group
+@using SCCB.Core.Constants
+
+@section Styles {
+    <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/groups.css")" rel="stylesheet" type="text/css" />
+}
 
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Create group";
 }
-<h1>@ViewData["Title"]</h1>
 
 @section Header {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
@@ -16,7 +22,7 @@
             <div class="navbar-collapse collapse justify-content-between flex-sm-row">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end">
@@ -26,16 +32,16 @@
                             @if (User.IsInRole(Roles.Admin))
                             {
                                 <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
-                                    <img src="~/img/avatar.png" alt="Profile" width="50" />
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
                                 </a>
-                                <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
                             }
                             else
                             {
                                 <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
-                                    <img src="~/img/avatar.png" alt="Profile" width="50" />
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
                                 </a>
-                                <a class="nav-link link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
                             }
                         }
                         else
@@ -44,14 +50,7 @@
                         }
                     </li>
                     <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
-                        }
-                        else
-                        {
-                            <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="SignUp">Реєстрація</a>
-                        }
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
                     </li>
                 </ul>
             </div>
@@ -59,4 +58,15 @@
     </nav>
 }
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container-fluid container-profile px-5 mt-5">
+    <form asp-action="Create" method="post">
+        <label asp-for="Name">Введіть назву групи:</label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+        <button type="submit">Далі</button>
+    </form>
+
+    <div>
+        <a asp-controller="Groups" asp-action="Index">Назад до моїх груп</a>
+    </div>
+</div>

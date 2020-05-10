@@ -6,6 +6,8 @@ namespace SCCB.Core.DTO
     {
         public Guid Id { get; set; }
 
+        public string StudentId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -15,5 +17,7 @@ namespace SCCB.Core.DTO
         public string Password { get; set; }
 
         public string Role { get; set; }
+
+        public string Position { get; set; }
     }
 }

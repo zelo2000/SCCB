@@ -1,8 +1,5 @@
-﻿/// <summary>
-/// Currenty not in use, but may be useful in the future. Feel free to modify.
-/// </summary>
-
-/*using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SCCB.Web.Models
 {
@@ -10,9 +7,7 @@ namespace SCCB.Web.Models
     {
         public Guid Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
-
-        public bool IsAcademic { get; set; }
     }
 }
-*/

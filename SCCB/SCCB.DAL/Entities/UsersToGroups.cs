@@ -14,5 +14,7 @@ namespace SCCB.DAL.Entities
         public Guid GroupId { get; set; }
 
         public Group Group { get; set; }
+
+        public bool IsUserOwner { get; set; }
     }
 }
