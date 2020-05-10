@@ -10,7 +10,7 @@
 $(document).ready(function () {
     var placeholderElement = $('#EditUserPlaceholder');
 
-    $('.edit-button').click(function (event) {
+    $('.edit-button').click(function () {
         const url = $(this).data('url');
 
         $.get(url)
@@ -59,8 +59,8 @@ $(document).ready(function () {
             });
     });
 
-    $('.close-button').click(function (event) {
-        const url = $(this).data('url');
+    $('.close-button').click(function () {
+        const url = $('button[data-target="#confirmModal"]').data('url');
 
         $.ajax({
             url: url,

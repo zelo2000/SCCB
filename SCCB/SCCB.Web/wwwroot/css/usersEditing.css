@@ -35,3 +35,38 @@
 #position-hidden, #studentId-hidden {
     display: none;
 }
+
+.confirm .modal-header {
+    border-bottom: 0.0625rem solid var(--gray);
+}
+
+.confirm p {
+    font-size: 1.1rem;
+}
+
+.butt {
+    background: var(--gray);
+}
+
+.butt.white {
+    background: white;
+    color: black;
+}
+
+button.butt {
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.2rem;
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+
+.butt:hover {
+    background: rgba(17, 17, 17, 0.9);
+}
+
+.butt.white:hover {
+    color: white;
+}

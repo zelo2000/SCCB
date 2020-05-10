@@ -46,6 +46,12 @@ namespace SCCB.Repos.Users
         }
 
         /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRole(string role)
+        {
+            return await _dbContext.Users.Where(x => x.Role == role).ToListAsync();
+        }
+
+        /// <inheritdoc/>
         public async Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id)
         {
             return await _dbContext.Users.Where(x => x.Role == role && x.Id != id)

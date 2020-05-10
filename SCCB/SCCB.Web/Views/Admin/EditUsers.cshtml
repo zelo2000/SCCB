@@ -76,20 +76,40 @@
                         <div class="edit-delete-buttons d-flex justify-content-center justify-content-sm-end mx-0 mx-sm-3">
                             @{
                                 var routeData = new Dictionary<string, string>
-                                                    {
+                                                                {
                                 { "Id", user.Id.ToString() }
                             };
                             }
                             <button type="button" class="edit-button px-3 py-1 mr-2" data-url="@Url.Action("EditUser", @routeData)">
                                 Редагувати
                             </button>
-                            <button type="button" class="close-button px-3 py-1" data-url="@Url.Action("RemoveUser", @routeData)">
+                            <button type="button" class="butt px-3 py-1" data-toggle="modal" data-target="#confirmModal" data-url="@Url.Action("RemoveUser", @routeData)">
                                 Видалити
                             </button>
                         </div>
                     </div>
                 }
             }
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade confirm" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <p class="modal-title" id="confirmModalTitle">Ви впевнені, що хочете видалити користувача?</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-danger">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center">
+                <button type="button" class="close-button px-3 py-1 mr-3">
+                    Видалити
+                </button>
+                <button type="button" class="butt white px-3 py-1" data-dismiss="modal">Закрити</button>
+            </div>
         </div>
     </div>
 </div>
