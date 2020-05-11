@@ -3,7 +3,9 @@ using System.Collections.Generic;
 
 namespace SCCB.Core.Constants
 {
-
+    /// <summary>
+    /// Term setting class.
+    /// </summary>
     public static class TermSettings
     {
         /// <summary>

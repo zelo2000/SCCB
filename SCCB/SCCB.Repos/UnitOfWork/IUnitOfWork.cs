@@ -10,6 +10,9 @@ using SCCB.Repos.Users;
 
 namespace SCCB.Repos.UnitOfWork
 {
+    /// <summary>
+    /// Interface for UnitOfWork.
+    /// </summary>
     public interface IUnitOfWork
     {
         #region Repositories

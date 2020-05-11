@@ -9,10 +9,17 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Classrooms
 {
+    /// <summary>
+    /// Classroom repository.
+    /// </summary>
     public class ClassroomRepository : GenericRepository<Classroom, Guid>, IClassroomRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassroomRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public ClassroomRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {

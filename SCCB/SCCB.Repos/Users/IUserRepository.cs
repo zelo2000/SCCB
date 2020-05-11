@@ -6,6 +6,9 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Users
 {
+    /// <summary>
+    /// Interface for user repository.
+    /// </summary>
     public interface IUserRepository : IGenericRepository<User, Guid>
     {
         /// <summary>
@@ -36,6 +39,12 @@ namespace SCCB.Repos.Users
         /// <returns>IEnumerable of <see cref="User"/>.</returns>
         Task<IEnumerable<User>> FindByGroupId(Guid groupId);
 
+        /// <summary>
+        /// Find user by role without own data.
+        /// </summary>
+        /// <param name="role">String role.</param>
+        /// <param name="id">User id.</param>
+        /// <returns>User list.</returns>
         Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id);
     }
 }

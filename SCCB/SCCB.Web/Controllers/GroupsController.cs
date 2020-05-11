@@ -17,7 +17,12 @@ namespace SCCB.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IGroupService _groupService;
 
-        public GroupsController(IMapper mapper, IUserService userService, IGroupService groupService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupsController"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="groupService">groupService instance.</param>
+        public GroupsController(IMapper mapper, IGroupService groupService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _groupService = groupService ?? throw new ArgumentException(nameof(groupService));
@@ -38,7 +43,7 @@ namespace SCCB.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }

@@ -8,11 +8,19 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LessonService
 {
+    /// <summary>
+    /// Lesson service.
+    /// </summary>
     public class LessonService : ILessonService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LessonService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
         public LessonService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;

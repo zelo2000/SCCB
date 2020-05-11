@@ -1,9 +1,12 @@
-﻿using SCCB.Core.DTO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SCCB.Core.DTO;
 
 namespace SCCB.Services.LectorService
 {
+    /// <summary>
+    /// Interface for LectorService.
+    /// </summary>
     public interface ILectorService
     {
         /// <summary>

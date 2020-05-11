@@ -57,7 +57,7 @@
             <div class="student-label col-12 mb-3 d-flex justify-content-center justify-content-sm-start">
                 @if (User.IsInRole(Roles.Student))
                 {
-                    <p>Ваш номер заліковки: <span class="green">@Model.StudentId</span></p>
+                    <p>Номер залікової книжки: <span class="green">@Model.StudentId</span></p>
                 }
             </div>
             <div class="col-12 col-sm-6 mb-4 d-flex justify-content-center justify-content-sm-start">
@@ -75,7 +75,7 @@
                         }
                         else if (User.IsInRole(Roles.Student))
                         {
-                            <p class="green">Студент</p>
+                            <p class="green">Студент групи (@Model.AcademicGroupName) </p>
                         }
                         else if (User.IsInRole(Roles.Lector))
                         {

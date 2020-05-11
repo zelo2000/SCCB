@@ -26,8 +26,22 @@ namespace SCCB.Web.Controllers
         private readonly IClassroomService _classroomService;
         private readonly IBookingService _bookingService;
 
-        public AdminController(IMapper mapper, ILessonService lessonService, IGroupService groupService,
-            IUserService userService, IClassroomService classroomService, IBookingService bookingService)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminController"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="lessonService">lessonService instance.</param>
+        /// <param name="groupService">groupService instance.</param>
+        /// <param name="userService">userService instance.</param>
+        /// <param name="classroomService">classroomService instance.</param>
+        /// <param name="bookingService">bookingService instance.</param>
+        public AdminController(
+            IMapper mapper,
+            ILessonService lessonService,
+            IGroupService groupService,
+            IUserService userService,
+            IClassroomService classroomService,
+            IBookingService bookingService)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _lessonService = lessonService ?? throw new ArgumentException(nameof(lessonService));
@@ -274,6 +288,7 @@ namespace SCCB.Web.Controllers
             else if (model.StudentId == null && model.Role == "Student")
             {
                 ModelState.AddModelError("StudentId", "Student Id is required");
+                ModelState.AddModelError("GroupId", "Student acadenic group is required");
                 return PartialView("_EditUserPartial", model);
             }
 

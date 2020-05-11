@@ -9,11 +9,19 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.GroupService
 {
+    /// <summary>
+    /// Group service.
+    /// </summary>
     public class GroupService : IGroupService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
         public GroupService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
@@ -88,19 +96,21 @@ namespace SCCB.Services.GroupService
         {
             IEnumerable<DAL.Entities.Group> groups;
 
-            switch (option)
+            if (option == GroupOptions.All)
             {
-                case GroupOptions.All:
-                    groups = await _unitOfWork.Groups.GetAllAsync();
-                    break;
-                case GroupOptions.Academic:
-                    groups = await _unitOfWork.Groups.FindByIsAcademic(true);
-                    break;
-                case GroupOptions.UserDefined:
-                    groups = await _unitOfWork.Groups.FindByIsAcademic(false);
-                    break;
-                default:
-                    throw new ArgumentException($"Wrong option {option}");
+                groups = await _unitOfWork.Groups.GetAllAsync();
+            }
+            else if (option == GroupOptions.Academic)
+            {
+                groups = await _unitOfWork.Groups.FindByIsAcademic(true);
+            }
+            else if (option == GroupOptions.UserDefined)
+            {
+                groups = await _unitOfWork.Groups.FindByIsAcademic(false);
+            }
+            else
+            {
+                throw new ArgumentException($"Wrong option {option}");
             }
 
             var groupDtos = _mapper.Map<IEnumerable<Group>>(groups);

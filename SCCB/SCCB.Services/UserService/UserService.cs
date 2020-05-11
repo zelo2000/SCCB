@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
+using SCCB.Core.Constants;
 using SCCB.Core.DTO;
 using SCCB.Core.Helpers;
 using SCCB.Core.Settings;
@@ -57,7 +58,7 @@ namespace SCCB.Services.UserService
         public async Task<User> Find(Guid id)
         {
             var user = await FindUserEntity(id);
-            var userDto = _mapper.Map<Core.DTO.User>(user);
+            var userDto = _mapper.Map<User>(user);
             return userDto;
         }
 
@@ -67,12 +68,12 @@ namespace SCCB.Services.UserService
             if (role != null)
             {
                 var users = await _unitOfWork.Users.FindByRoleWithoutOwnData(role, id);
-                var usersDto = _mapper.Map<IEnumerable<Core.DTO.User>>(users);
+                var usersDto = _mapper.Map<IEnumerable<User>>(users);
                 return usersDto;
             }
             else
             {
-                return new List<Core.DTO.User>();
+                return new List<User>();
             }
         }
 
@@ -80,11 +81,16 @@ namespace SCCB.Services.UserService
         public async Task<User> FindWithLectorAndStudentInfoById(Guid id)
         {
             var user = await _unitOfWork.Users.FindWithLectorAndStudentInfoById(id);
-            var userDto = _mapper.Map<Core.DTO.User>(user);
+            var userDto = _mapper.Map<User>(user);
 
-            if (userDto.Role == "Lector")
+            if (userDto.Role == Roles.Lector)
             {
                 userDto.Position = user.Lector.Position;
+            }
+            else if (userDto.Role == Roles.Student)
+            {
+                userDto.AcademicGroupId = user.Student.AcademicGroupId;
+                userDto.StudentId = user.Student.Id;
             }
 
             return userDto;
@@ -101,10 +107,11 @@ namespace SCCB.Services.UserService
         /// <inheritdoc/>
         public async Task Update(User userDto)
         {
-            var user = await FindUserEntity(userDto.Id);
-            var admin = await _unitOfWork.Admins.FindAdminByUserId(userDto.Id);
-            var lector = await _unitOfWork.Lectors.FindLectorByUserId(userDto.Id);
-            var student = await _unitOfWork.Students.FindStudentByUserId(userDto.Id);
+            var user = await _unitOfWork.Users.FindWithLectorAndStudentInfoById(userDto.Id);
+            if (user == null)
+            {
+                throw new ArgumentException($"Can not find user with id {userDto.Id}");
+            }
 
             if (user.Email == userDto.Email || await CheckIfEmailAllowed(userDto.Email))
             {
@@ -112,36 +119,50 @@ namespace SCCB.Services.UserService
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
 
-                if (userDto.Role == "Lector")
+                if (userDto.Role == Roles.Lector)
                 {
-                    lector = new DAL.Entities.Lector() { Id = Guid.NewGuid(), UserId = user.Id, Position = userDto.Position };
+                    var lector = new DAL.Entities.Lector()
+                    {
+                        UserId = user.Id,
+                        Position = userDto.Position,
+                    };
+
                     await _unitOfWork.Lectors.AddAsync(lector);
                     await _unitOfWork.CommitAsync();
                 }
-                else if (userDto.Role == "Admin")
+                else if (userDto.Role == Roles.Admin)
                 {
-                    admin = new DAL.Entities.Admin() { Id = Guid.NewGuid(), UserId = user.Id };
+                    var admin = new DAL.Entities.Admin()
+                    {
+                        UserId = user.Id,
+                    };
                     await _unitOfWork.Admins.AddAsync(admin);
                     await _unitOfWork.CommitAsync();
                 }
-                else if (userDto.Role == "Student")
+                else if (userDto.Role == Roles.Student)
                 {
-                    student = new DAL.Entities.Student() { Id = userDto.StudentId, UserId = user.Id };
+                    var student = new DAL.Entities.Student()
+                    {
+                        Id = userDto.StudentId,
+                        UserId = user.Id,
+                        AcademicGroupId = userDto.AcademicGroupId.Value,
+                    };
+
                     await _unitOfWork.Students.AddAsync(student);
                     await _unitOfWork.CommitAsync();
                 }
 
-                if (user.Role == "Lector")
+                if (user.Role == Roles.Lector)
                 {
                     _unitOfWork.Lectors.Remove(user.Lector);
                     await _unitOfWork.CommitAsync();
                 }
-                else if (user.Role == "Admin")
+                else if (user.Role == Roles.Admin)
                 {
                     _unitOfWork.Admins.Remove(user.Admin);
                     await _unitOfWork.CommitAsync();
                 }
-                else if (user.Role == "Student")
+                else if (user.Role == Roles.Student)
                 {
                     _unitOfWork.Students.Remove(user.Student);
                     await _unitOfWork.CommitAsync();

@@ -5,6 +5,9 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Admins
 {
+    /// <summary>
+    /// Interface for admin repository.
+    /// </summary>
     public interface IAdminRepository : IGenericRepository<Admin, Guid>
     {
         /// <summary>

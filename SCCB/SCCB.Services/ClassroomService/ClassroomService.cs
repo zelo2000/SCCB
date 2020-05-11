@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,11 +11,19 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.ClassroomService
 {
+    /// <summary>
+    /// Classroom service.
+    /// </summary>
     public class ClassroomService : IClassroomService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClassroomService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
         public ClassroomService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;

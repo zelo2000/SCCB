@@ -8,10 +8,17 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Admins
 {
+    /// <summary>
+    /// Admin repository.
+    /// </summary>
     public class AdminRepository : GenericRepository<Admin, Guid>, IAdminRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public AdminRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {

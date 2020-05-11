@@ -5,6 +5,9 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Students
 {
+    /// <summary>
+    /// Interface for StudentRepository.
+    /// </summary>
     public interface IStudentRepository : IGenericRepository<Student, string>
     {
         /// <summary>

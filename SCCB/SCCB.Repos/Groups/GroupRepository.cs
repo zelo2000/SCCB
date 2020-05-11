@@ -9,10 +9,17 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Groups
 {
+    /// <summary>
+    /// Group repository.
+    /// </summary>
     public class GroupRepository : GenericRepository<Group, Guid>, IGroupRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GroupRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public GroupRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {
@@ -59,6 +66,7 @@ namespace SCCB.Repos.Groups
                 .SingleOrDefaultAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<UsersToGroups> FindUserToGroup(Guid userId, Guid groupId)
         {
             return await _dbContext.UsersToGroups
