@@ -1,6 +1,26 @@
 # SCCB
-Project for Schedule creation and classroom booking
+Project for Schedule Creation and Classroom Booking
 
+## Technologies
+
+* ASP.NET Core 3.1 
+* MSSQL local db.
+
+## Set up
+
+* Open solution in Visual Studio 2019
+* Set connection string in appsettings.json
+* Restoring client side libraries
+* Set SCCB.Web project as Startup Project and build it.
+* In package manager console write `update-database`
+* Run!
+
+## Documentation
+
+Documentation can be find [here](docs/Documentation.pdf). 
+This includes lots of information and will be helpful if you want to understand the features Schedule Creating and Classroom Booking currently offers.
+
+## How to conect logger.
 To add logging with Serilog install next NuGet packages:
 - Serilog.AspNetCore
 - Serilog.Settings.Configuration
