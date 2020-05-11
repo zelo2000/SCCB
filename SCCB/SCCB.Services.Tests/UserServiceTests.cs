@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
@@ -82,6 +84,8 @@ namespace SCCB.Services.Tests
 
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
+            _repositoryMock.Setup(repo => repo.FindByRoleWithoutOwnData(It.IsAny<string>(), _registeredUser.Id)).ReturnsAsync((List<User>)null);
+            _repositoryMock.Setup(repo => repo.FindByRoleWithoutOwnData(It.IsAny<string>(), _registeredUser.Id)).ReturnsAsync(new List<User> { _registeredUser, _anotherRegisteredUser });
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_anotherRegisteredUser.Email)).ReturnsAsync(_anotherRegisteredUser);
@@ -166,6 +170,28 @@ namespace SCCB.Services.Tests
             Assert.That(
                 () => _service.Find(_newUser.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
+        public async Task FindUsersByRole_Role_ReturnedListOfUsers()
+        {
+            var result = await _service.FindByRoleWithoutOwnData(_registeredUser.Role, _registeredUser.Id);
+
+            Assert.That(
+                result.First().Role,
+                Is.EqualTo(_registeredUser.Role));
+
+            Assert.That(
+                result.First().Id,
+                Is.EqualTo(_registeredUser.Id));
+
+            Assert.That(
+                result.Last().Id,
+                Is.EqualTo(_anotherRegisteredUser.Id));
+
+            Assert.That(
+                result.Count(),
+                Is.EqualTo(2));
         }
 
         [Test]

@@ -19,7 +19,7 @@
             <div class="navbar-collapse collapse justify-content-between flex-sm-row">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Home" asp-action="Privacy">Бронювання аудиторій</a>
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end">
@@ -40,31 +40,30 @@
 
 <div class="container-fluid container-profile px-5 mt-5">
     <div class="d-flex justify-content-md-between flex-md-row flex-column mb-4">
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold"  asp-area="" asp-controller="Admin" asp-action="EditSchedule">
-                Редагування розкладу
-            </a>
-        </div>
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold">
-                Редагування користувачів
-            </a>
-        </div>
-        <div class="admin-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab hover-erase font-weight-bold">
-                Підтвердження букінгу
-            </a>
-        </div>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold"
+           asp-area="" asp-controller="Admin" asp-action="EditSchedule">
+            Редагування розкладу
+        </a>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold"
+           asp-area="" asp-controller="Admin" asp-action="EditUsers">
+            Редагування користувачів
+        </a>
+        <a class="admin-button d-flex justify-content-center align-items-center py-2 font-slab hover-erase font-weight-bold"
+           asp-area="" asp-controller="Admin" asp-action="ApproveBooking">
+            Підтвердження букінгу
+        </a>
     </div>   
     <div class="d-flex justify-content-between">
-        <div class="profile-button d-flex justify-content-center align-items-center">
-            <p class="my-2 font-slab font-weight-bold">Ваш профіль</p>
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="PersonalBooking">
-                Ваші бронювання
-            </a>
-        </div>
+        <a class="profile-button d-flex justify-content-center align-items-center
+                  py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+           asp-area="" asp-controller="Groups" asp-action="Index">
+            Ваші групи
+        </a>
+        <a class="profile-button d-flex justify-content-center align-items-center
+                  py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+           asp-area="" asp-controller="Booking" asp-action="Personal">
+            Ваші бронювання
+        </a>
     </div>
     <div class="profile-info-block my-4 py-5">
         <div class="row">
@@ -88,7 +87,7 @@
                 </a>
             </div>
         </div>
-        <form asp-action="Edit" method="post">
+        <form asp-action="Index" method="post">
             <div class="row my-sm-5 my-4 d-flex justify-content-between">
                 <div class="col-12 col-sm-4 d-flex flex-column mb-4 mb-sm-0">
                     <label asp-for="FirstName" class="ml-2">Ім'я</label>

@@ -1,6 +1,7 @@
 ﻿:root {
     --gray: rgba(196, 196, 196, 0.25);
     --black: rgba(27, 29, 34, 0.9);
+    --block_info_fill: rgba(0, 201, 209, 0.8);
     --second_font: 'Roboto Slab', serif;
 }
 
@@ -23,13 +24,14 @@ header {
 .schedule-filter-container {
     width: 65rem;
     max-width: 65rem;
-    margin-bottom: 6.25rem;
+    margin-bottom: 6.875rem;
 }
 
 .schedule-bg {
-    min-height: 15.625rem;
+    min-height: 19rem;
     background: rgba(27, 29, 34, 0.85);
     border-radius: 0.2rem;
+    border-bottom: 0.5rem solid var(--block_info_fill);
 }
 
 .modal-header button, .edit-delete-buttons button {
@@ -37,14 +39,17 @@ header {
 }
 
 .bootstrap-select .dropdown-toggle:focus {
-    border: none !important;
     outline: none !important;
 }
 
 .btn-light {
     color: black;
     background: white;
+}
+
+.main-selectors {
     font-weight: bold;
+    border: 0.125rem solid var(--block_info_fill);
 }
 
 .btn-light, .btn-light:focus {
@@ -157,7 +162,7 @@ hr {
 
 .filter-label {
     background: rgba(27, 29, 34, .85);
-    border-radius: 0.1875rem;
+    border-radius: 0.1rem;
     font-weight: bold;
     font-size: 0.9375rem;
 }

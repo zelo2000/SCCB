@@ -1,0 +1,72 @@
+﻿.users-list-bg {
+    width: 100%;
+    max-width: 68.75rem;
+    min-height: 25rem;
+    margin-bottom: 4rem;
+    background: rgba(27, 29, 34, 0.85);
+    border-radius: 0.2rem;
+    border-bottom: 0.5rem solid var(--block_info_fill);
+}
+
+.users-list-block {
+    max-width: 58rem;
+    margin: 0 auto;
+}
+
+.users-list-block input {
+    width: 100%;
+    height: 2.5rem;
+    border: none;
+    border-radius: 0.1875rem;
+    outline: 0;
+}
+
+.liveSearchItem {
+    background: var(--black);
+    color: white;
+    border-radius: 0.1875rem;
+}
+
+.liveSearchItem span {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+#position-hidden, #studentId-hidden {
+    display: none;
+}
+
+.confirm .modal-header {
+    border-bottom: 0.0625rem solid var(--gray);
+}
+
+.confirm p {
+    font-size: 1.1rem;
+}
+
+.butt {
+    background: var(--gray);
+}
+
+.butt.white {
+    background: white;
+    color: black;
+}
+
+button.butt {
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.2rem;
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+
+.butt:hover {
+    background: rgba(17, 17, 17, 0.9);
+}
+
+.butt.white:hover {
+    color: white;
+}

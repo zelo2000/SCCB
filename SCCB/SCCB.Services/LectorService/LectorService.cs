@@ -29,7 +29,7 @@ namespace SCCB.Services.LectorService
         /// <inheritdoc/>
         public async Task<IEnumerable<Lector>> FindFreeLectors(LessonTime time)
         {
-            if (!string.IsNullOrEmpty(time.Weekday) && !string.IsNullOrEmpty(time.LessonNumber))
+            if (!string.IsNullOrEmpty(time.Weekday) && time.LessonNumber != null)
             {
                 var lectors = await _unitOfWork.Lectors.FindFreeLectors(time);
                 var lectorDtos = _mapper.Map<IEnumerable<Lector>>(lectors);

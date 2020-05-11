@@ -1,0 +1,12 @@
+﻿@model UsersForGroupModel
+
+@foreach (var user in Model.Users)
+{
+    <form method="post" asp-action="AddUser" asp-controller="Groups"
+          asp-route-groupId="@Model.GroupId" asp-route-userId="@user.Id">
+        <div class="d-flex flex-row justify-content-between mb-2">
+                <span>@user.FirstName @user.LastName</span>
+                <button type="submit" class="green-bg">Додати</button>
+        </div>
+    </form>
+}

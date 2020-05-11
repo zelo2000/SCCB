@@ -6,7 +6,7 @@
     public static class Policies
     {
         /// <summary>
-        /// Key for AdminOnly policy.
+        /// Key for UserOnly policy.
         /// </summary>
         public const string UserOnly = "UserOnly";
 

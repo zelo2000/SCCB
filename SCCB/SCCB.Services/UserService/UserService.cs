@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
@@ -60,6 +61,35 @@ namespace SCCB.Services.UserService
             return userDto;
         }
 
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id)
+        {
+            if (role != null)
+            {
+                var users = await _unitOfWork.Users.FindByRoleWithoutOwnData(role, id);
+                var usersDto = _mapper.Map<IEnumerable<Core.DTO.User>>(users);
+                return usersDto;
+            }
+            else
+            {
+                return new List<Core.DTO.User>();
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<User> FindWithLectorAndStudentInfoById(Guid id)
+        {
+            var user = await _unitOfWork.Users.FindWithLectorAndStudentInfoById(id);
+            var userDto = _mapper.Map<Core.DTO.User>(user);
+
+            if (userDto.Role == "Lector")
+            {
+                userDto.Position = user.Lector.Position;
+            }
+
+            return userDto;
+        }
+
         /// <inheritdoc />
         public async Task Remove(Guid id)
         {
@@ -72,14 +102,52 @@ namespace SCCB.Services.UserService
         public async Task Update(User userDto)
         {
             var user = await FindUserEntity(userDto.Id);
+            var admin = await _unitOfWork.Admins.FindAdminByUserId(userDto.Id);
+            var lector = await _unitOfWork.Lectors.FindLectorByUserId(userDto.Id);
+            var student = await _unitOfWork.Students.FindStudentByUserId(userDto.Id);
 
             if (user.Email == userDto.Email || await CheckIfEmailAllowed(userDto.Email))
             {
                 user.Email = userDto.Email;
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
+
+                if (userDto.Role == "Lector")
+                {
+                    lector = new DAL.Entities.Lector() { Id = Guid.NewGuid(), UserId = user.Id, Position = userDto.Position };
+                    await _unitOfWork.Lectors.AddAsync(lector);
+                    await _unitOfWork.CommitAsync();
+                }
+                else if (userDto.Role == "Admin")
+                {
+                    admin = new DAL.Entities.Admin() { Id = Guid.NewGuid(), UserId = user.Id };
+                    await _unitOfWork.Admins.AddAsync(admin);
+                    await _unitOfWork.CommitAsync();
+                }
+                else if (userDto.Role == "Student")
+                {
+                    student = new DAL.Entities.Student() { Id = userDto.StudentId, UserId = user.Id };
+                    await _unitOfWork.Students.AddAsync(student);
+                    await _unitOfWork.CommitAsync();
+                }
+
+                if (user.Role == "Lector")
+                {
+                    _unitOfWork.Lectors.Remove(user.Lector);
+                    await _unitOfWork.CommitAsync();
+                }
+                else if (user.Role == "Admin")
+                {
+                    _unitOfWork.Admins.Remove(user.Admin);
+                    await _unitOfWork.CommitAsync();
+                }
+                else if (user.Role == "Student")
+                {
+                    _unitOfWork.Students.Remove(user.Student);
+                    await _unitOfWork.CommitAsync();
+                }
+
                 user.Role = userDto.Role;
-                user.PasswordHash = _passwordProcessor.GetPasswordHash(userDto.Password);
 
                 _unitOfWork.Users.Update(user);
                 await _unitOfWork.CommitAsync();
@@ -128,7 +196,7 @@ namespace SCCB.Services.UserService
         }
 
         /// <summary>
-        /// Helper function that checks if user with specified email exists.
+        /// Helper function that checks if user with specified id exists.
         /// </summary>
         /// <param name="id">User's id.</param>
         /// <returns>User if exists.</returns>

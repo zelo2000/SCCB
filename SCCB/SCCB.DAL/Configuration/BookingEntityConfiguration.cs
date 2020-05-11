@@ -19,6 +19,9 @@ namespace SCCB.DAL.Configuration
 
             builder.Property(x => x.Date)
                 .IsRequired();
+
+            builder.Property(x => x.IsApproved)
+                .IsRequired();
         }
     }
 }
