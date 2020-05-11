@@ -1,11 +1,34 @@
 ﻿:root {
-    --gray: rgba(196, 196, 196, 0.25);
     --red: rgba(237, 33, 33, 0.9);
+}
+
+.book-label {
+    font-size: 1.25rem;
+}
+
+.book-label span {
+    display: inline-block;
+    border-bottom: 0.1875rem solid white;
+    border-radius: 0.125rem;
+}
+
+.profile-info-block {
+    background: rgba(27, 29, 34, 0.85);
+}
+
+.panel-title a {
+    text-decoration: none;
+    border: none;
+    color: white;
+}
+
+.green-color {
+    color: rgba(0, 201, 209, 0.8);
 }
 
 .container-personal-booking {
     min-height: 10rem;
-    background: var(--gray);
+    background: rgba(100, 100, 100, 0.45);
 }
 
 .personal-booking-block {
@@ -13,18 +36,26 @@
 }
 
 .cancel-button {
-    outline: none;
     border: 0.1rem solid var(--red);
     border-radius: 0.1875rem;
     background: none;
     color: var(--red);
 }
 
+.cancel-button:focus {
+    outline: none;
+}
+
 .cancel-button:hover {
     color: white;
     background: var(--red);
-    opacity: 0.9;
+    opacity: 0.95;
     -webkit-transition: .35s ease-out;
     -o-transition: .35s ease-out;
     transition: .35s ease-out;
+}
+
+.status span {
+    display: inline-block;
+    background: rgba(45, 45, 50, 0.7);
 }

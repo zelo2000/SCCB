@@ -23,14 +23,17 @@ namespace SCCB.Web.Controllers
             _groupService = groupService ?? throw new ArgumentException(nameof(groupService));
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = Guid.Parse(User.FindFirst(ClaimKeys.Id).Value);
+
             var model = new GroupsModel
             {
                 OwnedGroups = await _groupService.FindNotAcademic(userId, true),
                 MemberGroups = await _groupService.FindNotAcademic(userId, false),
             };
+
             return View(model);
         }
 

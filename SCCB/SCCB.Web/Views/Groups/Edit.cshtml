@@ -6,6 +6,7 @@
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/groups.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/usersEditing.css")" rel="stylesheet" type="text/css" />
 }
 
 @{
@@ -59,37 +60,69 @@
     </nav>
 }
 
-<div class="container-fluid container-profile px-5 mt-5">
-    <form asp-action="Edit" method="post">
-        <input asp-for="Id" type="hidden" />
-        <label asp-for="Name">Змінити назву:</label>
-        <input asp-for="Name" />
-        <button type="submit">Зберегти</button>
-    </form>
+<div class="container-fluid container-profile px-5 py-4 mt-5 d-flex justify-content-center">
+    <div class="container-group-create px-5 py-4">
+        <form asp-action="Edit" method="post">
+            <div class="d-flex flex-column mb-3">
+                <input asp-for="Id" type="hidden" />
+                <label asp-for="Name" class="ml-2">Змінити назву:</label>
+                <input asp-for="Name" class="pl-3 py-2 w-100 border" />
+            </div>
+            <div class="d-flex justify-content-sm-end justify-content-center mb-3">
+                <button type="submit" class="green-bg px-3 py-1">Зберегти</button>
+            </div>
+        </form>
 
-    <div id="Members">
-        <h3>Члени групи:</h3>
-        @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
-            new { groupId = Model.Id, areMembers = true })
-    </div>
-    <div id="AddMembers">
-        <h3>Додати користувачів:</h3>
-        @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
-            new { groupId = Model.Id, areMembers = false })
-    </div>
-
-    <div>
-        @{
-            var routeData = new Dictionary<string, string>
-            {
+        <div class="d-flex justify-content-sm-end justify-content-center my-3">
+            @{
+                var routeData = new Dictionary<string, string>
+                                        {
                 { "id", Model.Id.ToString() }
-            }; 
-        }
-        <button id="Remove" type="button" data-url=@Url.Action("Remove", "Groups", routeData)>Видалити групу</button>
-        <a asp-controller="Groups" asp-action="Index">Назад до моїх груп</a>
+            };
+            }
+            <button type="button" class="butt px-3 py-1" data-toggle="modal" data-target="#confirmModal" data-url=@Url.Action("Remove", "Groups", routeData)>
+                Видалити групу
+            </button>
+        </div>
+
+        <div class="row my-4">
+            <div id="Members" class="col-md-6 col-12 d-flex flex-column justify-content-start pb-3 pb-md-0">
+                <h5 class="green-color">Члени групи:</h5>
+                @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
+                    new { groupId = Model.Id, areMembers = true })
+            </div>
+            <div id="AddMembers" class="col-md-6 col-12 d-flex flex-column justify-content-start pt-3 pt-md-0">
+                <h5 class="green-color">Додати користувачів:</h5>
+                @await Component.InvokeAsync(typeof(UsersForGroupViewComponent),
+                    new { groupId = Model.Id, areMembers = false })
+            </div>
+        </div>
+        <div class="d-flex justify-content-sm-start justify-content-center my-3">
+            <a class="gray-bg px-3 py-2" asp-controller="Groups" asp-action="Index">Назад до моїх груп</a>
+        </div>
     </div>
 </div>
 
-@section scripts {
+    <!-- Modal -->
+    <div class="modal fade confirm" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-dark">
+                <div class="modal-header">
+                    <p class="modal-title" id="confirmModalTitle">Ви впевнені, що хочете видалити вашу групу?</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="text-danger">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    <button type="button" id="Remove" class="close-button px-3 py-1 mr-3">
+                        Видалити
+                    </button>
+                    <button type="button" class="butt white px-3 py-1" data-dismiss="modal">Закрити</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
         <script src="~/js/GroupEdit.js" asp-append-version="true"></script>
-}
+    }

@@ -30,6 +30,8 @@ namespace SCCB.Repos.Bookings
         public async Task<IEnumerable<Booking>> FindBookingsByCreator(Guid userId)
         {
             return await _dbContext.Bookings
+                .Include(x => x.Classroom)
+                .Include(x => x.Group)
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
         }

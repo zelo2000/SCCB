@@ -4,6 +4,7 @@
 @section Styles {
     <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
 }
 
 @{
@@ -55,105 +56,162 @@
             </div>
         </div>
     </nav>
-}
-
-<div class="container-fluid container-profile px-5 mt-5">
-    <div class="d-flex justify-content-between">
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            @if (User.Identity.IsAuthenticated)
-            {
-                @if (User.IsInRole(Roles.Admin))
-                {
-                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Admin" asp-action="Index">Ваш профіль</a>
-                }
-                else
-                {
-                    <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Edit">Ваш профіль</a>
-                }
-            }
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Groups">Ваші групи</a>
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab font-weight-bold" asp-area="" asp-controller="Booking" asp-action="Personal">
-                Ваші бронювання
-            </a>
+    <div class="info-block d-flex align-items-center justify-content-center pb-5">
+        <div class="text-center py-2 px-2">
+            <h2 class="mb-3">Особисті бронювання</h2>
         </div>
     </div>
-    <div class="profile-info-block my-4 py-5 px-5">
-        <h3>Мої бронювання:</h3>
-        @foreach (var booking in Model.MyBookings)
-        {
-            <div class="container-personal-booking mb-3">
-                <div class="personal-booking-block px-4 py-4">
-                    <div class="personal-booking-block font-weight-bold d-flex flex-column flex-md-row">
-                        <div class="mr-4">
-                            <span>дата: 03.03.2020</span>
-                        </div>
-                        <div class="d-flex flex-column flex-sm-row">
-                            <span class="mr-4">ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
-                            <span>@booking.LessonNumber пара (@TermSettings.BeginTimes[booking.LessonNumber] - @TermSettings.EndTimes[booking.LessonNumber])</span>
-                        </div>
-                    </div>
-                    <div class="text-white font-weight-bold my-4">
-                        <p>@booking.Description</p>
-                    </div>
-                    @if (booking.IsApproved)
+}
+
+<div class="main-content d-flex justify-content-center">
+    <div class="container-fluid container-profile px-5 mt-5">
+        <div class="profile-info-block my-4 py-5 px-5">
+            <div class="d-flex justify-content-between mb-4">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole(Roles.Admin))
                     {
-                        <span>Підтверджено</span>
+                        <a class="profile-button d-flex justify-content-center align-items-center
+                            py-2 font-slab color-erase hover-erase font-weight-bold text-white"
+                           asp-area="" asp-controller="Admin" asp-action="Index">
+                            Ваш профіль
+                        </a>
                     }
                     else
                     {
-                        <span>Очікуєтсься підтвердження</span>
+                        <a class="profile-button d-flex justify-content-center align-items-center
+                            py-2 font-slab color-erase hover-erase font-weight-bold text-white"
+                           asp-area="" asp-controller="Profile" asp-action="Edit">
+                            Ваш профіль
+                        </a>
                     }
-                    <div class="text-center text-sm-right font-weight-bold">
-                        @{ 
-                            var routeData = new Dictionary<string, string>
-                            {
-                                { "Id", @booking.Id.ToString() }
-                            };
-                        }
-                        <button class="cancel-button px-2 py-1" data-url=@Url.Action("Cancel", routeData)>
-                            Скасувати бронювання
-                        </button>
-                    </div>
-                </div>
+                }
+                <a class="profile-button d-flex justify-content-center align-items-center
+                            py-2 font-slab color-erase hover-erase font-weight-bold text-white"
+                   asp-area="" asp-controller="Groups" asp-action="Index">
+                    Ваші групи
+                </a>
             </div>
-        }
-
-        <h3>Бронювання моїх груп:</h3>
-        @foreach (var booking in Model.MyGroupsBookings)
-        {
-        <div class="container-personal-booking mb-3">
-            <div class="personal-booking-block px-4 py-4">
-                <span>Від групи: @booking.Group.Name</span>
-                <div class="personal-booking-block font-weight-bold d-flex flex-column flex-md-row">
-                    <div class="mr-4">
-                        <span>дата: @booking.Description</span>
-                    </div>
-                    <div class="d-flex flex-column flex-sm-row">
-                        <span class="mr-4">ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
-                        <span>@booking.LessonNumber пара (@TermSettings.BeginTimes[booking.LessonNumber] - @TermSettings.EndTimes[booking.LessonNumber])</span>
-                    </div>
-                </div>
-                <div class="text-white font-weight-bold my-4">
-                    <p>@booking.Description</p>
-                </div>
-            </div>
-            @if (booking.IsApproved)
+            <p class="book-label my-4"><span class="py-1">Бронювання моїх груп:</span></p>
+            @if (Model.MyGroupsBookings?.Any() == false)
             {
-                <span>Підтверджено</span>
+                <p class="green-color ml-3">Поки що у ваших групах немає бронювань</p>
             }
             else
             {
-                <span>Очікуєтсься підтвердження</span>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    @foreach (var booking in Model.MyGroupsBookings)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab">
+                                <h4 class="panel-title">
+                                    <a class="p-3" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                       aria-expanded="true" aria-controls="#collapseOne">
+                                        Бронювання
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
+                                <div class="panel-body py-3">
+                                    <div class="container-personal-booking mb-3">
+                                        <div class="px-4 py-4 font-weight-bold">
+                                            <div class="personal-booking-block">
+                                                <p>Від групи: <span class="text-white">@booking.Group.Name</span></p>
+                                                <div class="d-flex flex-column flex-md-row">
+                                                    <div class="mr-4">
+                                                        <span>дата: @booking.Date.ToShortDateString()</span>
+                                                    </div>
+                                                    <div class="d-flex flex-column flex-sm-row">
+                                                        <span class="mr-4">ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
+                                                        <span class="mr-2">@booking.LessonNumber пара</span>
+                                                        <span>(@TermSettings.BeginTimes[booking.LessonNumber - 1].ToString("hh\\:mm") - @TermSettings.EndTimes[booking.LessonNumber - 1].ToString("hh\\:mm"))</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="my-4">
+                                                <p>@booking.Description</p>
+                                            </div>
+                                            <div class="d-flex flex-md-row flex-column justify-content-between text-center align-items-center">
+                                                @if (booking.IsApproved)
+                                                {
+                                                    <p class="status m-0">
+                                                        <span class="py-2 px-3">Підтверджено</span>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="status m-0">
+                                                        <span class="py-2 px-3">Очікуєтсься підтвердження</span>
+                                                    </p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <p class="book-label mb-4"><span class="py-1">Особисті бронювання:</span></p>
+                    @if (Model.MyBookings?.Any() == false)
+                    {
+                        <p class="green-color ml-3">Поки що у вас немає бронювань</p>
+                    }
+                    else
+                    {
+                        @foreach (var booking in Model.MyBookings)
+                        {
+                            <div class="container-personal-booking mb-3">
+                                <div class="px-4 py-4 font-weight-bold">
+                                    <div class="personal-booking-block d-flex flex-column flex-md-row">
+                                        <div class="mr-4">
+                                            <span>дата: @booking.Date.ToShortDateString()</span>
+                                        </div>
+                                        <div class="d-flex flex-column flex-sm-row">
+                                            <span class="mr-4">ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
+                                            <span class="mr-2">@booking.LessonNumber пара</span>
+                                            <span>(@TermSettings.BeginTimes[booking.LessonNumber - 1].ToString("hh\\:mm") - @TermSettings.EndTimes[booking.LessonNumber - 1].ToString("hh\\:mm"))</span>
+                                        </div>
+                                    </div>
+                                    <div class="my-4">
+                                        <p>@booking.Description</p>
+                                    </div>
+                                    <div class="d-flex flex-md-row flex-column justify-content-between text-center align-items-center">
+                                        @if (booking.IsApproved)
+                                        {
+                                            <p class="status mb-3 mb-md-0">
+                                                <span class="py-2 px-3">Підтверджено</span>
+                                            </p>
+                                        }
+                                        else
+                                        {
+                                            <p class="status mb-3 mb-md-0">
+                                                <span class="py-2 px-3">Очікуєтсься підтвердження</span>
+                                            </p>
+                                        }
+                                        <div>
+                                            @{
+                                                var routeData = new Dictionary<string, string>
+                                                                                                                                                                                                                                         {
+                                                { "Id", @booking.Id.ToString() }
+                                                };
+                                            }
+                                            <button class="cancel-button px-2 py-1" data-url=@Url.Action("Cancel", routeData)>
+                                                Скасувати бронювання
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
             }
         </div>
-        }
     </div>
 </div>
 
 @section scripts {
     <script src="~/js/PersonalBookings.js" asp-append-version="true"></script>
+    <script src="~/js/Accordion.js" asp-append-version="true"></script>
 }
