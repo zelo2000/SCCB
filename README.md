@@ -5,6 +5,7 @@ Project for Schedule Creation and Classroom Booking
 
 * ASP.NET Core 3.1 
 * MSSQL local db.
+* Docker
 
 ## Set up
 
