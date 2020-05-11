@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
@@ -30,6 +32,8 @@ namespace SCCB.Services.Tests
         private User _registeredUser;
         private User _newUser;
         private User _anotherRegisteredUser;
+        private User _anotherRegisteredUserLector;
+        private Lector _registeredLector;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -80,14 +84,36 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student,
             };
 
+            _registeredLector = new Lector()
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                User = _anotherRegisteredUserLector,
+                Position = "PhD",
+            };
+
+            _anotherRegisteredUserLector = new User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Email = "anotherregistered@gmail.com",
+                PasswordHash = passwordProcessor.GetPasswordHash(_newUserPassword),
+                Role = Roles.Lector,
+                Lector = _registeredLector,
+            };
+
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
+            _repositoryMock.Setup(repo => repo.FindByRoleWithoutOwnData(It.IsAny<string>(), _registeredUser.Id)).ReturnsAsync((List<User>)null);
+            _repositoryMock.Setup(repo => repo.FindByRoleWithoutOwnData(It.IsAny<string>(), _registeredUser.Id)).ReturnsAsync(new List<User> { _registeredUser, _anotherRegisteredUser });
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_anotherRegisteredUser.Email)).ReturnsAsync(_anotherRegisteredUser);
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_registeredUser.Id)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherRegisteredUser.Id)).ReturnsAsync(_anotherRegisteredUser);
+            _repositoryMock.Setup(repo => repo.FindWithLectorAndStudentInfoById(_anotherRegisteredUserLector.Id)).ReturnsAsync(_anotherRegisteredUserLector);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_registeredUser));
             _repositoryMock.Setup(repo => repo.Remove(_registeredUser));
@@ -166,6 +192,48 @@ namespace SCCB.Services.Tests
             Assert.That(
                 () => _service.Find(_newUser.Id),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
+        public async Task FindUsersByRole_Role_ReturnedListOfUsers()
+        {
+            var result = await _service.FindByRoleWithoutOwnData(_registeredUser.Role, _registeredUser.Id);
+
+            Assert.That(
+                result.First().Role,
+                Is.EqualTo(_registeredUser.Role));
+
+            Assert.That(
+                result.First().Id,
+                Is.EqualTo(_registeredUser.Id));
+
+            Assert.That(
+                result.Last().Id,
+                Is.EqualTo(_anotherRegisteredUser.Id));
+
+            Assert.That(
+                result.Count(),
+                Is.EqualTo(2));
+        }
+
+        [Test]
+        public async Task FindUsersByRole_Role_ReturnedListOfUsers_2()
+        {
+            var result = await _service.FindByRoleWithoutOwnData(null, _registeredUser.Id);
+
+            Assert.That(
+                result,
+                Is.Empty);
+        }
+
+        [Test]
+        public async Task FindById_WithLectorAndStudentInfo_Role_ReturnedListOfUsers()
+        {
+            var result = await _service.FindWithLectorAndStudentInfoById(_anotherRegisteredUserLector.Id);
+
+            Assert.That(
+                result.Position,
+                Is.EqualTo(_anotherRegisteredUserLector.Lector.Position));
         }
 
         [Test]
@@ -278,6 +346,36 @@ namespace SCCB.Services.Tests
             Assert.That(
                 () => _service.UpdatePassword(_newUser.Id, _newUserPassword, _registeredUserPassword),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
+        public async Task Find_UserEntity_ReturnedUser()
+        {
+            var result = await _service.Find(_registeredUser.Id);
+
+            Assert.That(
+                result.Id,
+                Is.EqualTo(_registeredUser.Id));
+
+            Assert.That(
+                result.Email,
+                Is.EqualTo(_registeredUser.Email));
+
+            Assert.That(
+                result.FirstName,
+                Is.EqualTo(_registeredUser.FirstName));
+
+            Assert.That(
+                result.LastName,
+                Is.EqualTo(_registeredUser.LastName));
+
+            Assert.That(
+                result.Role,
+                Is.EqualTo(_registeredUser.Role));
+
+            Assert.That(
+                result.Password,
+                Is.EqualTo(_registeredUser.PasswordHash));
         }
     }
 }

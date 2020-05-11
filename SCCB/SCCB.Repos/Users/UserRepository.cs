@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SCCB.DAL;
@@ -7,10 +9,17 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Users
 {
+    /// <summary>
+    /// User repository.
+    /// </summary>
     public class UserRepository : GenericRepository<User, Guid>, IUserRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public UserRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {
@@ -22,6 +31,39 @@ namespace SCCB.Repos.Users
         {
             return await _dbContext.Users
                 .SingleOrDefaultAsync(user => user.Email.Equals(email));
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<User>> FindByGroupId(Guid groupId)
+        {
+            return await _dbContext.UsersToGroups
+                .Include(x => x.User)
+                .Where(x => x.GroupId == groupId)
+                .Select(x => x.User)
+                .ToListAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task<User> FindWithLectorAndStudentInfoById(Guid id)
+        {
+            return await _dbContext.Users.Include(x => x.Lector)
+                                         .Include(x => x.Student)
+                                         .Where(x => x.Id == id)
+                                         .SingleOrDefaultAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRole(string role)
+        {
+            return await _dbContext.Users.Where(x => x.Role == role).ToListAsync();
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<User>> FindByRoleWithoutOwnData(string role, Guid id)
+        {
+            return await _dbContext.Users.Where(x => x.Role == role && x.Id != id)
+                                         .OrderBy(x => x.LastName).ThenBy(y => y.FirstName)
+                                         .ToListAsync();
         }
     }
 }

@@ -1,0 +1,138 @@
+﻿@model GroupsModel
+@using SCCB.Core.Constants
+
+@section Styles {
+    <link href="@Url.Content("~/css/profile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/personalBooking.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/groups.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/css/scheduleEditing.css")" rel="stylesheet" type="text/css" />
+}
+
+@{
+    ViewData["Title"] = "Personal Groups";
+}
+
+@section Header {
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+        <div class="container-fluid ml-4 mr-4">
+            <a class="nav-link text-white nav-header pr-sm-3 main-link" asp-area="" asp-controller="Home" asp-action="Index">Планувальник</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <div class="animated-navbar-toggler-icon"><span></span><span></span><span></span><span></span></div>
+            </button>
+            <div class="navbar-collapse collapse justify-content-between flex-sm-row">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-sm-3" asp-area="" asp-controller="Booking" asp-action="Create">Бронювання аудиторій</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end">
+                    <li class="nav-item">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole(Roles.Admin))
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
+                                </a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Admin" asp-action="Index">Профіль</a>
+                            }
+                            else
+                            {
+                                <a class="img-link pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">
+                                    <img src="~/img/avatar.png" alt="Profile" width="50" class="active" />
+                                </a>
+                                <a class="nav-link active link-mobile text-white pr-sm-3" asp-area="" asp-controller="Profile" asp-action="Edit">Профіль</a>
+                            }
+                        }
+                        else
+                        {
+                            <a class="nav-link text-white pr-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogIn">Логін</a>
+                        }
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white pl-sm-3" asp-area="" asp-controller="Authentication" asp-action="LogOut">Вихід</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="info-block d-flex align-items-center justify-content-center pb-5">
+        <div class="text-center py-2 px-2">
+            <h2 class="mb-3">Особисті групи</h2>
+        </div>
+    </div>
+}
+
+<div class="main-content d-flex justify-content-center">
+    <div class="container-fluid container-profile px-5 mt-5">
+        <div class="profile-info-block my-4 py-5 px-5">
+            <div class="d-flex justify-content-between mb-5">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        <a class="profile-button d-flex justify-content-center align-items-center
+                    py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+                           asp-area="" asp-controller="Admin" asp-action="Index">
+                            Ваш профіль
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="profile-button d-flex justify-content-center align-items-center
+                    py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+                           asp-area="" asp-controller="Profile" asp-action="Edit">
+                            Ваш профіль
+                        </a>
+                    }
+                }
+                <a class="profile-button d-flex justify-content-center align-items-center
+                py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+                   asp-area="" asp-controller="Booking" asp-action="Personal">
+                    Ваші бронювання
+                </a>
+            </div>
+            <div class="mb-4">
+                <form id="live-search" action="" method="post">
+                    <div>
+                        <input class="pl-3" type="text" id="filter" placeholder="Пошук ..." />
+                        <p class="text-right" id="filter-count"></p>
+                    </div>
+                </form>
+            </div>
+            @foreach (var group in Model.OwnedGroups)
+            {
+                <div class="liveSearchItem">
+                    <div class="container-groups px-3 py-3 mb-4 d-flex flex-sm-row flex-column align-items-center justify-content-between">
+                        <div class="title-size text-white font-weight-bold my-1 mx-1">
+                            <span>@group.Name</span>
+                        </div>
+                        <div class="font-weight-bold mx-2 pt-2">
+                            <a asp-action="Edit" asp-route-id="@group.Id" class="edit-button px-2 py-1">
+                                Редагувати
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+            @foreach (var group in Model.MemberGroups)
+            {
+                <div class="liveSearchItem">
+                    <div class="container-groups px-3 py-3 mb-4 d-flex justify-content-center justify-content-sm-start">
+                        <div class="title-size text-white font-weight-bold my-1 mx-1">
+                            <span>@group.Name</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="d-flex justify-content-sm-end justify-content-center">
+                <a class="green-bg px-3 py-2" asp-action="Create">Створити нову групу</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/liveSearch.js" asp-append-version="true"></script>
+}

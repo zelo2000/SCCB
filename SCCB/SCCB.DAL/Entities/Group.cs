@@ -12,6 +12,8 @@ namespace SCCB.DAL.Entities
 
         public bool IsAcademic { get; set; }
 
+        public ICollection<Student> Students { get; set; }
+
         public ICollection<UsersToGroups> UsersToGroups { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }

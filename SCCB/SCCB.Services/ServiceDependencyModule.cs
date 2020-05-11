@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using SCCB.Services.AuthenticationService;
+using SCCB.Services.BookingService;
 using SCCB.Services.ClassroomService;
 using SCCB.Services.EmailService;
 using SCCB.Services.GroupService;
@@ -20,6 +21,7 @@ namespace SCCB.Services
             builder.RegisterType<GroupService.GroupService>().As<IGroupService>();
             builder.RegisterType<ClassroomService.ClassroomService>().As<IClassroomService>();
             builder.RegisterType<LectorService.LectorService>().As<ILectorService>();
+            builder.RegisterType<BookingService.BookingService>().As<IBookingService>();
         }
     }
 }

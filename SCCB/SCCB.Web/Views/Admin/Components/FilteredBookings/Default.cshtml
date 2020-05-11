@@ -1,0 +1,54 @@
+﻿@model IEnumerable<SCCB.Core.DTO.BookingWithIncludedInfo>
+@using SCCB.Core.Constants
+
+@foreach (var booking in Model)
+{
+    <div class="my-4">
+        <div class="items-block pl-3 py-2 mb-2 font-weight-bold d-flex flex-column flex-md-row">
+            <div class="mr-sm-4">
+                <span>@booking.LessonNumber пара (@TermSettings.BeginTimes[booking.LessonNumber-1].ToString("hh\\:mm") - @TermSettings.EndTimes[booking.LessonNumber-1].ToString("hh\\:mm"))</span>
+            </div>
+            <div class="mr-sm-4">
+                <span>ауд. @booking.Classroom.Number (@booking.Classroom.Building)</span>
+            </div>
+            <div>
+                <span>@booking.Date.ToShortDateString()</span>
+            </div>
+        </div>
+        <div class="font-weight-bold d-flex flex-column flex-md-row">
+            <div class="col-12 col-md-8 items-block text-white font-weight-bold mb-2 mb-md-0 px-3 py-2">
+                <p class="m-0">@booking.Description</p>
+            </div>
+
+            <div class="col-12 col-md-4 text-center font-weight-bold px-0 pl-md-2">
+                @if (booking.IsApproved)
+                {
+                <div class="items-block px-3 py-2">
+                    <p class="approval-label m-0">Підтверджено</p>
+                </div>
+                }
+                else
+                {
+                    var routeData = new Dictionary<string, string>
+                    {
+                        { "Id", @booking.Id.ToString() }
+                    };
+                    <div class="d-flex flex-column flex-sm-row flex-md-column justify-content-end">
+                        <button type="button"
+                                class="reject-btn mr-0 mr-sm-2 mr-md-0 py-2 px-4 text-white font-weight-bold"
+                                data-url="@Url.Action("Reject", @routeData)"
+                                data-user="@booking.UserId">
+                            Відхилити
+                        </button>
+                        <button type="button"
+                                class="approve-btn mt-2 mt-sm-0 mt-md-2 py-2 px-4 text-white font-weight-bold"
+                                data-url="@Url.Action("Approve", @routeData)"
+                                data-user="@booking.UserId">
+                            Підтвердити
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

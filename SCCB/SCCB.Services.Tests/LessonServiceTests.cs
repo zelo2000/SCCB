@@ -46,7 +46,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "1",
+                LessonNumber = 1,
             };
 
             _anotherExistingLesson = new Lesson()
@@ -60,7 +60,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "2",
+                LessonNumber = 2,
             };
 
             _newLesson = new Lesson()
@@ -74,7 +74,7 @@ namespace SCCB.Services.Tests
                 GroupId = Guid.NewGuid(),
                 ClassroomId = Guid.NewGuid(),
                 LectorId = Guid.NewGuid(),
-                LessonNumber = "3",
+                LessonNumber = 3,
             };
 
             #region setup mocks
@@ -82,6 +82,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindByGroupId(It.IsAny<Guid>())).ReturnsAsync((List<Lesson>)null);
             _repositoryMock.Setup(repo => repo.FindByGroupId(_existingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _existingLesson });
             _repositoryMock.Setup(repo => repo.FindByGroupId(_anotherExistingLesson.GroupId)).ReturnsAsync(new List<Lesson> { _anotherExistingLesson });
+            _repositoryMock.Setup(repo => repo.FindByGroupIdAndWeekday(_existingLesson.GroupId, _existingLesson.Weekday)).ReturnsAsync(new List<Lesson> { _existingLesson });
 
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((Lesson)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_existingLesson.Id)).ReturnsAsync(_existingLesson);
@@ -139,6 +140,32 @@ namespace SCCB.Services.Tests
             Assert.That(
                 result.Count(),
                 Is.EqualTo(1));
+        }
+
+        [Test]
+        public async Task FindLessonsByGroupIdAndWeekday_GroupId_Weekday_ReturnedListOfLessons()
+        {
+            var result = await _service.FindByGroupIdAndWeekday(_existingLesson.GroupId, _existingLesson.Weekday);
+
+            Assert.That(
+                result.Keys.Count(),
+                Is.EqualTo(1));
+
+            Assert.That(
+              result.Values.Count(),
+              Is.EqualTo(1));
+
+            Assert.That(
+              result.Values.First().Count,
+              Is.EqualTo(1));
+
+            Assert.That(
+                result.Keys.First(),
+                Is.EqualTo(_existingLesson.LessonNumber));
+
+            Assert.That(
+                result.Values.First().First().Id,
+                Is.EqualTo(_existingLesson.Id));
         }
 
         [Test]
@@ -246,6 +273,52 @@ namespace SCCB.Services.Tests
                 lesson.ClassroomId == _existingLesson.ClassroomId)));
 
             _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
+        }
+
+        [Test]
+        public async Task Find_LessonEntity_ReturnedLesson()
+        {
+            var result = await _service.Find(_existingLesson.Id);
+
+            Assert.That(
+                result.Id,
+                Is.EqualTo(_existingLesson.Id));
+
+            Assert.That(
+                result.ClassroomId,
+                Is.EqualTo(_existingLesson.ClassroomId));
+
+            Assert.That(
+                result.GroupId,
+                Is.EqualTo(_existingLesson.GroupId));
+
+            Assert.That(
+                result.IsDenominator,
+                Is.EqualTo(_existingLesson.IsDenominator));
+
+            Assert.That(
+                result.IsEnumerator,
+                Is.EqualTo(_existingLesson.IsEnumerator));
+
+            Assert.That(
+                result.LectorId,
+                Is.EqualTo(_existingLesson.LectorId));
+
+            Assert.That(
+                result.LessonNumber,
+                Is.EqualTo(_existingLesson.LessonNumber));
+
+            Assert.That(
+                result.Title,
+                Is.EqualTo(_existingLesson.Title));
+
+            Assert.That(
+                result.Type,
+                Is.EqualTo(_existingLesson.Type));
+
+            Assert.That(
+                result.Weekday,
+                Is.EqualTo(_existingLesson.Weekday));
         }
     }
 }

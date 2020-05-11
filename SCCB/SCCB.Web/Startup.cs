@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ using SCCB.Core.Settings;
 using SCCB.DAL;
 using SCCB.Repos;
 using SCCB.Services;
+using SCCB.Web.Hubs;
 using Serilog;
 
 namespace SCCB.Web
@@ -65,7 +67,7 @@ namespace SCCB.Web
                     policy.RequireRole(Roles.NotApprovedUser, Roles.Student, Roles.Lector));
 
                 options.AddPolicy(Policies.ApprovedUserOnly, policy =>
-                    policy.RequireRole(Roles.Student, Roles.Lector));
+                    policy.RequireRole(Roles.Student, Roles.Lector, Roles.Admin));
 
                 options.AddPolicy(Policies.AdminOnly, policy =>
                     policy.RequireRole(Roles.Admin));
@@ -92,6 +94,9 @@ namespace SCCB.Web
             services.AddAutoMapper(
                 typeof(ServiceMapProfile).Assembly,
                 typeof(WebApiMapProfile).Assembly);
+
+            services.AddSignalR();
+            services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
             var builder = new ContainerBuilder();
 
@@ -145,6 +150,7 @@ namespace SCCB.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<BookingHub>("/bookingHub");
             });
         }
     }

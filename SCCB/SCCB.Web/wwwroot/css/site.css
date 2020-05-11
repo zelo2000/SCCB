@@ -22,6 +22,10 @@ a:hover
     border-bottom: .0625rem solid white;
 }
 
+.toast-close-button:focus {
+    outline: none;
+}
+
 .field-validation-error {
     font-size: 0.875rem;
     color: #ed2121 !important;

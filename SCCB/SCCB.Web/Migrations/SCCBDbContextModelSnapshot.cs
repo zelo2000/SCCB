@@ -56,6 +56,9 @@ namespace SCCB.Web.Migrations
                     b.Property<Guid?>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LessonNumber")
                         .HasColumnType("int");
 
@@ -156,9 +159,8 @@ namespace SCCB.Web.Migrations
                     b.Property<Guid>("LectorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LessonNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("LessonNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -191,10 +193,15 @@ namespace SCCB.Web.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid>("AcademicGroupId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AcademicGroupId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -250,6 +257,9 @@ namespace SCCB.Web.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsUserOwner")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -282,7 +292,7 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.Group", "Group")
                         .WithMany("Bookings")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("SCCB.DAL.Entities.User", "User")
                         .WithMany("Bookings")
@@ -311,7 +321,7 @@ namespace SCCB.Web.Migrations
                     b.HasOne("SCCB.DAL.Entities.Group", "Group")
                         .WithMany("Lessons")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("SCCB.DAL.Entities.Lector", "Lector")
@@ -323,10 +333,15 @@ namespace SCCB.Web.Migrations
 
             modelBuilder.Entity("SCCB.DAL.Entities.Student", b =>
                 {
+                    b.HasOne("SCCB.DAL.Entities.Group", "AcademicGroup")
+                        .WithMany("Students")
+                        .HasForeignKey("AcademicGroupId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.HasOne("SCCB.DAL.Entities.User", "User")
                         .WithOne("Student")
                         .HasForeignKey("SCCB.DAL.Entities.Student", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

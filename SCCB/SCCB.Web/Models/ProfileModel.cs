@@ -27,5 +27,20 @@ namespace SCCB.Web.Models
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets StudentId.
+        /// </summary>
+        public string StudentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets AcademicGroupId.
+        /// </summary>
+        public string AcademicGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets LectorPosition.
+        /// </summary>
+        public string LectorPosition { get; set; }
     }
 }

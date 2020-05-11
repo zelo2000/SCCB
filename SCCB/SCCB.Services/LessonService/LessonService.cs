@@ -8,11 +8,19 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LessonService
 {
+    /// <summary>
+    /// Lesson service.
+    /// </summary>
     public class LessonService : ILessonService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LessonService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
         public LessonService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
@@ -54,13 +62,13 @@ namespace SCCB.Services.LessonService
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyDictionary<string, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
+        public async Task<IReadOnlyDictionary<int, IEnumerable<Lesson>>> FindByGroupIdAndWeekday(Guid groupId, string weekday)
         {
             var lessons = await _unitOfWork.Lessons.FindByGroupIdAndWeekday(groupId, weekday);
             var lessonsDto = _mapper.Map<List<Core.DTO.Lesson>>(lessons);
 
             var lessonGroups = lessonsDto.GroupBy(lesson => lesson.LessonNumber)
-                .Select(entry => new KeyValuePair<string, IEnumerable<Lesson>>(
+                .Select(entry => new KeyValuePair<int, IEnumerable<Lesson>>(
                     entry.Key, entry.OrderBy(x => x.IsDenominator)))
                 .ToDictionary(x => x.Key, x => x.Value);
 

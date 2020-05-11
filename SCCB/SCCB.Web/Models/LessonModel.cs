@@ -22,7 +22,7 @@ namespace SCCB.Web.Models
         /// Gets or sets lesson number.
         /// </summary>
         [Required]
-        public string LessonNumber { get; set; }
+        public int? LessonNumber { get; set; }
 
         /// <summary>
         /// Gets or sets weekday.

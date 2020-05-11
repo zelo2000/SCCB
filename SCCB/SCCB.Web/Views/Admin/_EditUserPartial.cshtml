@@ -1,0 +1,78 @@
+﻿@model SCCB.Web.Models.UserModel
+<!-- Modal -->
+<div class="modal fade" id="EditingUser" tabindex="-1" role="dialog" aria-labelledby="AddingLessonLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditingUserLabel">Редагування користувача</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-danger">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="EditUser" id="EditUser" asp-route-id="@Model.Id">
+
+                    <div asp-validation-summary="ModelOnly" class="field-validation-error"></div>
+
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="mb-4">
+                        <label asp-for="FirstName" class="ml-2">Вкажіть ім'я користувача</label>
+                        <input asp-for="FirstName" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="FirstName" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="LastName" class="ml-2">Вкажіть прізвище користувача</label>
+                        <input asp-for="LastName" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="LastName" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Email" class="ml-2">Вкажіть електронну пошту користувача</label>
+                        <input asp-for="Email" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="Email" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Role" class="ml-2">Оберіть роль користувача</label>
+                        <select id="role" asp-for="Role" class="w-100 selectpicker"
+                                title="-- Оберіть роль --" data-type="lesson-date">
+                            <option disabled selected>-- Оберіть роль --</option>
+                            <option>Student</option>
+                            <option>Lector</option>
+                            <option>Admin</option>
+                            <option>NotApprovedUser</option>
+                        </select>
+                        <span asp-validation-for="Role" class="field-validation-error"></span>
+                    </div>
+
+                    <div id="position-hidden" class="mb-4">
+                        <label asp-for="Position" class="ml-2">Вкажіть посаду лектора</label>
+                        <input asp-for="Position" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="Position" class="field-validation-error"></span>
+                    </div>
+
+                    <div id="studentId-hidden" class="mb-4">
+                        <label asp-for="StudentId" class="ml-2">Вкажіть номер заліковки студента</label>
+                        <input asp-for="StudentId" class="pl-3 py-2 w-100 border" />
+                        <span asp-validation-for="StudentId" class="field-validation-error"></span>
+
+                        <select asp-for="AcademicGroupId" class="selectpicker mt-4 w-100" data-live-search="true"
+                                data-style="btn-light main-selectors py-2 px-4" title="-- Оберіть групу --">
+                            @await Component.InvokeAsync("GroupOptions", new { groupId = Model.AcademicGroupId, option = SCCB.Core.Constants.GroupOptions.Academic })
+                        </select>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="green-bg px-3 py-2 mt-3 mb-3" id="EditUserSubmit">
+                        Зберегти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

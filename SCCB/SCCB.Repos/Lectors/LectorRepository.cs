@@ -9,14 +9,29 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Lectors
 {
+    /// <summary>
+    /// Lector repository.
+    /// </summary>
     public class LectorRepository : GenericRepository<Lector, Guid>, ILectorRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LectorRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public LectorRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        /// <inheritdoc/>
+        public async Task<Lector> FindLectorByUserId(Guid userId)
+        {
+            return await _dbContext.Lectors.Include(x => x.User)
+                                           .Where(x => x.UserId == userId)
+                                           .FirstOrDefaultAsync();
         }
 
         /// <inheritdoc/>
