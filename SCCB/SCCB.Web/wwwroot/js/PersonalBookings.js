@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
-
-    $('.cancel-btn').on('click', function () {
+    $('.cancel-button ').on('click', function () {
         const url = $(this).data('url');
 
         $.ajax({

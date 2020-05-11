@@ -9,10 +9,17 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Users
 {
+    /// <summary>
+    /// User repository.
+    /// </summary>
     public class UserRepository : GenericRepository<User, Guid>, IUserRepository
     {
         private readonly SCCBDbContext _dbContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="dbContext">DbContext instance.</param>
         public UserRepository(SCCBDbContext dbContext)
             : base(dbContext)
         {

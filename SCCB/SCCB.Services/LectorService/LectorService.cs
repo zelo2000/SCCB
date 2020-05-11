@@ -7,11 +7,19 @@ using SCCB.Repos.UnitOfWork;
 
 namespace SCCB.Services.LectorService
 {
+    /// <summary>
+    /// Lector service.
+    /// </summary>
     public class LectorService : ILectorService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LectorService"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper instance.</param>
+        /// <param name="unitOfWork">UnitOfWork instance.</param>
         public LectorService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));

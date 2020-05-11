@@ -1,5 +1,4 @@
 ﻿@model SCCB.Web.Models.UserModel
-
 <!-- Modal -->
 <div class="modal fade" id="EditingUser" tabindex="-1" role="dialog" aria-labelledby="AddingLessonLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -59,6 +58,11 @@
                         <label asp-for="StudentId" class="ml-2">Вкажіть номер заліковки студента</label>
                         <input asp-for="StudentId" class="pl-3 py-2 w-100 border" />
                         <span asp-validation-for="StudentId" class="field-validation-error"></span>
+
+                        <select asp-for="AcademicGroupId" class="selectpicker mt-4 w-100" data-live-search="true"
+                                data-style="btn-light main-selectors py-2 px-4" title="-- Оберіть групу --">
+                            @await Component.InvokeAsync("GroupOptions", new { groupId = Model.AcademicGroupId, option = SCCB.Core.Constants.GroupOptions.Academic })
+                        </select>
                     </div>
                 </form>
                 <div class="d-flex justify-content-end">

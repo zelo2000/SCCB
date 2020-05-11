@@ -9,10 +9,17 @@ using SCCB.Core.Settings;
 
 namespace SCCB.Services.EmailService
 {
+    /// <summary>
+    /// Email service.
+    /// </summary>
     public class EmailService : IEmailService
     {
         private readonly EmailSetting _emailSetting;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EmailService"/> class.
+        /// </summary>
+        /// <param name="emailSetting">EmailSetting instance.</param>
         public EmailService(IOptions<EmailSetting> emailSetting)
         {
             _emailSetting = emailSetting.Value ?? throw new ArgumentException(nameof(emailSetting));

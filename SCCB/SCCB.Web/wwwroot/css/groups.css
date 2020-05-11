@@ -3,8 +3,31 @@
     --block_info_fill: rgba(0, 201, 209, 0.75);
 }
 
-.edit-button {
-    outline: none;
+a.green-bg {
+    border: none;
+    text-decoration: none;
+    color: white;
+    border-radius: 0.1875rem;
+}
+
+a.green-bg:hover {
+    -webkit-transition: .3s ease-out;
+    -o-transition: .3s ease-out;
+    transition: .3s ease-out;
+    background: var(--gray);
+}
+
+.container-groups {
+    background: var(--gray);
+    border-left: 0.5rem solid var(--block_info_fill);
+}
+
+.title-size {
+    font-size: 1.5rem;
+}
+
+a.edit-button {
+    text-decoration: none;
     border: 0.1rem solid var(--block_info_fill);
     border-radius: 0.1875rem;
     background: none;
@@ -13,19 +36,67 @@
 
 .edit-button:hover {
     color: white;
-    background: var(--block_info_fill);
+    background: var(--block_info_fill) !important;
     opacity: 0.9;
-    -webkit-transition: .35s ease-out;
-    -o-transition: .35s ease-out;
-    transition: .35s ease-out;
+    -webkit-transition: .3s ease-out;
+    -o-transition: .3s ease-out;
+    transition: .3s ease-out;
 }
 
-.container-groups {
-    min-height: 3.5rem;
+.container-group-create {
+    background: rgba(27, 29, 34, 0.7);
+    border-bottom: 0.5rem solid rgba(0, 201, 209, 0.95);
+    max-width: 50rem;
+    width: 100%;
+}
+
+a.gray-bg {
+    text-decoration: none;
+    border: 0.1rem solid var(--block_info_fill);
+    border-radius: 0.1875rem;
+    background: none;
+    color: white;
+}
+
+.gray-bg:hover {
+    color: var(--block_info_fill);
+    -webkit-transition: .3s ease-out;
+    -o-transition: .3s ease-out;
+    transition: .3s ease-out;
+}
+
+.close-button:hover {
+    background: rgba(17, 17, 17, 0.9);
+}
+
+.close-button {
     background: var(--gray);
-    border-left: 0.5rem solid var(--block_info_fill);
 }
 
-.title-size {
-    font-size: 2rem;
+button.close-button {
+    border: none;
+    outline: none;
+    color: white;
+    border-radius: 0.2rem;
+    -webkit-transition: .4s ease-out;
+    -o-transition: .4s ease-out;
+    transition: .4s ease-out;
+}
+
+#Members {
+    border-right: 0.125rem solid white;
+}
+@media (max-width: 768px) {
+    #Members {
+        border-right: none;
+        border-bottom: 0.125rem solid white;
+    }
+}
+
+#live-search input {
+    width: 100%;
+    height: 2.5rem;
+    border: none;
+    border-radius: 0.1875rem;
+    outline: 0;
 }

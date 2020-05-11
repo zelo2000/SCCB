@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SCCB.Core.Constants;
 using SCCB.Core.DTO;
@@ -24,6 +24,7 @@ namespace SCCB.Services.AuthenticationService
         private readonly IUnitOfWork _unitOfWork;
         private readonly PasswordProcessor passwordProcessor;
         private readonly IEmailService _emailService;
+        private readonly ILogger<AuthenticationService> _log;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationService"/> class.
@@ -32,16 +33,19 @@ namespace SCCB.Services.AuthenticationService
         /// <param name="unitOfWork">UnitOfWork instance.</param>
         /// <param name="hashGenerationSetting">HashGenerationSetting instance.</param>
         /// <param name="emailService">EmailService instance.</param>
+        /// <param name="log">Logger.</param>
         public AuthenticationService(
             IMapper mapper,
             IUnitOfWork unitOfWork,
             IOptions<HashGenerationSetting> hashGenerationSetting,
-            IEmailService emailService)
+            IEmailService emailService,
+            ILogger<AuthenticationService> log)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _unitOfWork = unitOfWork ?? throw new ArgumentException(nameof(unitOfWork));
             passwordProcessor = new PasswordProcessor(hashGenerationSetting.Value);
             _emailService = emailService ?? throw new ArgumentException(nameof(emailService));
+            _log = log ?? throw new ArgumentException(nameof(log));
         }
 
         /// <inheritdoc />
@@ -109,9 +113,9 @@ namespace SCCB.Services.AuthenticationService
                     });
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO add logger
+                _log.LogError(ex.Message);
             }
         }
 
@@ -130,6 +134,8 @@ namespace SCCB.Services.AuthenticationService
             user.PasswordHash = passwordHash;
             user.ChangePasswordToken = null;
             user.ExpirationChangePasswordTokenDate = null;
+
+            _unitOfWork.Users.Update(user);
 
             await _unitOfWork.CommitAsync();
         }

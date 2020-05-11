@@ -32,6 +32,8 @@ namespace SCCB.Services.Tests
         private User _registeredUser;
         private User _newUser;
         private User _anotherRegisteredUser;
+        private User _anotherRegisteredUserLector;
+        private Lector _registeredLector;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -82,6 +84,25 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student,
             };
 
+            _registeredLector = new Lector()
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                User = _anotherRegisteredUserLector,
+                Position = "PhD",
+            };
+
+            _anotherRegisteredUserLector = new User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Firstname",
+                LastName = "Lastname",
+                Email = "anotherregistered@gmail.com",
+                PasswordHash = passwordProcessor.GetPasswordHash(_newUserPassword),
+                Role = Roles.Lector,
+                Lector = _registeredLector,
+            };
+
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByRoleWithoutOwnData(It.IsAny<string>(), _registeredUser.Id)).ReturnsAsync((List<User>)null);
@@ -92,6 +113,7 @@ namespace SCCB.Services.Tests
             _repositoryMock.Setup(repo => repo.FindAsync(It.IsAny<Guid>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindAsync(_registeredUser.Id)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.FindAsync(_anotherRegisteredUser.Id)).ReturnsAsync(_anotherRegisteredUser);
+            _repositoryMock.Setup(repo => repo.FindWithLectorAndStudentInfoById(_anotherRegisteredUserLector.Id)).ReturnsAsync(_anotherRegisteredUserLector);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.Empty));
             _repositoryMock.Setup(repo => repo.Update(_registeredUser));
             _repositoryMock.Setup(repo => repo.Remove(_registeredUser));
@@ -195,6 +217,26 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
+        public async Task FindUsersByRole_Role_ReturnedListOfUsers_2()
+        {
+            var result = await _service.FindByRoleWithoutOwnData(null, _registeredUser.Id);
+
+            Assert.That(
+                result,
+                Is.Empty);
+        }
+
+        [Test]
+        public async Task FindById_WithLectorAndStudentInfo_Role_ReturnedListOfUsers()
+        {
+            var result = await _service.FindWithLectorAndStudentInfoById(_anotherRegisteredUserLector.Id);
+
+            Assert.That(
+                result.Position,
+                Is.EqualTo(_anotherRegisteredUserLector.Lector.Position));
+        }
+
+        [Test]
         public async Task Remove_RegisteredUser_UserRepositoryRemoveCalled()
         {
             var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
@@ -248,34 +290,6 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
-        public async Task UpdateByEmail_RegisteredUserEmailAndNewUser_UserRepositoryUpdateCalled()
-        {
-            var userDto = _mapper.Map<Core.DTO.User>(_newUser);
-            userDto.Id = _registeredUser.Id;
-
-            await _service.Update(userDto);
-
-            _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
-                user.Id == _registeredUser.Id &&
-                user.FirstName == _newUser.FirstName &&
-                user.LastName == _newUser.LastName &&
-                user.Email == _newUser.Email)));
-
-            _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
-        }
-
-        [Test]
-        public void UpdateByEmail_RegisteredUserAndAnotherRegisteredUser_ArgumentException()
-        {
-            var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
-            userDto.Email = _anotherRegisteredUser.Email;
-
-            Assert.That(
-                () => _service.Update(userDto),
-                Throws.ArgumentException.With.Message.EqualTo($"User with email {userDto.Email} already exists"));
-        }
-
-        [Test]
         public async Task UpdatePassword_RegisteredUserOldPassword_UserRepositoryUpdateCalled()
         {
             await _service.UpdatePassword(_registeredUser.Id, _registeredUserPassword, _newUserPassword);
@@ -304,6 +318,36 @@ namespace SCCB.Services.Tests
             Assert.That(
                 () => _service.UpdatePassword(_newUser.Id, _newUserPassword, _registeredUserPassword),
                 Throws.ArgumentException.With.Message.EqualTo($"Can not find user with id {_newUser.Id}"));
+        }
+
+        [Test]
+        public async Task Find_UserEntity_ReturnedUser()
+        {
+            var result = await _service.Find(_registeredUser.Id);
+
+            Assert.That(
+                result.Id,
+                Is.EqualTo(_registeredUser.Id));
+
+            Assert.That(
+                result.Email,
+                Is.EqualTo(_registeredUser.Email));
+
+            Assert.That(
+                result.FirstName,
+                Is.EqualTo(_registeredUser.FirstName));
+
+            Assert.That(
+                result.LastName,
+                Is.EqualTo(_registeredUser.LastName));
+
+            Assert.That(
+                result.Role,
+                Is.EqualTo(_registeredUser.Role));
+
+            Assert.That(
+                result.Password,
+                Is.EqualTo(_registeredUser.PasswordHash));
         }
     }
 }

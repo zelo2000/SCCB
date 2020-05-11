@@ -6,6 +6,9 @@ using SCCB.Repos.Generic;
 
 namespace SCCB.Repos.Bookings
 {
+    /// <summary>
+    /// Interface for booking repository.
+    /// </summary>
     public interface IBookingRepository : IGenericRepository<Booking, Guid>
     {
         /// <summary>

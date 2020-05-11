@@ -40,7 +40,6 @@ namespace SCCB.Web.Controllers
             return View();
         }
 
-        [Authorize]
         [HttpPost]
         [Route("reset-password/{token}")]
         public async Task<IActionResult> ResetPassword(string token, ResetPasswordModel resetPasswordModel)

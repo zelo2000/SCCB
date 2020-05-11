@@ -1,6 +1,4 @@
-﻿using SCCB.Core.Attributes;
-using SCCB.Core.Constants;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SCCB.Web.Models
@@ -10,12 +8,10 @@ namespace SCCB.Web.Models
     /// </summary>
     public class UserModel
     {
-        public Guid Id { get; set; }
-
         /// <summary>
-        /// Gets or sets Student identifier.
+        /// Gets or sets Id.
         /// </summary>
-        public string StudentId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets First Name.
@@ -49,5 +45,15 @@ namespace SCCB.Web.Models
         /// Gets or sets Lector Position.
         /// </summary>
         public string Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets Student identifier.
+        /// </summary>
+        public string StudentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Student GroupId.
+        /// </summary>
+        public Guid? AcademicGroupId { get; set; }
     }
 }

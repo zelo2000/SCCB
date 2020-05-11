@@ -16,7 +16,7 @@
     });
 
     $("#Remove").on('click', function () {
-        const url = $(this).data('url');
+        const url = $('button[data-target="#confirmModal"]').data('url');
 
         $.ajax({
             url: url,

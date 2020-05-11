@@ -41,24 +41,23 @@
 
 <div class="container-fluid container-profile px-5 mt-5">
     <div class="d-flex justify-content-between">
-        <div class="profile-button d-flex justify-content-center align-items-center">
-            <a class="my-2 font-slab font-weight-bold" asp-area="" asp-controller="Profile" asp-action="Edit">Ваш профіль</a>
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Groups">Ваші групи</a>
-        </div>
-        <div class="profile-button d-flex justify-content-center align-items-center color-erase">
-            <a class="my-2 text-white font-slab hover-erase font-weight-bold" asp-area="" asp-controller="Booking" asp-action="Personal">
-                Ваші бронювання
-            </a>
-        </div>
+        <a class="profile-button d-flex justify-content-center align-items-center
+                  py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+           asp-area="" asp-controller="Groups" asp-action="Index">
+            Ваші групи
+        </a>
+        <a class="profile-button d-flex justify-content-center align-items-center
+                  py-2 text-white font-slab color-erase hover-erase font-weight-bold"
+           asp-area="" asp-controller="Booking" asp-action="Personal">
+            Ваші бронювання
+        </a>
     </div>
     <div class="profile-info-block my-4 py-5">
         <div class="row">
             <div class="student-label col-12 mb-3 d-flex justify-content-center justify-content-sm-start">
                 @if (User.IsInRole(Roles.Student))
                 {
-                    <p>Ваш номер заліковки: <span class="green">@Model.StudentId</span></p>
+                    <p>Номер залікової книжки: <span class="green">@Model.StudentId</span></p>
                 }
             </div>
             <div class="col-12 col-sm-6 mb-4 d-flex justify-content-center justify-content-sm-start">
@@ -76,7 +75,7 @@
                         }
                         else if (User.IsInRole(Roles.Student))
                         {
-                            <p class="green">Студент</p>
+                            <p class="green">Студент групи (@Model.AcademicGroupName) </p>
                         }
                         else if (User.IsInRole(Roles.Lector))
                         {
@@ -94,6 +93,7 @@
         </div>
         <form asp-action="Edit" method="post">
             <input asp-for="StudentId" type="hidden" />
+            <input asp-for="AcademicGroupName" type="hidden" />
             <input asp-for="LectorPosition" type="hidden" />
 
             <div class="row my-sm-5 my-4 d-flex justify-content-between">

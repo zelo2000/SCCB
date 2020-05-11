@@ -7,10 +7,6 @@ namespace SCCB.Web.Models
     /// </summary>
     public class ProfileModel
     {
-        public string StudentId { get; set; }
-
-        public string LectorPosition { get; set; }
-
         /// <summary>
         /// Gets or sets email address.
         /// </summary>
@@ -31,5 +27,20 @@ namespace SCCB.Web.Models
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets StudentId.
+        /// </summary>
+        public string StudentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets AcademicGroupId.
+        /// </summary>
+        public string AcademicGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets LectorPosition.
+        /// </summary>
+        public string LectorPosition { get; set; }
     }
 }
