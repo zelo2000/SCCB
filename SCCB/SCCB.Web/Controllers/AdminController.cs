@@ -288,7 +288,7 @@ namespace SCCB.Web.Controllers
             else if (model.StudentId == null && model.Role == "Student")
             {
                 ModelState.AddModelError("StudentId", "Student Id is required");
-                ModelState.AddModelError("GroupId", "Student acadenic group is required");
+                ModelState.AddModelError("GroupId", "Student academic group is required");
                 return PartialView("_EditUserPartial", model);
             }
 
