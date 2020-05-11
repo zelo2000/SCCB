@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -34,9 +36,9 @@ namespace SCCB.Services.Tests
         private Mock<ILogger<AuthenticationService.AuthenticationService>> _logMock;
 
         private User _registeredUser;
+        private User _registeredUser2;
         private User _newUser;
-        private string _invalidToken;
-        private string _validToken;
+        private List<User> _registeredUsers;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -60,16 +62,33 @@ namespace SCCB.Services.Tests
 
             _registeredUser = new User()
             {
-                Id = Guid.Empty,
+                Id = Guid.NewGuid(),
                 FirstName = "Firstname",
                 LastName = "Lastname",
                 Email = "registered@gmail.com",
                 PasswordHash = passwordProcessor.GetPasswordHash(_registeredUserPassword),
                 Role = Roles.Student,
+                ChangePasswordToken = Guid.NewGuid().ToString(),
+                ExpirationChangePasswordTokenDate = DateTime.Now.AddHours(24),
             };
+
+            _registeredUser2 = new User()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "Firstname2",
+                LastName = "Lastname2",
+                Email = "registered2@gmail.com",
+                PasswordHash = passwordProcessor.GetPasswordHash(_registeredUserPassword),
+                Role = Roles.Student,
+                ChangePasswordToken = Guid.NewGuid().ToString(),
+                ExpirationChangePasswordTokenDate = DateTime.Now.AddHours(-24),
+            };
+
+            _registeredUsers = new List<User> { _registeredUser, _registeredUser2 };
 
             _newUser = new User()
             {
+                Id = Guid.NewGuid(),
                 FirstName = "Firstname",
                 LastName = "Lastname",
                 Email = "new@gmail.com",
@@ -77,22 +96,13 @@ namespace SCCB.Services.Tests
                 Role = Roles.Student,
             };
 
-            _invalidToken = Guid.NewGuid().ToString();
-            _validToken = Guid.NewGuid().ToString();
-
             #region setup mocks
             _repositoryMock = new Mock<IUserRepository>();
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((User)null);
             _repositoryMock.Setup(repo => repo.FindByEmailAsync(_registeredUser.Email)).ReturnsAsync(_registeredUser);
             _repositoryMock.Setup(repo => repo.AddAsync(It.IsAny<User>())).Returns(Task.FromResult(Guid.Empty));
-            _repositoryMock.Setup(repo => repo.GetAsync(x => x.ChangePasswordToken == _validToken &&
-                                          x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow));
-            _repositoryMock.Setup(repo => repo.GetAsync(x => x.ChangePasswordToken == _invalidToken &&
-                                          x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow))
-                .ThrowsAsync(new AccessViolationException("Token not found or expired"));
-            _repositoryMock.Setup(repo => repo.GetAsync(x => x.ChangePasswordToken == _validToken &&
-                                          x.ExpirationChangePasswordTokenDate >= DateTime.UtcNow.AddHours(-24)))
-                .ThrowsAsync(new AccessViolationException("Token not found or expired"));
+            _repositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .ReturnsAsync((Expression<Func<User, bool>> expr) => _registeredUsers.AsQueryable().Where(expr).SingleOrDefault());
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uow => uow.Users).Returns(_repositoryMock.Object);
             _unitOfWorkMock.Setup(uow => uow.CommitAsync());
@@ -101,7 +111,6 @@ namespace SCCB.Services.Tests
             _emailServiceMock.Setup(service => service.SendChangePasswordEmail(It.IsAny<Core.DTO.EmailWithToken>()));
 
             _logMock = new Mock<ILogger<AuthenticationService.AuthenticationService>>();
-            _logMock.Setup(log => log.LogError(It.IsAny<string>()));
 
             #endregion
 
@@ -179,32 +188,25 @@ namespace SCCB.Services.Tests
         [Test]
         public void ChangeForgottenPassword_WrongToken_AccessViolationException()
         {
-            _registeredUser.ChangePasswordToken = _validToken;
-            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(24);
+            var invalidToken = Guid.NewGuid().ToString();
 
             Assert.That(
-                () => _service.ChangeForgottenPassword(_invalidToken, _newUserPassword),
+                () => _service.ChangeForgottenPassword(invalidToken, _newUserPassword),
                 Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
 
         [Test]
         public void ChangeForgottenPassword_ExpiredToken_AccessViolationException()
         {
-            _registeredUser.ChangePasswordToken = _validToken;
-            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(-24);
-
             Assert.That(
-                () => _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword),
+                () => _service.ChangeForgottenPassword(_registeredUser2.ChangePasswordToken, _newUserPassword),
                 Throws.Exception.TypeOf<AccessViolationException>().With.Message.EqualTo("Token not found or expired"));
         }
 
         [Test]
         public void ChangeForgottenPassword_ValidToken_ChangedPassword()
         {
-            _registeredUser.ChangePasswordToken = _validToken;
-            _registeredUser.ExpirationChangePasswordTokenDate = DateTime.UtcNow.AddHours(24);
-
-            _service.ChangeForgottenPassword(_validToken, _newUserPassword);
+            _service.ChangeForgottenPassword(_registeredUser.ChangePasswordToken, _newUserPassword);
 
             _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
                 user.Id == _registeredUser.Id &&
