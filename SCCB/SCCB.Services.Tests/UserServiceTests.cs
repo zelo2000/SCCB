@@ -290,34 +290,6 @@ namespace SCCB.Services.Tests
         }
 
         [Test]
-        public async Task UpdateByEmail_RegisteredUserEmailAndNewUser_UserRepositoryUpdateCalled()
-        {
-            var userDto = _mapper.Map<Core.DTO.User>(_newUser);
-            userDto.Id = _registeredUser.Id;
-
-            await _service.Update(userDto);
-
-            _repositoryMock.Verify(repo => repo.Update(It.Is<User>(user =>
-                user.Id == _registeredUser.Id &&
-                user.FirstName == _newUser.FirstName &&
-                user.LastName == _newUser.LastName &&
-                user.Email == _newUser.Email)));
-
-            _unitOfWorkMock.Verify(ouw => ouw.CommitAsync());
-        }
-
-        [Test]
-        public void UpdateByEmail_RegisteredUserAndAnotherRegisteredUser_ArgumentException()
-        {
-            var userDto = _mapper.Map<Core.DTO.User>(_registeredUser);
-            userDto.Email = _anotherRegisteredUser.Email;
-
-            Assert.That(
-                () => _service.Update(userDto),
-                Throws.ArgumentException.With.Message.EqualTo($"User with email {userDto.Email} already exists"));
-        }
-
-        [Test]
         public async Task UpdatePassword_RegisteredUserOldPassword_UserRepositoryUpdateCalled()
         {
             await _service.UpdatePassword(_registeredUser.Id, _registeredUserPassword, _newUserPassword);
